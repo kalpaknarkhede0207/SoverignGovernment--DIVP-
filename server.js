@@ -375,13 +375,11 @@ function sendJson(res, statusCode, data) {
 
 // HTTP Server Request Handler
 async function requestHandler(req, res) {
-  const requestUrl = (req.url === '/server.js' && req.headers['x-forwarded-uri'])
-    ? req.headers['x-forwarded-uri']
-    : (req.headers['x-matched-path'] && req.url === '/server.js')
-    ? req.headers['x-matched-path']
-    : req.url;
-  const urlObj = new URL(requestUrl, `http://${req.headers.host || 'localhost:3000'}`);
-  const pathname = urlObj.pathname;
+  const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost:3000'}`);
+  const pathname = urlObj.searchParams.get('__path') ||
+    req.headers['x-forwarded-uri'] ||
+    req.headers['x-matched-path'] ||
+    urlObj.pathname;
   const method = req.method;
 
   res.setHeader('Access-Control-Allow-Origin', '*');
