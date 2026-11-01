@@ -823,18 +823,19 @@ if (require.main === module) {
   });
 }
 
-module.exports = {
-  server,
-  requestHandler,
-  sanitizeInput,
-  calculateBlockHash,
-  appendLedgerBlock,
-  verifyLedgerIntegrity,
-  isValidTransition,
-  issueSovereignToken,
-  verifySovereignToken,
-  authenticateRequest,
-  memoryCasesCache,
-  initCasesCache,
-  USERS
-};
+// Export server as the default export for Vercel, while attaching all named exports
+module.exports = server;
+module.exports.default = server;
+module.exports.server = server;
+module.exports.requestHandler = requestHandler;
+module.exports.sanitizeInput = sanitizeInput;
+module.exports.calculateBlockHash = calculateBlockHash;
+module.exports.appendLedgerBlock = appendLedgerBlock;
+module.exports.verifyLedgerIntegrity = verifyLedgerIntegrity;
+module.exports.isValidTransition = isValidTransition;
+module.exports.issueSovereignToken = issueSovereignToken;
+module.exports.verifySovereignToken = verifySovereignToken;
+module.exports.authenticateRequest = authenticateRequest;
+module.exports.memoryCasesCache = memoryCasesCache;
+module.exports.initCasesCache = initCasesCache;
+module.exports.USERS = USERS;
