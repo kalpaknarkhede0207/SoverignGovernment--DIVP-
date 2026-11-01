@@ -67,7 +67,7 @@ const JWT_SECRET = process.env.SOVEREIGN_JWT_SECRET || 'SOVEREIGN_INTRANET_HMAC_
 const USERS = {
   citizen: {
     id: 'CITIZEN_USER_01',
-    name: 'Citizen Applicant',
+    name: 'Kalpak Kishor Narkhede',
     role: 'USER',
     roleLabel: 'Citizen / Applicant',
     department: 'Citizen Public Portal'
@@ -527,6 +527,7 @@ async function requestHandler(req, res) {
       const newCase = {
         id: caseId,
         caseNumber,
+        citizenId: auth.user.id || 'CITIZEN_USER_01',
         applicantName,
         applicantId: applicantUID,
         documentType: docType,

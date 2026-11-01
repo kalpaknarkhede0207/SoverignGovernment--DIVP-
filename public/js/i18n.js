@@ -83,6 +83,10 @@ window.I18N = {
     actionPrint: "Print Official Certificate",
     actionInspectReason: "Inspect Statutory Objection",
     actionInReview: "Under Review",
+    actionScrutinize: "Scrutinize Dossier",
+    citizenProfileName: "Kalpak Kishor Narkhede",
+    citizenProfileSubtitle: "Resident Citizen • Haveli Sub-Division, Pune",
+    emptyCitizenTracking: "No applications submitted yet. Select a document from the catalogue above and click 'Apply & Attach Scan' to upload for verification.",
     noApplications: "No applications found matching the selected filter criteria.",
 
     // Tehsildar Desk
@@ -90,6 +94,8 @@ window.I18N = {
     tehsildarSubtitle: "Review non-custodial OCR extractions against statutory Gazette rules before forwarding for final sovereign seal.",
     tabActiveQueue: "Active Scrutiny Queue",
     tabForwarded: "Forwarded to Root Admin",
+    tabHistory: "Submissions History",
+    kpiHistory: "Master Registry History",
     tehsildarSelectPrompt: "Select an application dossier from the left queue to begin statutory scrutiny.",
     applicantDetails: "Applicant Dossier & Non-Custodial OCR Findings",
     gazetteRulesAudit: "Deterministic Gazette Rules & DMN Validation",
@@ -305,6 +311,10 @@ window.I18N = {
     actionPrint: "अधिकृत प्रमाणपत्र छापा",
     actionInspectReason: "नोंदवलेली त्रुटी तपासा",
     actionInReview: "पुनरावलोकन सुरू",
+    actionScrutinize: "छाननी करा",
+    citizenProfileName: "कल्पक किशोर नारखेडे",
+    citizenProfileSubtitle: "स्थानिक रहिवासी नागरिक • हवेली उपविभाग, पुणे",
+    emptyCitizenTracking: "अद्याप कोणताही अर्ज सादर केलेला नाही. वरील सूचीमधून आवश्यक दस्तऐवज निवडून 'अर्ज करा व स्कॅन जोडा' वर क्लिक करा.",
     noApplications: "निवडलेल्या निकषांनुसार कोणतेही अर्ज आढळले नाहीत.",
 
     // Tehsildar Desk
@@ -312,6 +322,8 @@ window.I18N = {
     tehsildarSubtitle: "अंतिम सार्वभौम मुद्रेसाठी अग्रेषित करण्यापूर्वी शासकीय राजपत्र नियमांनुसार कागदपत्रांची छाननी करा.",
     tabActiveQueue: "सक्रिय छाननी यादी",
     tabForwarded: "मुख्य प्रशासकाकडे पाठवलेले",
+    tabHistory: "नोंदवही इतिहास",
+    kpiHistory: "सर्व अर्जांची नोंदवही",
     tehsildarSelectPrompt: "वैधानिक छाननी सुरू करण्यासाठी डाव्या यादीतून प्रकरण निवडा.",
     applicantDetails: "अर्जदार तपशील व OCR निष्कर्ष",
     gazetteRulesAudit: "शासन राजपत्र निकष व DMN पडताळणी",
@@ -527,6 +539,10 @@ window.I18N = {
     actionPrint: "आधिकारिक प्रमाण पत्र प्रिंट करें",
     actionInspectReason: "दर्ज आपत्ति देखें",
     actionInReview: "समीक्षा जारी",
+    actionScrutinize: "जांच करें",
+    citizenProfileName: "कल्पक किशोर नारखेडे",
+    citizenProfileSubtitle: "स्थानीय निवासी नागरिक • हवेली उप-संभाग, पुणे",
+    emptyCitizenTracking: "अभी तक कोई आवेदन प्रस्तुत नहीं किया गया है। ऊपर दी गई सूची से आवश्यक दस्तावेज़ चुनकर 'आवेदन करें व स्कैन संलग्न करें' पर क्लिक करें।",
     noApplications: "चयनित मानदंडों के अनुसार कोई आवेदन नहीं मिला।",
 
     // Tehsildar Desk
@@ -534,6 +550,8 @@ window.I18N = {
     tehsildarSubtitle: "अंतिम संप्रभु मुद्रा हेतु अग्रेषित करने से पूर्व सरकारी राजपत्र नियमों के अनुसार दस्तावेज़ों की जांच करें।",
     tabActiveQueue: "सक्रिय जांच सूची",
     tabForwarded: "मुख्य प्रशासक को अग्रेषित",
+    tabHistory: "प्रस्तुति इतिहास",
+    kpiHistory: "समस्त आवेदन पंजी",
     tehsildarSelectPrompt: "सांविधिक जांच शुरू करने के लिए बाईं सूची से प्रकरण चुनें।",
     applicantDetails: "आवेदक विवरण एवं OCR निष्कर्ष",
     gazetteRulesAudit: "सरकारी राजपत्र मानदंड एवं DMN सत्यापन",

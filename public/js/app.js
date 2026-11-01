@@ -482,12 +482,12 @@
 
     // Real File Attachment & Upload State
     const [uploadForm, setUploadForm] = useState({
-      applicantName: '',
-      applicantUID: '',
-      fatherName: '',
+      applicantName: 'Kalpak Kishor Narkhede',
+      applicantUID: 'UIDAI-XXXX-XXXX-9281',
+      fatherName: 'Kishor Narkhede',
       subDivision: 'Haveli Sub-Division, Pune',
       criteriaValue: '620000',
-      uploadedFileName: 'affidavit_revenue_scan.pdf',
+      uploadedFileName: 'narkhede_revenue_affidavit.pdf',
       uploadedFileSize: '1.42 MB'
     });
 
@@ -573,52 +573,52 @@
     const handlePreFill = (docType) => {
       if (docType === 'NON_CREAMY_LAYER_CERTIFICATE') {
         setUploadForm({
-          applicantName: 'Rohan Vilas Shinde',
-          applicantUID: 'UIDAI-XXXX-XXXX-8492',
-          fatherName: 'Vilas Dnyaneshwar Shinde',
+          applicantName: 'Kalpak Kishor Narkhede',
+          applicantUID: 'UIDAI-XXXX-XXXX-9281',
+          fatherName: 'Kishor Narkhede',
           subDivision: 'Haveli Sub-Division, Pune',
           criteriaValue: '620000',
-          uploadedFileName: 'shinde_income_affidavit_2026.pdf',
+          uploadedFileName: 'narkhede_income_affidavit_2026.pdf',
           uploadedFileSize: '1.84 MB'
         });
       } else if (docType === 'CASTE_VALIDITY_CERTIFICATE') {
         setUploadForm({
-          applicantName: 'Priya Suresh Jadhav',
-          applicantUID: 'UIDAI-XXXX-XXXX-4109',
-          fatherName: 'Suresh Maruti Jadhav',
-          subDivision: 'Pune City Sub-Division',
+          applicantName: 'Kalpak Kishor Narkhede',
+          applicantUID: 'UIDAI-XXXX-XXXX-9281',
+          fatherName: 'Kishor Narkhede',
+          subDivision: 'Haveli Sub-Division, Pune',
           criteriaValue: '1948',
-          uploadedFileName: 'jadhav_1948_school_record.pdf',
+          uploadedFileName: 'narkhede_ancestral_school_record.pdf',
           uploadedFileSize: '2.15 MB'
         });
       } else if (docType === 'EWS_CERTIFICATE') {
         setUploadForm({
-          applicantName: 'Vikram R. Deshpande',
-          applicantUID: 'UIDAI-XXXX-XXXX-3190',
-          fatherName: 'Ramchandra V. Deshpande',
-          subDivision: 'Pune City Collectorate',
-          criteriaValue: '980000',
-          uploadedFileName: 'deshpande_asset_itr_record.pdf',
+          applicantName: 'Kalpak Kishor Narkhede',
+          applicantUID: 'UIDAI-XXXX-XXXX-9281',
+          fatherName: 'Kishor Narkhede',
+          subDivision: 'Haveli Sub-Division, Pune',
+          criteriaValue: '720000',
+          uploadedFileName: 'narkhede_ews_assets_declaration.pdf',
           uploadedFileSize: '1.65 MB'
         });
       } else if (docType === 'DIVYANGJAN_DISABILITY_CERTIFICATE') {
         setUploadForm({
-          applicantName: 'Bapu Shripad Joshi',
-          applicantUID: 'UIDAI-XXXX-XXXX-4512',
-          fatherName: 'Shripad K. Joshi',
-          subDivision: 'Baramati Sub-Division, Pune',
+          applicantName: 'Kalpak Kishor Narkhede',
+          applicantUID: 'UIDAI-XXXX-XXXX-9281',
+          fatherName: 'Kishor Narkhede',
+          subDivision: 'Haveli Sub-Division, Pune',
           criteriaValue: '65',
-          uploadedFileName: 'sassoon_medical_board_udid.pdf',
+          uploadedFileName: 'narkhede_civil_hospital_udid.pdf',
           uploadedFileSize: '2.40 MB'
         });
       } else {
         setUploadForm({
-          applicantName: 'Sunita Dnyaneshwar Gaikwad',
-          applicantUID: 'UIDAI-XXXX-XXXX-9914',
-          fatherName: 'Dnyaneshwar M. Gaikwad',
-          subDivision: 'Wagholi Tehsil, Haveli',
+          applicantName: 'Kalpak Kishor Narkhede',
+          applicantUID: 'UIDAI-XXXX-XXXX-9281',
+          fatherName: 'Kishor Narkhede',
+          subDivision: 'Haveli Sub-Division, Pune',
           criteriaValue: '1.42',
-          uploadedFileName: 'gat_422_mahabhumi_7_12.pdf',
+          uploadedFileName: 'narkhede_statutory_application_scan.pdf',
           uploadedFileSize: '1.20 MB'
         });
       }
@@ -800,7 +800,10 @@
     // RENDER ROLE 1: CITIZEN / USER PORTAL
     // -------------------------------------------------------------
     const renderCitizenPortal = () => {
-      const myCases = cases;
+      // Filter strictly to current citizen persona (Kalpak Kishor Narkhede)
+      const myCases = cases.filter(
+        (c) => c.applicantName === 'Kalpak Kishor Narkhede' || c.citizenId === 'CITIZEN_USER_01'
+      );
       const approvedCount = myCases.filter((c) => c.status === 'APPROVED').length;
       const pendingCount = myCases.filter((c) => c.status === 'UNDER_SCRUTINY' || c.status === 'FORWARDED_TO_ADMIN').length;
       const returnedCount = myCases.filter((c) => c.status === 'RETURNED').length;
@@ -815,17 +818,42 @@
         return matchesSearch && matchesDept;
       });
 
-      // Filter Applications by Search & Status
+      // Filter Applications by Search & Status (Personalized for Kalpak Kishor Narkhede)
       const filteredApps = myCases.filter((c) => {
         const matchesSearch =
-          c.applicantName.toLowerCase().includes(appSearchQuery.toLowerCase()) ||
-          c.caseNumber.toLowerCase().includes(appSearchQuery.toLowerCase()) ||
-          c.scheme.toLowerCase().includes(appSearchQuery.toLowerCase());
+          !appSearchQuery ||
+          (c.applicantName && c.applicantName.toLowerCase().includes(appSearchQuery.toLowerCase())) ||
+          (c.caseNumber && c.caseNumber.toLowerCase().includes(appSearchQuery.toLowerCase())) ||
+          (c.scheme && c.scheme.toLowerCase().includes(appSearchQuery.toLowerCase()));
         const matchesStatus = appStatusFilter === 'ALL' || c.status === appStatusFilter;
         return matchesSearch && matchesStatus;
       });
 
       return h('div', { className: 'space-y-8' },
+        // Citizen Identity Banner (Personalized for Kalpak Kishor Narkhede)
+        h('div', { className: 'bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm ring-1 ring-slate-900/5 flex flex-wrap items-center justify-between gap-4' },
+          h('div', { className: 'flex items-center gap-4' },
+            h('div', { className: 'w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-xl flex-shrink-0 shadow-md shadow-indigo-500/20' },
+              'KN'
+            ),
+            h('div', null,
+              h('div', { className: 'text-xs font-bold uppercase tracking-wider text-indigo-700' },
+                currentLang === 'mr' ? 'नागरिक सेवा पोर्टल' : currentLang === 'hi' ? 'नागरिक सेवा पटल' : 'Citizen Public Portal'
+              ),
+              h('h2', { className: 'text-xl font-extrabold text-slate-900 tracking-tight' },
+                t('citizenProfileName') || 'Kalpak Kishor Narkhede'
+              ),
+              h('p', { className: 'text-xs text-slate-500' },
+                t('citizenProfileSubtitle') || 'Resident Citizen • Haveli Sub-Division, Pune'
+              )
+            )
+          ),
+          h('div', { className: 'flex items-center gap-2 bg-slate-50 border border-slate-200 px-3.5 py-2 rounded-2xl' },
+            h('span', { className: 'w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse' }),
+            h('span', { className: 'text-xs font-mono font-bold text-slate-700' }, 'UID: 9845-2314-9281 (Verified Citizen)')
+          )
+        ),
+
         // Citizen Summary Metric Banner (Clickable KPI Cards)
         h('div', { className: 'grid grid-cols-1 md:grid-cols-3 gap-5' },
           h('div', {
@@ -1351,13 +1379,16 @@
       const activeQueue = cases.filter((c) => c.status === 'UNDER_SCRUTINY');
       const forwardedQueue = cases.filter((c) => c.status === 'FORWARDED_TO_ADMIN' || c.status === 'APPROVED');
       const returnedQueue = cases.filter((c) => c.status === 'RETURNED');
+      const historyQueue = cases;
 
       const displayedQueue =
         officerQueueTab === 'ACTIVE'
           ? activeQueue
           : officerQueueTab === 'FORWARDED'
           ? forwardedQueue
-          : returnedQueue;
+          : officerQueueTab === 'RETURNED'
+          ? returnedQueue
+          : historyQueue;
 
       // Smart selection: Strictly pick from current queue tab to prevent displaying unrelated approved cases
       const officerSelectedCase =
@@ -1382,8 +1413,8 @@
           )
         ),
 
-        // Tehsildar Scrutiny Operational KPI Cards (Clickable to switch queue tabs)
-        h('div', { className: 'grid grid-cols-1 md:grid-cols-3 gap-5' },
+        // Tehsildar Scrutiny Operational KPI Cards (Clickable to switch queue tabs including History)
+        h('div', { className: 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4' },
           // KPI 1: Active Scrutiny Queue
           h('div', {
             onClick: () => {
@@ -1397,19 +1428,19 @@
                 : 'bg-white border-slate-200 hover:border-amber-400 hover:shadow-sm'
             }`
           },
-            h('div', { className: 'flex items-center gap-4' },
-              h('div', { className: 'w-12 h-12 rounded-2xl bg-amber-100 border border-amber-200 text-amber-800 flex items-center justify-center flex-shrink-0' },
-                h(SvgIcon, { name: 'FileSearch', className: 'w-6 h-6' })
+            h('div', { className: 'flex items-center gap-3.5' },
+              h('div', { className: 'w-11 h-11 rounded-2xl bg-amber-100 border border-amber-200 text-amber-800 flex items-center justify-center flex-shrink-0' },
+                h(SvgIcon, { name: 'FileSearch', className: 'w-5 h-5' })
               ),
               h('div', null,
                 h('div', { className: 'text-[11px] font-bold uppercase tracking-wider text-amber-900' }, t('tabActiveQueue')),
                 h('div', { className: 'text-2xl font-black text-slate-900' }, activeQueue.length),
-                h('div', { className: 'text-[11px] text-amber-700 font-semibold' },
-                  currentLang === 'mr' ? 'सक्रिय यादी तपासण्यासाठी क्लिक करा' : currentLang === 'hi' ? 'सक्रिय सूची देखने हेतु क्लिक करें' : 'Click to inspect active queue'
+                h('div', { className: 'text-[10px] text-amber-700 font-semibold' },
+                  currentLang === 'mr' ? 'सक्रिय यादी' : 'Active queue'
                 )
               )
             ),
-            h('span', { className: `text-xs font-bold px-2.5 py-1 rounded-xl ${officerQueueTab === 'ACTIVE' ? 'bg-amber-500 text-slate-950 font-extrabold' : 'bg-slate-100 text-slate-600'}` },
+            h('span', { className: `text-xs font-bold px-2 py-1 rounded-xl ${officerQueueTab === 'ACTIVE' ? 'bg-amber-500 text-slate-950 font-extrabold' : 'bg-slate-100 text-slate-600'}` },
               officerQueueTab === 'ACTIVE' ? (currentLang === 'mr' ? 'पाहत आहात' : currentLang === 'hi' ? 'देख रहे हैं' : 'VIEWING') : t('kpiView')
             )
           ),
@@ -1427,19 +1458,19 @@
                 : 'bg-white border-slate-200 hover:border-emerald-400 hover:shadow-sm'
             }`
           },
-            h('div', { className: 'flex items-center gap-4' },
-              h('div', { className: 'w-12 h-12 rounded-2xl bg-emerald-100 border border-emerald-200 text-emerald-800 flex items-center justify-center flex-shrink-0' },
-                h(SvgIcon, { name: 'CheckCircle2', className: 'w-6 h-6' })
+            h('div', { className: 'flex items-center gap-3.5' },
+              h('div', { className: 'w-11 h-11 rounded-2xl bg-emerald-100 border border-emerald-200 text-emerald-800 flex items-center justify-center flex-shrink-0' },
+                h(SvgIcon, { name: 'CheckCircle2', className: 'w-5 h-5' })
               ),
               h('div', null,
                 h('div', { className: 'text-[11px] font-bold uppercase tracking-wider text-emerald-900' }, t('tabForwarded')),
                 h('div', { className: 'text-2xl font-black text-slate-900' }, forwardedQueue.length),
-                h('div', { className: 'text-[11px] text-emerald-700 font-semibold' },
-                  currentLang === 'mr' ? 'मंजूर प्रकरणे तपासण्यासाठी क्लिक करा' : currentLang === 'hi' ? 'स्वीकृत प्रकरण देखने हेतु क्लिक करें' : 'Click to inspect approved cases'
+                h('div', { className: 'text-[10px] text-emerald-700 font-semibold' },
+                  currentLang === 'mr' ? 'मंजूर प्रकरणे' : 'Approved'
                 )
               )
             ),
-            h('span', { className: `text-xs font-bold px-2.5 py-1 rounded-xl ${officerQueueTab === 'FORWARDED' ? 'bg-emerald-500 text-slate-950 font-extrabold' : 'bg-slate-100 text-slate-600'}` },
+            h('span', { className: `text-xs font-bold px-2 py-1 rounded-xl ${officerQueueTab === 'FORWARDED' ? 'bg-emerald-500 text-slate-950 font-extrabold' : 'bg-slate-100 text-slate-600'}` },
               officerQueueTab === 'FORWARDED' ? (currentLang === 'mr' ? 'पाहत आहात' : currentLang === 'hi' ? 'देख रहे हैं' : 'VIEWING') : t('kpiView')
             )
           ),
@@ -1457,26 +1488,188 @@
                 : 'bg-white border-slate-200 hover:border-rose-400 hover:shadow-sm'
             }`
           },
-            h('div', { className: 'flex items-center gap-4' },
-              h('div', { className: 'w-12 h-12 rounded-2xl bg-rose-100 border border-rose-200 text-rose-800 flex items-center justify-center flex-shrink-0' },
-                h(SvgIcon, { name: 'AlertTriangle', className: 'w-6 h-6' })
+            h('div', { className: 'flex items-center gap-3.5' },
+              h('div', { className: 'w-11 h-11 rounded-2xl bg-rose-100 border border-rose-200 text-rose-800 flex items-center justify-center flex-shrink-0' },
+                h(SvgIcon, { name: 'AlertTriangle', className: 'w-5 h-5' })
               ),
               h('div', null,
                 h('div', { className: 'text-[11px] font-bold uppercase tracking-wider text-rose-900' }, t('kpiReturned')),
                 h('div', { className: 'text-2xl font-black text-slate-900' }, returnedQueue.length),
-                h('div', { className: 'text-[11px] text-rose-700 font-semibold' },
-                  currentLang === 'mr' ? 'त्रुटी नोंदी तपासण्यासाठी क्लिक करा' : currentLang === 'hi' ? 'आपत्ति विवरण देखने हेतु क्लिक करें' : 'Click to review discrepancy records'
+                h('div', { className: 'text-[10px] text-rose-700 font-semibold' },
+                  currentLang === 'mr' ? 'त्रुटी नोंदी' : 'Returned'
                 )
               )
             ),
-            h('span', { className: `text-xs font-bold px-2.5 py-1 rounded-xl ${officerQueueTab === 'RETURNED' ? 'bg-rose-500 text-white font-extrabold' : 'bg-slate-100 text-slate-600'}` },
+            h('span', { className: `text-xs font-bold px-2 py-1 rounded-xl ${officerQueueTab === 'RETURNED' ? 'bg-rose-500 text-white font-extrabold' : 'bg-slate-100 text-slate-600'}` },
               officerQueueTab === 'RETURNED' ? (currentLang === 'mr' ? 'पाहत आहात' : currentLang === 'hi' ? 'देख रहे हैं' : 'VIEWING') : t('kpiView')
+            )
+          ),
+
+          // KPI 4: Master History Registry
+          h('div', {
+            onClick: () => {
+              setOfficerQueueTab('HISTORY');
+              showToast(currentLang === 'mr' ? 'सर्व सादर अर्जांची नोंदवही निवडली' : currentLang === 'hi' ? 'समस्त प्रस्तुत आवेदनों की पंजी चयनित' : 'Master Applications Registry Selected', 'info');
+            },
+            className: `p-5 rounded-3xl border transition-all cursor-pointer flex items-center justify-between ${
+              officerQueueTab === 'HISTORY'
+                ? 'bg-indigo-50/90 border-indigo-500 shadow-md ring-2 ring-indigo-500/20'
+                : 'bg-white border-slate-200 hover:border-indigo-400 hover:shadow-sm'
+            }`
+          },
+            h('div', { className: 'flex items-center gap-3.5' },
+              h('div', { className: 'w-11 h-11 rounded-2xl bg-indigo-100 border border-indigo-200 text-indigo-800 flex items-center justify-center flex-shrink-0' },
+                h(SvgIcon, { name: 'FileText', className: 'w-5 h-5' })
+              ),
+              h('div', null,
+                h('div', { className: 'text-[11px] font-bold uppercase tracking-wider text-indigo-900' }, t('tabHistory') || 'History'),
+                h('div', { className: 'text-2xl font-black text-slate-900' }, historyQueue.length),
+                h('div', { className: 'text-[10px] text-indigo-700 font-semibold' },
+                  currentLang === 'mr' ? 'सर्व अर्जांची नोंदवही' : 'Master registry'
+                )
+              )
+            ),
+            h('span', { className: `text-xs font-bold px-2 py-1 rounded-xl ${officerQueueTab === 'HISTORY' ? 'bg-indigo-600 text-white font-extrabold' : 'bg-slate-100 text-slate-600'}` },
+              officerQueueTab === 'HISTORY' ? (currentLang === 'mr' ? 'पाहत आहात' : currentLang === 'hi' ? 'देख रहे हैं' : 'VIEWING') : t('kpiView')
             )
           )
         ),
 
-        // Split-Screen Scrutiny Workspace or Empty Queue Notice
-        displayedQueue.length === 0
+        // History Tab Content OR Split-Screen Scrutiny Workspace OR Empty Queue Notice
+        officerQueueTab === 'HISTORY' ? h('div', { className: 'bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm ring-1 ring-slate-900/5 space-y-4' },
+          // Header with search & filter
+          h('div', { className: 'flex flex-wrap items-center justify-between border-b border-slate-100 pb-3 gap-3' },
+            h('div', null,
+              h('h3', { className: 'text-base font-bold text-slate-900 flex items-center gap-2' },
+                h(SvgIcon, { name: 'FileText', className: 'w-5 h-5 text-indigo-600' }),
+                currentLang === 'mr' ? 'सर्व सादर अर्जांची नोंदवही व इतिहास (हवेली उपविभाग)' : currentLang === 'hi' ? 'समस्त प्रस्तुत आवेदनों की पंजी एवं इतिहास (हवेली उप-संभाग)' : 'Master Applications Registry & Historical Tracking (Haveli Sub-Division)'
+              ),
+              h('p', { className: 'text-xs text-slate-500' },
+                currentLang === 'mr' ? 'तहसीलदार कक्ष: संपूर्ण अधिकारक्षेत्रातील अर्जांची पडताळणी नोंद (मुद्रण अधिकार केवळ नागरिकास)' : 'Tehsildar Chamber: Jurisdictional scrutiny ledger (Printing restricted to citizen & issuing authority)'
+              )
+            ),
+            h('div', { className: 'flex items-center gap-2' },
+              h('input', {
+                type: 'text',
+                value: appSearchQuery,
+                onChange: (e) => setAppSearchQuery(e.target.value),
+                placeholder: currentLang === 'mr' ? 'प्रकरण क्रमांक किंवा नावाने शोधा...' : currentLang === 'hi' ? 'प्रकरण संख्या या नाम से खोजें...' : 'Filter by case number or name...',
+                className: 'p-2 rounded-xl border border-slate-200 text-xs bg-slate-50 focus:outline-none focus:border-indigo-600'
+              }),
+              h('select', {
+                value: appStatusFilter,
+                onChange: (e) => setAppStatusFilter(e.target.value),
+                className: 'p-2 rounded-xl border border-slate-200 text-xs bg-slate-50 font-bold text-slate-700 focus:outline-none cursor-pointer'
+              },
+                h('option', { value: 'ALL' }, t('tableFilterAll')),
+                h('option', { value: 'UNDER_SCRUTINY' }, t('tableFilterScrutiny')),
+                h('option', { value: 'FORWARDED_TO_ADMIN' }, t('tabForwarded')),
+                h('option', { value: 'APPROVED' }, t('tableFilterIssued')),
+                h('option', { value: 'RETURNED' }, t('tableFilterReturned'))
+              )
+            )
+          ),
+
+          // Table WITHOUT PRINT OPTION
+          h('div', { className: 'overflow-x-auto' },
+            h('table', { className: 'w-full text-left border-collapse text-xs' },
+              h('thead', { className: 'bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px] border-b border-slate-200' },
+                h('tr', null,
+                  h('th', { className: 'p-3' }, t('thCaseId')),
+                  h('th', { className: 'p-3' }, t('thService')),
+                  h('th', { className: 'p-3' }, t('thApplicant')),
+                  h('th', { className: 'p-3' }, t('attachedArtifact')),
+                  h('th', { className: 'p-3' }, t('thStatus')),
+                  h('th', { className: 'p-3 text-right' }, t('thActions'))
+                )
+              ),
+              h('tbody', { className: 'divide-y divide-slate-100 font-medium text-slate-800' },
+                historyQueue.filter((c) => {
+                  const matchesSearch =
+                    !appSearchQuery ||
+                    (c.applicantName && c.applicantName.toLowerCase().includes(appSearchQuery.toLowerCase())) ||
+                    (c.caseNumber && c.caseNumber.toLowerCase().includes(appSearchQuery.toLowerCase())) ||
+                    (c.scheme && c.scheme.toLowerCase().includes(appSearchQuery.toLowerCase()));
+                  const matchesStatus = appStatusFilter === 'ALL' || c.status === appStatusFilter;
+                  return matchesSearch && matchesStatus;
+                }).length === 0
+                  ? h('tr', null,
+                      h('td', { colSpan: 6, className: 'p-6 text-center text-slate-400 text-xs' }, t('noApplications'))
+                    )
+                  : historyQueue.filter((c) => {
+                      const matchesSearch =
+                        !appSearchQuery ||
+                        (c.applicantName && c.applicantName.toLowerCase().includes(appSearchQuery.toLowerCase())) ||
+                        (c.caseNumber && c.caseNumber.toLowerCase().includes(appSearchQuery.toLowerCase())) ||
+                        (c.scheme && c.scheme.toLowerCase().includes(appSearchQuery.toLowerCase()));
+                      const matchesStatus = appStatusFilter === 'ALL' || c.status === appStatusFilter;
+                      return matchesSearch && matchesStatus;
+                    }).map((c) =>
+                      h('tr', { key: c.id, className: 'hover:bg-slate-50 transition-colors' },
+                        h('td', { className: 'p-3 font-mono font-bold text-indigo-700' }, c.caseNumber),
+                        h('td', { className: 'p-3 font-semibold' }, (getDocMeta(c).name) || c.scheme),
+                        h('td', { className: 'p-3 font-bold text-slate-800' }, c.applicantName),
+                        h('td', { className: 'p-3 font-mono text-[11px] text-slate-500' },
+                          c.extractedFields?.uploadedFileName?.value || 'document_scan.pdf'
+                        ),
+                        h('td', { className: 'p-3' },
+                          c.status === 'APPROVED' &&
+                            h('span', { className: 'px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 flex items-center gap-1 w-max' },
+                              h(SvgIcon, { name: 'CheckCircle2', className: 'w-3.5 h-3.5' }),
+                              t('kpiIssued')
+                            ),
+                          c.status === 'FORWARDED_TO_ADMIN' &&
+                            h('span', { className: 'px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 flex items-center gap-1 w-max' },
+                              h(SvgIcon, { name: 'Activity', className: 'w-3.5 h-3.5' }),
+                              t('tabForwarded')
+                            ),
+                          c.status === 'UNDER_SCRUTINY' &&
+                            h('span', { className: 'px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 flex items-center gap-1 w-max' },
+                              h(SvgIcon, { name: 'FileSearch', className: 'w-3.5 h-3.5' }),
+                              t('kpiUnderScrutiny')
+                            ),
+                          c.status === 'RETURNED' &&
+                            h('span', { className: 'px-2.5 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800 flex items-center gap-1 w-max' },
+                              h(SvgIcon, { name: 'AlertTriangle', className: 'w-3.5 h-3.5' }),
+                              t('kpiReturned')
+                            )
+                        ),
+                        // Actions column (WITHOUT PRINT OPTION)
+                        h('td', { className: 'p-3 text-right' },
+                          c.status === 'UNDER_SCRUTINY' &&
+                            h('button', {
+                              onClick: () => {
+                                setOfficerQueueTab('ACTIVE');
+                                setSelectedCaseId(c.id);
+                              },
+                              className: 'px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm flex items-center gap-1.5 ml-auto transition-all cursor-pointer'
+                            },
+                              h(SvgIcon, { name: 'FileSearch', className: 'w-3.5 h-3.5' }),
+                              t('actionScrutinize') || 'Scrutinize Dossier'
+                            ),
+                          c.status === 'RETURNED' &&
+                            h('button', {
+                              onClick: () => setShowReturnReasonModal(c),
+                              className: 'px-3 py-1.5 rounded-xl text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-sm flex items-center gap-1.5 ml-auto transition-all cursor-pointer'
+                            },
+                              h(SvgIcon, { name: 'AlertTriangle', className: 'w-3.5 h-3.5' }),
+                              t('actionInspectReason')
+                            ),
+                          c.status === 'FORWARDED_TO_ADMIN' &&
+                            h('span', { className: 'text-[11px] font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-xl border border-indigo-200' },
+                              currentLang === 'mr' ? 'जिल्हाधिकार्‍यांकडे पाठवले' : currentLang === 'hi' ? 'जिला मजिस्ट्रेट को अग्रेषित' : 'Forwarded to Collectorate'
+                            ),
+                          c.status === 'APPROVED' &&
+                            h('span', { className: 'text-[11px] font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-xl border border-emerald-200' },
+                              currentLang === 'mr' ? 'अंतिम मुद्रांकित व जारी' : currentLang === 'hi' ? 'अंतिम मुद्रित एवं जारी' : 'Digitally Sealed & Issued'
+                            )
+                        )
+                      )
+                    )
+              )
+            )
+          )
+        ) : displayedQueue.length === 0
           ? h('div', { className: 'bg-white p-12 rounded-3xl border border-slate-200/80 shadow-sm text-center space-y-4' },
               h('div', { className: 'w-16 h-16 rounded-3xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center mx-auto' },
                 h(SvgIcon, { name: 'FileSearch', className: 'w-8 h-8' })
@@ -1517,7 +1710,8 @@
                 [
                   { id: 'ACTIVE', label: `Active (${activeQueue.length})` },
                   { id: 'FORWARDED', label: `Approved (${forwardedQueue.length})` },
-                  { id: 'RETURNED', label: `Returned (${returnedQueue.length})` }
+                  { id: 'RETURNED', label: `Returned (${returnedQueue.length})` },
+                  { id: 'HISTORY', label: `History (${cases.length})` }
                 ].map((t) =>
                   h('button', {
                     key: t.id,
