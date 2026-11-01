@@ -18,10 +18,14 @@ function deriveKek(passphrase, salt = MASTER_KEK_SALT, iterations = 100000) {
   return crypto.pbkdf2Sync(passphrase, salt, iterations, 32, 'sha256');
 }
 
-// Master Key Store (Derived via PBKDF2)
+// Master Key Store (Derived via PBKDF2 with Production Hardening - AUD-HIGH-02)
+const IS_PROD_KEK = (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production') && !process.env.TEST_MODE;
+const fallbackKek1 = IS_PROD_KEK ? crypto.randomBytes(32).toString('hex') : 'SOVEREIGN_GOV_MASTER_KEK_V1_AIRGAP_SECRET_2026';
+const fallbackKek2 = IS_PROD_KEK ? crypto.randomBytes(32).toString('hex') : 'SOVEREIGN_GOV_MASTER_KEK_V2_AIRGAP_SECRET_2027';
+
 const MASTER_KEK_STORE = {
-  v1: deriveKek(process.env.SOVEREIGN_MASTER_KEK_V1 || 'SOVEREIGN_GOV_MASTER_KEK_V1_AIRGAP_SECRET_2026'),
-  v2: deriveKek(process.env.SOVEREIGN_MASTER_KEK_V2 || 'SOVEREIGN_GOV_MASTER_KEK_V2_AIRGAP_SECRET_2027')
+  v1: deriveKek(process.env.SOVEREIGN_MASTER_KEK_V1 || fallbackKek1),
+  v2: deriveKek(process.env.SOVEREIGN_MASTER_KEK_V2 || fallbackKek2)
 };
 
 let activeKekVersion = 'v1';

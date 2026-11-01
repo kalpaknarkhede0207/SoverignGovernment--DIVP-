@@ -415,6 +415,149 @@ async function runTestSuite() {
     const tc26Pass = udpBlocked && hasUdpLog && auditLogs.length <= MAX_AUDIT_LOGS;
     recordTest('TC-26', 'Air-Gap UDP Datagram Egress Interception & Bounded Memory Ring-Buffer (SEC-MED-01/03 fix)', tc26Pass);
 
+    // -------------------------------------------------------------------------
+    // TC-27: Unauthenticated Token Dispenser Lockdown & Statutory PIN Login (AUD-CRIT-04)
+    // -------------------------------------------------------------------------
+    const { Writable, Readable } = require('stream');
+    class TestResponse extends Writable {
+      constructor() {
+        super();
+        this.statusCode = 200;
+        this.headers = {};
+        this.body = '';
+      }
+      setHeader(k, v) { this.headers[k.toLowerCase()] = v; }
+      writeHead(code, headers = {}) {
+        this.statusCode = code;
+        for (const [k, v] of Object.entries(headers)) {
+          this.headers[k.toLowerCase()] = v;
+        }
+      }
+      _write(chunk, enc, cb) {
+        this.body += chunk.toString();
+        cb();
+      }
+      getJson() {
+        try { return JSON.parse(this.body); } catch { return null; }
+      }
+    }
+
+    async function simReq({ method = 'GET', url = '/', headers = {}, body = null }) {
+      return new Promise((resolve) => {
+        const req = new Readable();
+        req.method = method;
+        req.url = url;
+        req.headers = { host: '127.0.0.1:3000', ...headers };
+        if (body) {
+          req.push(typeof body === 'string' ? body : JSON.stringify(body));
+        }
+        req.push(null);
+        const res = new TestResponse();
+        res.on('finish', () => resolve(res));
+        const { requestHandler } = require('./server');
+        requestHandler(req, res).catch((err) => {
+          res.statusCode = 500;
+          res.body = JSON.stringify({ error: err.message });
+          resolve(res);
+        });
+      });
+    }
+
+    const publicTokensRes = await simReq({ method: 'GET', url: '/api/auth/tokens' });
+    const publicTokens = publicTokensRes.getJson();
+    const tokenLockdown = publicTokens && publicTokens.tokens && publicTokens.tokens.admin === null && publicTokens.tokens.tehsildar === null;
+
+    const invalidPinRes = await simReq({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: { role: 'tehsildar', pin: '0000' }
+    });
+
+    const validTehLoginRes = await simReq({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: { role: 'tehsildar', pin: '7788' }
+    });
+    const tehLoginJson = validTehLoginRes.getJson();
+
+    const validAdmLoginRes = await simReq({
+      method: 'POST',
+      url: '/api/auth/login',
+      body: { role: 'admin', pin: '9900' }
+    });
+    const admLoginJson = validAdmLoginRes.getJson();
+
+    const tc27Pass =
+      tokenLockdown &&
+      invalidPinRes.statusCode === 401 &&
+      validTehLoginRes.statusCode === 200 &&
+      tehLoginJson.token &&
+      validAdmLoginRes.statusCode === 200 &&
+      admLoginJson.token;
+    recordTest('TC-27', 'Unauthenticated Token Dispenser Lockdown & Statutory PIN Login (AUD-CRIT-04 fix)', tc27Pass);
+
+    // -------------------------------------------------------------------------
+    // TC-28: Cryptographic HMAC State Proof & Serverless Tamper Resistance (AUD-HIGH-05)
+    // -------------------------------------------------------------------------
+    const { generateCaseStateProof, verifyCaseStateProof } = require('./server');
+    const sampleCase = {
+      id: 'CASE-SAMPLE-PROOF',
+      caseNumber: 'MH/PUN/2026/001',
+      status: 'UNDER_SCRUTINY',
+      applicantName: 'Proof Subject',
+      applicantId: 'UID-1111',
+      documentType: 'INCOME_CERTIFICATE',
+      department: 'Revenue & Forest Department',
+      intakeTimestamp: '2026-11-01T12:00:00.000Z',
+      extractedFields: { criteriaDetail: { value: 500000 } }
+    };
+    sampleCase.stateProof = generateCaseStateProof(sampleCase);
+    const validProofPasses = verifyCaseStateProof(sampleCase);
+
+    // Tamper with criteria value
+    const tamperedCase = {
+      ...sampleCase,
+      extractedFields: { criteriaDetail: { value: 10000000 } }
+    };
+    const tamperedProofFails = verifyCaseStateProof(tamperedCase) === false;
+
+    // Simulate officer-action with tampered caseData
+    const resTamperedAction = await simReq({
+      method: 'POST',
+      url: `/api/cases/${tamperedCase.id}/officer-action`,
+      headers: { authorization: `Bearer ${tehLoginJson.token}` },
+      body: { action: 'APPROVE', caseData: tamperedCase }
+    });
+
+    const tc28Pass = validProofPasses && tamperedProofFails && resTamperedAction.statusCode === 400;
+    recordTest('TC-28', 'Cryptographic HMAC State Proof & Serverless Tamper Resistance (AUD-HIGH-05 fix)', tc28Pass);
+
+    // -------------------------------------------------------------------------
+    // TC-29: Air-Gap DNS Resolution Egress Interception (AUD-MED-01)
+    // -------------------------------------------------------------------------
+    const dns = require('dns');
+    const dnsBlocked = await new Promise((resolve) => {
+      dns.lookup('external-sovereign-leak.gov.in', (err) => {
+        resolve(err && (err.code === 'EPERM' || err.message.includes('Air-gap zero-egress')));
+      });
+      setTimeout(() => resolve(false), 300);
+    });
+    const hasDnsLog = getSecurityAuditLogs().some((l) => l.protocol === 'DNS');
+    const tc29Pass = dnsBlocked && hasDnsLog;
+    recordTest('TC-29', 'Air-Gap DNS Resolution Egress Interception (AUD-MED-01 fix)', tc29Pass);
+
+    // -------------------------------------------------------------------------
+    // TC-30: Strict API JSON 404 Routing Guard (AUD-MED-02)
+    // -------------------------------------------------------------------------
+    const nonExistentRes = await simReq({ method: 'GET', url: '/api/cases/invalid-endpoint-target' });
+    const nonExistentJson = nonExistentRes.getJson();
+    const tc30Pass =
+      nonExistentRes.statusCode === 404 &&
+      nonExistentRes.headers['content-type'].includes('application/json') &&
+      nonExistentJson &&
+      nonExistentJson.error;
+    recordTest('TC-30', 'Strict API JSON 404 Routing Guard (AUD-MED-02 fix)', tc30Pass);
+
   } catch (err) {
     console.error('Test Runner Exception:', err);
   }

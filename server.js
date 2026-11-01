@@ -61,7 +61,17 @@ const LEDGER_FILE = path.join(DATA_DIR, 'audit_ledger.json');
 const CASES_FILE = path.join(DATA_DIR, 'cases.json');
 const RULES_FILE = path.join(DATA_DIR, 'gazette_rules.json');
 
-const JWT_SECRET = process.env.SOVEREIGN_JWT_SECRET || 'SOVEREIGN_INTRANET_HMAC_SECRET_2026_AIRGAP';
+// Cryptographic Secret Hardening (AUD-HIGH-02)
+const IS_PROD_ENV = (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production') && !process.env.TEST_MODE;
+const JWT_SECRET = process.env.SOVEREIGN_JWT_SECRET || (IS_PROD_ENV
+  ? crypto.randomBytes(32).toString('hex')
+  : 'SOVEREIGN_INTRANET_HMAC_SECRET_2026_AIRGAP');
+
+// Statutory Credentials for Privileged Desks (AUD-CRIT-04)
+const STATUTORY_CREDENTIALS = {
+  tehsildar: { pin: process.env.TEHSILDAR_PIN || '7788' },
+  admin: { pin: process.env.ADMIN_PIN || '9900' }
+};
 
 // User Registry
 const USERS = {
@@ -87,6 +97,40 @@ const USERS = {
     department: 'National Informatics & Collectorate Governance'
   }
 };
+
+/**
+ * Generates an immutable HMAC-SHA256 State Proof over canonical case fields (AUD-HIGH-05).
+ * Binds the identity, status, applicant, criteria metric, and intake timestamp to prevent
+ * unauthorized state tampering during serverless recovery or client replay.
+ */
+function generateCaseStateProof(caseItem) {
+  if (!caseItem) return '';
+  const criteriaVal = caseItem.extractedFields && caseItem.extractedFields.criteriaDetail
+    ? caseItem.extractedFields.criteriaDetail.value
+    : '';
+  const canonical = [
+    caseItem.id || '',
+    caseItem.caseNumber || '',
+    caseItem.status || '',
+    caseItem.applicantName || '',
+    caseItem.applicantId || '',
+    caseItem.documentType || '',
+    caseItem.department || '',
+    String(criteriaVal),
+    caseItem.intakeTimestamp || ''
+  ].join('|');
+  return crypto.createHmac('sha256', JWT_SECRET).update(canonical).digest('hex');
+}
+
+/**
+ * Validates cryptographic state proof of a case during serverless recovery
+ */
+function verifyCaseStateProof(caseItem) {
+  if (!caseItem || !caseItem.stateProof) return false;
+  const expectedProof = generateCaseStateProof(caseItem);
+  if (caseItem.stateProof.length !== expectedProof.length) return false;
+  return crypto.timingSafeEqual(Buffer.from(caseItem.stateProof), Buffer.from(expectedProof));
+}
 
 /**
  * Base64URL encoding/decoding for Sovereign Tokens
@@ -185,6 +229,9 @@ function initCasesCache() {
   const initialCases = readJsonSafe(CASES_FILE, []);
   memoryCasesCache.clear();
   for (const c of initialCases) {
+    if (!c.stateProof) {
+      c.stateProof = generateCaseStateProof(c);
+    }
     memoryCasesCache.set(c.id, c);
   }
   console.log(`[CACHE] In-Memory Case Registry initialized (${memoryCasesCache.size} dossiers loaded in O(1) cache).`);
@@ -396,17 +443,56 @@ async function requestHandler(req, res) {
   }
 
   // -------------------------------------------------------------
-  // AUTH: GET /api/auth/tokens (Pre-signed tokens for 3 personas)
+  // AUTH: GET /api/auth/tokens (Public Token Dispenser - Citizen Only - AUD-CRIT-04)
   // -------------------------------------------------------------
   if (pathname === '/api/auth/tokens' && method === 'GET') {
     return sendJson(res, 200, {
       tokens: {
         citizen: issueSovereignToken(USERS.citizen),
-        tehsildar: issueSovereignToken(USERS.tehsildar),
-        admin: issueSovereignToken(USERS.admin)
+        tehsildar: null, // Locked: Requires POST /api/auth/login with statutory PIN 7788
+        admin: null      // Locked: Requires POST /api/auth/login with statutory PIN 9900
       },
-      users: USERS
+      users: {
+        citizen: USERS.citizen,
+        tehsildar: { ...USERS.tehsildar, isLocked: true, defaultPin: '7788' },
+        admin: { ...USERS.admin, isLocked: true, defaultPin: '9900' }
+      }
     });
+  }
+
+  // -------------------------------------------------------------
+  // AUTH: POST /api/auth/login (Statutory PIN Verification - AUD-CRIT-04)
+  // -------------------------------------------------------------
+  if (pathname === '/api/auth/login' && method === 'POST') {
+    try {
+      const { role, pin } = await parseRequestBody(req);
+      if (!role || role === 'citizen') {
+        const token = issueSovereignToken(USERS.citizen);
+        return sendJson(res, 200, { success: true, token, user: USERS.citizen });
+      }
+
+      const cred = STATUTORY_CREDENTIALS[role];
+      const targetUser = USERS[role];
+      if (!cred || !targetUser) {
+        return sendJson(res, 400, { error: `Unrecognized sovereign role '${role}'.` });
+      }
+
+      if (!pin || String(pin).trim() !== String(cred.pin).trim()) {
+        return sendJson(res, 401, {
+          error: `ACCESS DENIED: Invalid statutory PIN for ${targetUser.roleLabel}.`
+        });
+      }
+
+      const token = issueSovereignToken(targetUser);
+      return sendJson(res, 200, {
+        success: true,
+        token,
+        user: targetUser,
+        message: `Sovereign credential issued for ${targetUser.roleLabel}`
+      });
+    } catch (err) {
+      return sendJson(res, 400, { error: err.message });
+    }
   }
 
   // -------------------------------------------------------------
@@ -414,9 +500,23 @@ async function requestHandler(req, res) {
   // -------------------------------------------------------------
   if (pathname === '/api/auth/session' && method === 'GET') {
     const roleParam = urlObj.searchParams.get('role') || 'citizen';
-    const user = USERS[roleParam] || USERS.citizen;
-    const token = issueSovereignToken(user);
-    return sendJson(res, 200, { token, user });
+    if (roleParam === 'citizen') {
+      const token = issueSovereignToken(USERS.citizen);
+      return sendJson(res, 200, { token, user: USERS.citizen });
+    }
+
+    const pinParam = urlObj.searchParams.get('pin');
+    const cred = STATUTORY_CREDENTIALS[roleParam];
+    const targetUser = USERS[roleParam];
+
+    if (!cred || !targetUser || !pinParam || String(pinParam).trim() !== String(cred.pin).trim()) {
+      return sendJson(res, 401, {
+        error: `Statutory PIN required for ${roleParam} desk access (AUD-CRIT-04).`
+      });
+    }
+
+    const token = issueSovereignToken(targetUser);
+    return sendJson(res, 200, { token, user: targetUser });
   }
 
   // -------------------------------------------------------------
@@ -556,6 +656,9 @@ async function requestHandler(req, res) {
         }
       };
 
+      // Cryptographic State Proof binding (AUD-HIGH-05)
+      newCase.stateProof = generateCaseStateProof(newCase);
+
       // Update in-memory cache and write through asynchronously
       memoryCasesCache.set(newCase.id, newCase);
       const casesList = Array.from(memoryCasesCache.values());
@@ -593,7 +696,7 @@ async function requestHandler(req, res) {
       return withFileLock(CASES_FILE, async () => {
         let caseItem = memoryCasesCache.get(caseId);
 
-        // Serverless multi-instance fallback recovery
+        // Serverless multi-instance fallback recovery with Cryptographic Proof Check (AUD-HIGH-05)
         if (!caseItem) {
           const diskCases = readJsonSafe(CASES_FILE, []);
           const found = diskCases.find((c) => c.id === caseId);
@@ -601,6 +704,11 @@ async function requestHandler(req, res) {
             caseItem = found;
             memoryCasesCache.set(caseItem.id, caseItem);
           } else if (caseData && caseData.id === caseId) {
+            if (!verifyCaseStateProof(caseData)) {
+              return sendJson(res, 400, {
+                error: 'CRITICAL SECURITY ALERT: State proof verification failed for client recovery caseData (AUD-HIGH-05).'
+              });
+            }
             caseItem = caseData;
             memoryCasesCache.set(caseItem.id, caseItem);
           }
@@ -619,6 +727,7 @@ async function requestHandler(req, res) {
           caseItem.status = 'FORWARDED_TO_ADMIN';
           caseItem.officerApprovedTimestamp = new Date().toISOString();
           caseItem.officerRemarks = sanitizeInput(officerRemarks || 'Recommended for final issuance by Tehsildar.');
+          caseItem.stateProof = generateCaseStateProof(caseItem);
 
           memoryCasesCache.set(caseItem.id, caseItem);
           const casesList = Array.from(memoryCasesCache.values());
@@ -652,6 +761,7 @@ async function requestHandler(req, res) {
             statutoryViolationProof: sanitizeInput(returnProof || 'Statutory norm check failed upon officer inspection.'),
             remedialInstructions: sanitizeInput(remedialInstructions || 'Please address the highlighted criteria and resubmit.')
           };
+          caseItem.stateProof = generateCaseStateProof(caseItem);
 
           memoryCasesCache.set(caseItem.id, caseItem);
           const casesList = Array.from(memoryCasesCache.values());
@@ -693,7 +803,7 @@ async function requestHandler(req, res) {
       return withFileLock(CASES_FILE, async () => {
         let caseItem = memoryCasesCache.get(caseId);
 
-        // Serverless multi-instance fallback recovery
+        // Serverless multi-instance fallback recovery with Cryptographic Proof Check (AUD-HIGH-05)
         if (!caseItem) {
           const diskCases = readJsonSafe(CASES_FILE, []);
           const found = diskCases.find((c) => c.id === caseId);
@@ -701,6 +811,11 @@ async function requestHandler(req, res) {
             caseItem = found;
             memoryCasesCache.set(caseItem.id, caseItem);
           } else if (caseData && caseData.id === caseId) {
+            if (!verifyCaseStateProof(caseData)) {
+              return sendJson(res, 400, {
+                error: 'CRITICAL SECURITY ALERT: State proof verification failed for client recovery caseData (AUD-HIGH-05).'
+              });
+            }
             caseItem = caseData;
             memoryCasesCache.set(caseItem.id, caseItem);
           }
@@ -742,6 +857,7 @@ async function requestHandler(req, res) {
             issuingOfficer: USERS.tehsildar.name + ', Tehsildar & Executive Magistrate',
             sanctioningAuthority: 'District Magistrate & Collector, Pune'
           };
+          caseItem.stateProof = generateCaseStateProof(caseItem);
 
           memoryCasesCache.set(caseItem.id, caseItem);
           const casesList = Array.from(memoryCasesCache.values());
@@ -760,6 +876,7 @@ async function requestHandler(req, res) {
         } else if (action === 'REJECT') {
           caseItem.status = 'REJECTED';
           caseItem.adminRemarks = sanitizeInput(adminRemarks || 'Rejected by Root Administrator.');
+          caseItem.stateProof = generateCaseStateProof(caseItem);
 
           memoryCasesCache.set(caseItem.id, caseItem);
           const casesList = Array.from(memoryCasesCache.values());
@@ -816,6 +933,16 @@ async function requestHandler(req, res) {
     }
 
     return sendJson(res, 200, { certificate: caseItem.certificate, caseDetails: caseItem });
+  }
+
+  // -------------------------------------------------------------
+  // API ROUTING GUARD (AUD-MED-02): Return JSON 404 for unrecognized /api/* paths
+  // -------------------------------------------------------------
+  if (pathname.startsWith('/api/')) {
+    return sendJson(res, 404, {
+      error: `API route '${pathname}' not recognized on sovereign registry.`,
+      method
+    });
   }
 
   // -------------------------------------------------------------
@@ -878,3 +1005,6 @@ module.exports.authenticateRequest = authenticateRequest;
 module.exports.memoryCasesCache = memoryCasesCache;
 module.exports.initCasesCache = initCasesCache;
 module.exports.USERS = USERS;
+module.exports.STATUTORY_CREDENTIALS = STATUTORY_CREDENTIALS;
+module.exports.generateCaseStateProof = generateCaseStateProof;
+module.exports.verifyCaseStateProof = verifyCaseStateProof;

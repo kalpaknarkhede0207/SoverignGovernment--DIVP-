@@ -11,10 +11,12 @@
 const net = require('net');
 const tls = require('tls');
 const dgram = require('dgram');
+const dns = require('dns');
 
 let originalNetConnect = null;
 let originalTlsConnect = null;
 let originalDgramSend = null;
+let originalDnsLookup = null;
 let isGuardActive = false;
 
 const MAX_AUDIT_LOGS = 1000;
@@ -170,8 +172,36 @@ function enableAirGapEgressGuard() {
     return originalDgramSend.apply(this, arguments);
   };
 
+  // 4. DNS Resolution Interception (AUD-MED-01)
+  originalDnsLookup = dns.lookup;
+  dns.lookup = function (hostname, options, callback) {
+    let cb = typeof options === 'function' ? options : callback;
+    if (hostname && !isAuthorizedLoopback(hostname)) {
+      const logEntry = {
+        timestamp: new Date().toISOString(),
+        event: 'AIR_GAP_DNS_BLOCKED',
+        protocol: 'DNS',
+        targetHost: hostname,
+        targetPort: 53,
+        action: 'TERMINATED',
+        policy: 'ZERO_EGRESS_AIR_GAP_MANDATE'
+      };
+      recordSecurityLog(logEntry);
+      console.error(`[AIR-GAP BLOCKED] Outbound DNS resolution for ${hostname} terminated.`);
+
+      const err = new Error(`EPERM: Air-gap zero-egress policy blocks DNS resolution for ${hostname}`);
+      err.code = 'EPERM';
+      if (typeof cb === 'function') {
+        setImmediate(() => cb(err, null, null));
+        return;
+      }
+      throw err;
+    }
+    return originalDnsLookup.apply(this, arguments);
+  };
+
   isGuardActive = true;
-  console.log('[SHIELD] Air-Gap Zero-Egress Guard ACTIVE (TCP, TLS & UDP non-loopback sockets blocked).');
+  console.log('[SHIELD] Air-Gap Zero-Egress Guard ACTIVE (TCP, TLS, UDP & DNS non-loopback sockets blocked).');
 }
 
 /**
@@ -182,6 +212,7 @@ function disableAirGapEgressGuard() {
   if (originalNetConnect) net.Socket.prototype.connect = originalNetConnect;
   if (originalTlsConnect) tls.connect = originalTlsConnect;
   if (originalDgramSend) dgram.Socket.prototype.send = originalDgramSend;
+  if (originalDnsLookup) dns.lookup = originalDnsLookup;
   isGuardActive = false;
   console.log('[SHIELD] Air-Gap Zero-Egress Guard DEACTIVATED.');
 }

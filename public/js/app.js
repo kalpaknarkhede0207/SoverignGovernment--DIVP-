@@ -16,7 +16,14 @@
   const Icons = window.Icons;
 
   function SvgIcon({ name, className = 'w-5 h-5' }) {
-    const iconFn = Icons[name] || Icons.FileText;
+    if (!name || typeof name !== 'string' || !Icons || !Icons[name]) {
+      const fallbackFn = Icons && Icons.FileText;
+      return h('span', {
+        className: 'inline-flex items-center justify-center',
+        dangerouslySetInnerHTML: { __html: fallbackFn ? fallbackFn({ className }) : '' }
+      });
+    }
+    const iconFn = Icons[name];
     return h('span', {
       className: 'inline-flex items-center justify-center',
       dangerouslySetInnerHTML: { __html: iconFn({ className }) }
@@ -418,32 +425,31 @@
     const [appSearchQuery, setAppSearchQuery] = useState('');
     const [appStatusFilter, setAppStatusFilter] = useState('ALL');
 
-    // Sovereign Identity & RBAC Token State (SEC-CRIT-03)
+    // Sovereign Identity & RBAC Token State (SEC-CRIT-03 & AUD-CRIT-04)
     const [authTokens, setAuthTokens] = useState({});
     const [authStatus, setAuthStatus] = useState('AUTHENTICATING');
+    const [deskAuthModal, setDeskAuthModal] = useState(null);
 
     // Resilient Token Fetcher with LocalStorage & Real-Time Sync
     const getRoleToken = async (role) => {
       if (authTokens && authTokens[role]) return authTokens[role];
       try {
         const cached = localStorage.getItem(`sg_divp_token_${role}`);
-        if (cached) return cached;
+        if (cached) {
+          setAuthTokens((prev) => ({ ...prev, [role]: cached }));
+          return cached;
+        }
       } catch (e) {}
 
-      try {
-        const res = await fetch('/api/auth/tokens').then((r) => r.json());
-        if (res && res.tokens) {
-          setAuthTokens(res.tokens);
-          setAuthStatus('VERIFIED');
-          try {
-            localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen || '');
-            localStorage.setItem('sg_divp_token_tehsildar', res.tokens.tehsildar || '');
-            localStorage.setItem('sg_divp_token_admin', res.tokens.admin || '');
-          } catch (e) {}
-          return res.tokens[role] || '';
-        }
-      } catch (err) {
-        console.error('Failed to get sovereign token for role:', role, err);
+      if (role === 'citizen') {
+        try {
+          const res = await fetch('/api/auth/tokens').then((r) => r.json());
+          if (res && res.tokens && res.tokens.citizen) {
+            setAuthTokens((prev) => ({ ...prev, citizen: res.tokens.citizen }));
+            try { localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen || ''); } catch (e) {}
+            return res.tokens.citizen;
+          }
+        } catch (err) {}
       }
       return '';
     };
@@ -451,14 +457,18 @@
     const loadTokens = async () => {
       try {
         const res = await fetch('/api/auth/tokens').then((r) => r.json());
-        if (res.tokens) {
-          setAuthTokens(res.tokens);
-          setAuthStatus('VERIFIED');
+        if (res && res.tokens) {
+          const initial = { citizen: res.tokens.citizen };
           try {
-            localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen || '');
-            localStorage.setItem('sg_divp_token_tehsildar', res.tokens.tehsildar || '');
-            localStorage.setItem('sg_divp_token_admin', res.tokens.admin || '');
+            const cachedTeh = localStorage.getItem('sg_divp_token_tehsildar');
+            if (cachedTeh) initial.tehsildar = cachedTeh;
+            const cachedAdm = localStorage.getItem('sg_divp_token_admin');
+            if (cachedAdm) initial.admin = cachedAdm;
+            if (res.tokens.citizen) localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen);
           } catch (e) {}
+
+          setAuthTokens(initial);
+          setAuthStatus('VERIFIED');
         }
       } catch (err) {
         console.error('Failed to load sovereign tokens:', err);
@@ -503,8 +513,40 @@
       setTimeout(() => setToast(null), 4000);
     };
 
-    // Role Switching with Strict Modal Reset & Smart Case Selection
+    // Role Switching with Strict Modal Reset, Smart Case Selection & Desk Authentication (AUD-CRIT-04)
     const handleRoleSwitch = (newRole) => {
+      if (newRole === 'OFFICER') {
+        const tehToken = authTokens.tehsildar || localStorage.getItem('sg_divp_token_tehsildar');
+        if (!tehToken) {
+          setDeskAuthModal({
+            role: 'tehsildar',
+            targetDesk: 'OFFICER',
+            title: currentLang === 'mr' ? 'तहसीलदार पटल प्रमाणीकरण' : currentLang === 'hi' ? 'तहसीलदार पटल प्रमाणीकरण' : 'Tehsildar Desk Statutory Authentication',
+            roleLabel: currentLang === 'mr' ? 'कार्यकारी दंडाधिकारी व तहसीलदार' : currentLang === 'hi' ? 'कार्यकारी मजिस्ट्रेट व तहसीलदार' : 'Executive Magistrate & Tehsildar',
+            department: currentLang === 'mr' ? 'महसूल व वन विभाग, हवेली उपविभाग' : 'Revenue & Forest Department, Haveli',
+            pin: '7788',
+            error: '',
+            loading: false
+          });
+          return;
+        }
+      } else if (newRole === 'ADMIN') {
+        const admToken = authTokens.admin || localStorage.getItem('sg_divp_token_admin');
+        if (!admToken) {
+          setDeskAuthModal({
+            role: 'admin',
+            targetDesk: 'ADMIN',
+            title: currentLang === 'mr' ? 'जिल्हाधिकारी पटल प्रमाणीकरण' : currentLang === 'hi' ? 'जिला मजिस्ट्रेट पटल प्रमाणीकरण' : 'District Collectorate Root Authentication',
+            roleLabel: currentLang === 'mr' ? 'मुख्य जिल्हा प्रशासक' : currentLang === 'hi' ? 'मुख्य जिला प्रशासक' : 'Chief District Administrator',
+            department: currentLang === 'mr' ? 'जिल्हाधिकारी कार्यालय व राष्ट्रीय माहिती विज्ञान केंद्र' : 'District Collectorate & NIC Governance',
+            pin: '9900',
+            error: '',
+            loading: false
+          });
+          return;
+        }
+      }
+
       setCurrentRole(newRole);
       setShowUploadModal(false);
       setShowReturnModal(false);
@@ -522,6 +564,59 @@
         if (activeItem) {
           setSelectedCaseId(activeItem.id);
         }
+      }
+    };
+
+    const handleDeskLogin = async (e) => {
+      if (e) e.preventDefault();
+      if (!deskAuthModal) return;
+      setDeskAuthModal((prev) => ({ ...prev, loading: true, error: '' }));
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ role: deskAuthModal.role, pin: deskAuthModal.pin })
+        });
+        const data = await res.json();
+        if (!res.ok || !data.token) {
+          setDeskAuthModal((prev) => ({
+            ...prev,
+            loading: false,
+            error: data.error || 'Authentication failed. Please verify statutory PIN.'
+          }));
+          return;
+        }
+
+        const roleKey = deskAuthModal.role;
+        setAuthTokens((prev) => ({ ...prev, [roleKey]: data.token }));
+        try {
+          localStorage.setItem(`sg_divp_token_${roleKey}`, data.token);
+        } catch (e) {}
+
+        const target = deskAuthModal.targetDesk;
+        setDeskAuthModal(null);
+        setCurrentRole(target);
+        showToast(
+          currentLang === 'mr'
+            ? `${data.user ? data.user.name : 'अधिकारी'} पटल यशस्वीरीत्या उघडले.`
+            : `Authenticated as ${data.user ? data.user.name : 'Officer'} with sovereign token.`,
+          'success'
+        );
+
+        if (target === 'OFFICER') {
+          setOfficerQueueTab('ACTIVE');
+          const activeItem = (justUploadedCase && justUploadedCase.status === 'UNDER_SCRUTINY')
+            ? justUploadedCase
+            : cases.find((c) => c.status === 'UNDER_SCRUTINY');
+          if (activeItem) setSelectedCaseId(activeItem.id);
+        }
+      } catch (err) {
+        setDeskAuthModal((prev) => ({
+          ...prev,
+          loading: false,
+          error: 'Connection error during authentication challenge.'
+        }));
       }
     };
 
@@ -2535,6 +2630,82 @@
             },
               h(SvgIcon, { name: 'Download', className: 'w-4 h-4' }),
               'Print via Browser (PDF)'
+            )
+          )
+        )
+      ),
+
+      // -------------------------------------------------------------
+      // MODAL 4: STATUTORY PRIVILEGED DESK AUTHENTICATION (AUD-CRIT-04)
+      // -------------------------------------------------------------
+      deskAuthModal && h('div', { className: 'fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-md flex items-center justify-center p-4' },
+        h('div', { className: 'bg-white w-full max-w-md rounded-3xl border border-slate-200 shadow-2xl p-6 overflow-hidden space-y-5 animate-in fade-in zoom-in-95 duration-200' },
+          h('div', { className: 'flex items-center gap-3 border-b border-slate-100 pb-4' },
+            h('div', { className: 'w-12 h-12 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-700 shadow-sm shrink-0' },
+              h(SvgIcon, { name: 'ShieldCheck', className: 'w-6 h-6' })
+            ),
+            h('div', { className: 'flex-1 min-w-0' },
+              h('div', { className: 'text-[10px] font-mono font-extrabold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full inline-block mb-1' },
+                'Sovereign Access Control'
+              ),
+              h('h3', { className: 'text-base font-bold text-slate-900 truncate' },
+                deskAuthModal.title
+              )
+            )
+          ),
+
+          h('div', { className: 'bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-1' },
+            h('div', { className: 'text-xs font-bold text-slate-800' }, deskAuthModal.roleLabel),
+            h('div', { className: 'text-[11px] text-slate-500' }, deskAuthModal.department),
+            h('div', { className: 'text-[10px] text-amber-700 font-semibold bg-amber-50 border border-amber-200/60 rounded-lg p-2 mt-2 flex items-center gap-2' },
+              h(SvgIcon, { name: 'Lock', className: 'w-3.5 h-3.5 shrink-0' }),
+              'Statutory PIN required to mint signed HMAC-SHA256 executive credentials (AUD-CRIT-04).'
+            )
+          ),
+
+          deskAuthModal.error && h('div', { className: 'bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold rounded-xl p-3 flex items-center gap-2' },
+            h(SvgIcon, { name: 'AlertCircle', className: 'w-4 h-4 shrink-0' }),
+            deskAuthModal.error
+          ),
+
+          h('form', { onSubmit: handleDeskLogin, className: 'space-y-4' },
+            h('div', { className: 'space-y-1.5' },
+              h('label', { className: 'block text-xs font-bold text-slate-700' },
+                currentLang === 'mr' ? 'शासकीय सुरक्षा पिन प्रविष्ट करा' : 'Statutory Security PIN'
+              ),
+              h('input', {
+                type: 'password',
+                value: deskAuthModal.pin,
+                onChange: (e) => setDeskAuthModal({ ...deskAuthModal, pin: e.target.value }),
+                placeholder: 'Enter PIN',
+                maxLength: 6,
+                autoFocus: true,
+                className: 'w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 font-mono text-center tracking-widest text-lg font-bold focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500'
+              }),
+              h('div', { className: 'flex justify-between items-center text-[11px] text-slate-400 pt-1' },
+                h('span', null, 'Official Demo PIN:'),
+                h('button', {
+                  type: 'button',
+                  onClick: () => setDeskAuthModal({ ...deskAuthModal, pin: deskAuthModal.role === 'tehsildar' ? '7788' : '9900' }),
+                  className: 'text-indigo-600 font-bold hover:underline cursor-pointer'
+                }, deskAuthModal.role === 'tehsildar' ? 'Fill Tehsildar PIN (7788)' : 'Fill Admin PIN (9900)')
+              )
+            ),
+
+            h('div', { className: 'flex justify-end gap-2.5 pt-2 border-t border-slate-100' },
+              h('button', {
+                type: 'button',
+                onClick: () => setDeskAuthModal(null),
+                className: 'px-4 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition-all cursor-pointer'
+              }, currentLang === 'mr' ? 'रद्द करा' : 'Cancel'),
+              h('button', {
+                type: 'submit',
+                disabled: deskAuthModal.loading,
+                className: 'px-5 py-2.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-700 text-white flex items-center gap-1.5 shadow-md shadow-indigo-500/20 transition-all cursor-pointer disabled:opacity-50'
+              },
+                h(SvgIcon, { name: 'Key', className: 'w-4 h-4' }),
+                deskAuthModal.loading ? 'Verifying...' : (currentLang === 'mr' ? 'पटल उघडा' : 'Authorize Sovereign Session')
+              )
             )
           )
         )

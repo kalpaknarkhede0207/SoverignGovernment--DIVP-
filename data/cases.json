@@ -78,7 +78,8 @@
       "qrSeal": "SG-DIVP://VERIFY/MH-CAS-2026-6558-PUN/1722aa9f",
       "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
       "sanctioningAuthority": "District Magistrate & Collector, Pune"
-    }
+    },
+    "stateProof": "57fa5e6a07d9932ce9ee074ace7c9302b38c6785e6d96a321f024494b04501b2"
   },
   {
     "id": "CASE-2026-NON-863",
@@ -159,7 +160,8 @@
       "qrSeal": "SG-DIVP://VERIFY/MH-NON-2026-5255-PUN/be35eef0",
       "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
       "sanctioningAuthority": "District Magistrate & Collector, Pune"
-    }
+    },
+    "stateProof": "867a4eb3cfb031d98f8109064306ed9298cfcd735bccdc7d4877f91587d8df3f"
   },
   {
     "id": "CASE-2026-NON-310",
@@ -237,7 +239,8 @@
       "returnReason": "Declared family gross annual income exceeds statutory Rs. 8,00,000&#x2F;- ceiling.",
       "statutoryViolationProof": "Assessed gross family income exceeds statutory Rs. 8,00,000&#x2F;- ceiling under Government of Maharashtra Gazette 2026&#x2F;FST-12 Clause 4.3.",
       "remedialInstructions": "Applicant must submit updated Form 16 &#x2F; ITR assessment or apply under non-subsidized category."
-    }
+    },
+    "stateProof": "20580c1ed0fc98508b443ddf0a9b437ca98f0caf055e952737aeed658c58ab89"
   },
   {
     "id": "CASE-2026-NON-423",
@@ -309,7 +312,8 @@
         "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
       }
     },
-    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms.",
+    "stateProof": "0d7aa42967fa4e50f40ca0694055ca09116db0f365e150c4f04b327321017dfd"
   },
   {
     "id": "CASE-2026-NCL-101",
@@ -399,7 +403,8 @@
       "qrSeal": "SG-DIVP://VERIFY/MH-NCL-2026-9412-PUN/c379bf82",
       "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
       "sanctioningAuthority": "District Magistrate & Collector, Pune"
-    }
+    },
+    "stateProof": "605be3d6d77be339c3fb7eda85995e7cebe7b4dab1277a12edf842e23cd0474e"
   },
   {
     "id": "CASE-2026-CST-102",
@@ -485,7 +490,8 @@
       "qrSeal": "SG-DIVP://VERIFY/MH-CAS-2026-1486-PUN/4a7adfee",
       "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
       "sanctioningAuthority": "District Magistrate & Collector, Pune"
-    }
+    },
+    "stateProof": "d0a335ccba9a99374635b4005da0abdc1aa74a2e3b154631517eda9ed80a3998"
   },
   {
     "id": "CASE-2026-LND-103",
@@ -567,7 +573,8 @@
         "notes": "Unencumbered agricultural title with authentic e-Mahabhumi signature. Ready for Tehsildar approval."
       }
     },
-    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms.",
+    "stateProof": "652b7a2622fd137022f484f91e51cf0bfedb13548401176103f7713ed5be0351"
   },
   {
     "id": "CASE-2026-EWS-104",
@@ -651,7 +658,8 @@
       "statutoryViolationProof": "1. Gross family income Rs. 9,80,000/- exceeds statutory limit of Rs. 8,00,000/- as per 103rd Constitutional Amendment Act.\n2. Agricultural land holding of 6.2 acres exceeds the 5-acre maximum ceiling.\n3. Residential property of 1150 sq. ft. exceeds 1000 sq. ft. statutory limit.",
       "gazetteCitation": "Ministry of Social Justice & Empowerment Office Memorandum No. 20013/01/2018-BC-II & State Gazette EWS-2024 Clause 3.2.",
       "remedialInstructions": "Applicant may submit an appeal or apply under General / Non-Reserved category."
-    }
+    },
+    "stateProof": "fa052b1105188761dcf5029670e1a05b35b2dda1436091eaf86c5adb8d1953f5"
   },
   {
     "id": "CASE-2026-DIS-105",
@@ -733,7 +741,8 @@
         "notes": "65% permanent disability exceeds minimum 40% threshold. All medical seals verified. Ready for Tehsildar sign-off."
       }
     },
-    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms.",
+    "stateProof": "11f876656ce70de96d852aa4971f415d98e77c1b78bec72220b7ec995696a68a"
   },
   {
     "id": "CASE-2026-NON-379",
@@ -804,7 +813,8 @@
         "score": 0.99,
         "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
       }
-    }
+    },
+    "stateProof": "a6ad1744ab6a5421f52020faef32fe6d0cdaa9bf2bc4559658edec67771aa01d"
   },
   {
     "id": "CASE-2026-NON-508",
@@ -875,7 +885,8 @@
         "score": 0.99,
         "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
       }
-    }
+    },
+    "stateProof": "9cf4a58a93ab754cd79d26485f802b7f28b32cca42d97c13d470b01986e76425"
   },
   {
     "id": "CASE-2026-NON-651",
@@ -946,6 +957,252 @@
         "score": 0.99,
         "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
       }
-    }
+    },
+    "stateProof": "b3a62fc388b050b8d7b9ed200e79bbf54e4ac314cc7236737332e536d2fc3941"
+  },
+  {
+    "id": "CASE-TEST-FSM-001",
+    "caseNumber": "MH/PUN/TST/2026/00001",
+    "status": "APPROVED",
+    "applicantName": "FSM Test Subject",
+    "department": "Revenue & Forest Department"
+  },
+  {
+    "id": "CASE-STRESS-CONCURRENCY-001",
+    "caseNumber": "MH/PUN/STR/2026/001",
+    "status": "APPROVED",
+    "applicantName": "Concurrent Tester",
+    "department": "Revenue & Forest Department",
+    "finalApprovedTimestamp": "2026-11-01T13:05:14.502Z",
+    "rootAdminId": "SYSADMIN_ROOT",
+    "certificate": {
+      "certificateNumber": "MH-REV-2026-7151-PUN",
+      "issueDate": "2026-11-01",
+      "validUntil": "2027-03-31",
+      "statutoryClause": "Issued under the authority of Maharashtra Government Gazette regulations and Section 65B Indian Evidence Act.",
+      "qrSeal": "SG-DIVP://VERIFY/MH-REV-2026-7151-PUN/99870a64",
+      "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
+      "sanctioningAuthority": "District Magistrate & Collector, Pune"
+    },
+    "stateProof": "43f15526816ea9956b49f30ecb7c6ed030492b074bff7391038175b108493b94"
+  },
+  {
+    "id": "CASE-2026-NON-457",
+    "caseNumber": "MH/PUN/NON/2026/19193",
+    "citizenId": "CITIZEN_USER_01",
+    "applicantName": "Kalpak Kishor Narkhede",
+    "applicantId": "UIDAI-XXXX-XXXX-8748",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "UNDER_SCRUTINY",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-11-01T12:23:52.216Z",
+    "officerApprovedTimestamp": null,
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Kalpak Kishor Narkhede",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Father &#x2F; Guardian Name",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "certificate_scan.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    },
+    "stateProof": "a579c0afad7497343a890c6b9066b1d2291cc7c9ce8c55d5fae41c1fe71f1c71"
+  },
+  {
+    "id": "CASE-2026-NON-114",
+    "caseNumber": "MH/PUN/NON/2026/36134",
+    "citizenId": "CITIZEN_USER_01",
+    "applicantName": "Kalpak Kishor Narkhede",
+    "applicantId": "UIDAI-XXXX-XXXX-1948",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "UNDER_SCRUTINY",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-11-01T12:24:13.828Z",
+    "officerApprovedTimestamp": null,
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Kalpak Kishor Narkhede",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Father &#x2F; Guardian Name",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "certificate_scan.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    },
+    "stateProof": "d70d2478eb99c77e46453ce16a8447b01ef270f5e39295c20fc92a78cf9de20f"
+  },
+  {
+    "id": "CASE-2026-NON-872",
+    "caseNumber": "MH/PUN/NON/2026/48328",
+    "citizenId": "CITIZEN_USER_01",
+    "applicantName": "Kalpak Kishor Narkhede",
+    "applicantId": "UIDAI-XXXX-XXXX-4424",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "UNDER_SCRUTINY",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-11-01T13:05:14.514Z",
+    "officerApprovedTimestamp": null,
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Kalpak Kishor Narkhede",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Father &#x2F; Guardian Name",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "certificate_scan.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    },
+    "stateProof": "d9a8ebda61f4f7538c966904f252e4af874a5fb43608fc938d6ec6a5957ff5f0"
   }
 ]

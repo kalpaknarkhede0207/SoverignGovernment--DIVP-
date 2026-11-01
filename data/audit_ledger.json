@@ -249,5 +249,170 @@
     },
     "previousHash": "8e18ecfa2ef78aa7d5be00983b8ca6e8b454d19b9b1943ff4b2af8e25ee83645",
     "blockHash": "9f7c8b05061175fea11377edf64f8f56480a48e210c56ffa1efecdb33d8fdd21"
+  },
+  {
+    "index": 16,
+    "timestamp": "2026-11-01T12:23:52.203Z",
+    "action": "OFFICER_APPROVED_AND_FORWARDED",
+    "caseId": "CASE-ROGUE-INJECT-999",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "APPROVING_OFFICER",
+    "department": "Revenue & Forest Department",
+    "details": {
+      "status": "FORWARDED_TO_ADMIN",
+      "remarks": "Recommended for final issuance by Tehsildar."
+    },
+    "previousHash": "9f7c8b05061175fea11377edf64f8f56480a48e210c56ffa1efecdb33d8fdd21",
+    "blockHash": "0486ce9f817237871f5adf554626d99d9f8e0aaf35ab9a66bdeb16fa24b7b81d"
+  },
+  {
+    "index": 17,
+    "timestamp": "2026-11-01T12:23:52.205Z",
+    "action": "ROOT_ADMIN_FINAL_SEAL_ISSUED",
+    "caseId": "CASE-STRESS-CONCURRENCY-001",
+    "officerId": "SYSADMIN_ROOT",
+    "officerRole": "ROOT_ADMIN",
+    "department": "Revenue & Forest Department",
+    "details": {
+      "certificateNumber": "MH-REV-2026-5255-PUN",
+      "status": "APPROVED"
+    },
+    "previousHash": "0486ce9f817237871f5adf554626d99d9f8e0aaf35ab9a66bdeb16fa24b7b81d",
+    "blockHash": "91be3c5fa515160a1be00cd8eb44e6f971796d072ddc452c9c592b0cb1116110"
+  },
+  {
+    "index": 18,
+    "timestamp": "2026-11-01T12:23:52.206Z",
+    "action": "SECURITY_AUDIT_TEST_BLOCK",
+    "caseId": "CASE-AUDIT-TEST",
+    "officerId": "AUDITOR_01",
+    "officerRole": "SECURITY_OFFICER",
+    "department": "Audit Department",
+    "details": {
+      "note": "Pre-tampering valid data"
+    },
+    "previousHash": "91be3c5fa515160a1be00cd8eb44e6f971796d072ddc452c9c592b0cb1116110",
+    "blockHash": "9816d4f4a99a662d860b10b5ce4bac8417ce4e775a7e0b544bbc14e2ace4d8ac"
+  },
+  {
+    "index": 19,
+    "timestamp": "2026-11-01T12:23:52.216Z",
+    "action": "CITIZEN_DOCUMENT_UPLOAD",
+    "caseId": "CASE-2026-NON-457",
+    "officerId": "CITIZEN_USER_01",
+    "officerRole": "USER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+      "applicant": "Kalpak Kishor Narkhede",
+      "aiSummary": "CLEAN"
+    },
+    "previousHash": "9816d4f4a99a662d860b10b5ce4bac8417ce4e775a7e0b544bbc14e2ace4d8ac",
+    "blockHash": "39a9406a63294bea7ad77f6116152a3d0bb211e2e6b77003a2d4a2e5efdcc082"
+  },
+  {
+    "index": 20,
+    "timestamp": "2026-11-01T12:24:13.815Z",
+    "action": "OFFICER_APPROVED_AND_FORWARDED",
+    "caseId": "CASE-ROGUE-INJECT-999",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "APPROVING_OFFICER",
+    "department": "Revenue & Forest Department",
+    "details": {
+      "status": "FORWARDED_TO_ADMIN",
+      "remarks": "Recommended for final issuance by Tehsildar."
+    },
+    "previousHash": "39a9406a63294bea7ad77f6116152a3d0bb211e2e6b77003a2d4a2e5efdcc082",
+    "blockHash": "c9849977a7daccdda352aecc7c574282065f017b7c2c5f3b436414747963b9fe"
+  },
+  {
+    "index": 21,
+    "timestamp": "2026-11-01T12:24:13.818Z",
+    "action": "ROOT_ADMIN_FINAL_SEAL_ISSUED",
+    "caseId": "CASE-STRESS-CONCURRENCY-001",
+    "officerId": "SYSADMIN_ROOT",
+    "officerRole": "ROOT_ADMIN",
+    "department": "Revenue & Forest Department",
+    "details": {
+      "certificateNumber": "MH-REV-2026-3557-PUN",
+      "status": "APPROVED"
+    },
+    "previousHash": "c9849977a7daccdda352aecc7c574282065f017b7c2c5f3b436414747963b9fe",
+    "blockHash": "4b4825d6a0fdfb45f3c7f055a0a577843402dfd7eb3ef6168d26525421be73f2"
+  },
+  {
+    "index": 22,
+    "timestamp": "2026-11-01T12:24:13.819Z",
+    "action": "SECURITY_AUDIT_TEST_BLOCK",
+    "caseId": "CASE-AUDIT-TEST",
+    "officerId": "AUDITOR_01",
+    "officerRole": "SECURITY_OFFICER",
+    "department": "Audit Department",
+    "details": {
+      "note": "Pre-tampering valid data"
+    },
+    "previousHash": "4b4825d6a0fdfb45f3c7f055a0a577843402dfd7eb3ef6168d26525421be73f2",
+    "blockHash": "84a0e0ecac70fb85953f1e8f729900172cdb9709612dff5f22a3347a64bcd3e8"
+  },
+  {
+    "index": 23,
+    "timestamp": "2026-11-01T12:24:13.829Z",
+    "action": "CITIZEN_DOCUMENT_UPLOAD",
+    "caseId": "CASE-2026-NON-114",
+    "officerId": "CITIZEN_USER_01",
+    "officerRole": "USER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+      "applicant": "Kalpak Kishor Narkhede",
+      "aiSummary": "CLEAN"
+    },
+    "previousHash": "84a0e0ecac70fb85953f1e8f729900172cdb9709612dff5f22a3347a64bcd3e8",
+    "blockHash": "1b5aa1c61c29508c9613dcfa307cd12e046debcd682da7cdf7a55d56ac5abb5b"
+  },
+  {
+    "index": 24,
+    "timestamp": "2026-11-01T13:05:14.503Z",
+    "action": "ROOT_ADMIN_FINAL_SEAL_ISSUED",
+    "caseId": "CASE-STRESS-CONCURRENCY-001",
+    "officerId": "SYSADMIN_ROOT",
+    "officerRole": "ROOT_ADMIN",
+    "department": "Revenue & Forest Department",
+    "details": {
+      "certificateNumber": "MH-REV-2026-7151-PUN",
+      "status": "APPROVED"
+    },
+    "previousHash": "1b5aa1c61c29508c9613dcfa307cd12e046debcd682da7cdf7a55d56ac5abb5b",
+    "blockHash": "a113eaa1f9181d6371c8e05dcb3ad4c88349f74d9c176075819eae9b5b5db9ad"
+  },
+  {
+    "index": 25,
+    "timestamp": "2026-11-01T13:05:14.504Z",
+    "action": "SECURITY_AUDIT_TEST_BLOCK",
+    "caseId": "CASE-AUDIT-TEST",
+    "officerId": "AUDITOR_01",
+    "officerRole": "SECURITY_OFFICER",
+    "department": "Audit Department",
+    "details": {
+      "note": "Pre-tampering valid data"
+    },
+    "previousHash": "a113eaa1f9181d6371c8e05dcb3ad4c88349f74d9c176075819eae9b5b5db9ad",
+    "blockHash": "9018e99cf715deaf02d745fbadc2cf4bb5dfc79b03c49d4b906a406b89c8c95d"
+  },
+  {
+    "index": 26,
+    "timestamp": "2026-11-01T13:05:14.515Z",
+    "action": "CITIZEN_DOCUMENT_UPLOAD",
+    "caseId": "CASE-2026-NON-872",
+    "officerId": "CITIZEN_USER_01",
+    "officerRole": "USER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+      "applicant": "Kalpak Kishor Narkhede",
+      "aiSummary": "CLEAN"
+    },
+    "previousHash": "9018e99cf715deaf02d745fbadc2cf4bb5dfc79b03c49d4b906a406b89c8c95d",
+    "blockHash": "a7e5d29dd351da63978722e0a9af04b3dfa71d8ef68e2466efd3f0cc8b110dad"
   }
 ]
