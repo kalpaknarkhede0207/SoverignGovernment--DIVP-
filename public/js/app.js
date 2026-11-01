@@ -422,12 +422,43 @@
     const [authTokens, setAuthTokens] = useState({});
     const [authStatus, setAuthStatus] = useState('AUTHENTICATING');
 
+    // Resilient Token Fetcher with LocalStorage & Real-Time Sync
+    const getRoleToken = async (role) => {
+      if (authTokens && authTokens[role]) return authTokens[role];
+      try {
+        const cached = localStorage.getItem(`sg_divp_token_${role}`);
+        if (cached) return cached;
+      } catch (e) {}
+
+      try {
+        const res = await fetch('/api/auth/tokens').then((r) => r.json());
+        if (res && res.tokens) {
+          setAuthTokens(res.tokens);
+          setAuthStatus('VERIFIED');
+          try {
+            localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen || '');
+            localStorage.setItem('sg_divp_token_tehsildar', res.tokens.tehsildar || '');
+            localStorage.setItem('sg_divp_token_admin', res.tokens.admin || '');
+          } catch (e) {}
+          return res.tokens[role] || '';
+        }
+      } catch (err) {
+        console.error('Failed to get sovereign token for role:', role, err);
+      }
+      return '';
+    };
+
     const loadTokens = async () => {
       try {
         const res = await fetch('/api/auth/tokens').then((r) => r.json());
         if (res.tokens) {
           setAuthTokens(res.tokens);
           setAuthStatus('VERIFIED');
+          try {
+            localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen || '');
+            localStorage.setItem('sg_divp_token_tehsildar', res.tokens.tehsildar || '');
+            localStorage.setItem('sg_divp_token_admin', res.tokens.admin || '');
+          } catch (e) {}
         }
       } catch (err) {
         console.error('Failed to load sovereign tokens:', err);
@@ -616,11 +647,12 @@
       }
       setLoading(true);
       try {
+        const token = await getRoleToken('citizen');
         const res = await fetch('/api/cases/citizen-upload', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authTokens.citizen || ''}`
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
             documentType: selectedDocForUpload.documentType,
@@ -634,6 +666,8 @@
           setSelectedDocForUpload(null);
           setJustUploadedCase(data.case);
           setSelectedCaseId(data.case.id);
+          // Prepend optimistically to local cases list
+          setCases((prev) => [data.case, ...prev.filter((c) => c.id !== data.case.id)]);
           await loadData();
           window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
@@ -646,7 +680,7 @@
       }
     };
 
-    // Officer Actions with Direct Case ID Binding & Feedback
+    // Officer Actions with Direct Case ID Binding, Serverless Recovery & Optimistic State
     const handleOfficerAction = async (action, targetCaseId) => {
       const caseId = targetCaseId || returnModalTarget?.id || selectedCase?.id;
       if (!caseId) {
@@ -655,22 +689,33 @@
       }
       setLoading(true);
       try {
+        const token = await getRoleToken('tehsildar');
+        const targetCase = cases.find((c) => c.id === caseId) || justUploadedCase || selectedCase;
         const payload =
           action === 'APPROVE'
-            ? { action: 'APPROVE', officerRemarks: 'Verified all OCR entities, seals, and DMN statutory gazette norms.' }
-            : { action: 'RETURN', ...returnForm };
+            ? {
+                action: 'APPROVE',
+                officerRemarks: 'Verified all OCR entities, seals, and DMN statutory gazette norms.',
+                caseData: targetCase
+              }
+            : {
+                action: 'RETURN',
+                ...returnForm,
+                caseData: targetCase
+              };
 
         const res = await fetch(`/api/cases/${caseId}/officer-action`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authTokens.tehsildar || ''}`
+            'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify(payload)
         });
         const data = await res.json();
         if (res.ok) {
-          const caseNum = data.case ? data.case.caseNumber : caseId;
+          const updatedCase = data.case || { ...targetCase, status: action === 'APPROVE' ? 'FORWARDED_TO_ADMIN' : 'RETURNED' };
+          const caseNum = updatedCase.caseNumber || caseId;
           if (action === 'APPROVE') {
             showToast(`Case #${caseNum} approved and forwarded to Root Administrator!`, 'success');
           } else {
@@ -678,12 +723,21 @@
             setShowReturnModal(false);
             setReturnModalTarget(null);
           }
+
+          // Optimistically update case in local state immediately
+          setCases((prev) => prev.map((c) => (c.id === updatedCase.id ? updatedCase : c)));
+          if (justUploadedCase && justUploadedCase.id === updatedCase.id) {
+            setJustUploadedCase(updatedCase);
+          }
+
           await loadData();
 
           // Auto-select next remaining active case in scrutiny queue
           const remaining = cases.filter((c) => c.status === 'UNDER_SCRUTINY' && c.id !== caseId);
           if (remaining.length > 0) {
             setSelectedCaseId(remaining[0].id);
+          } else {
+            setSelectedCaseId(updatedCase.id);
           }
         } else {
           showToast(data.error || 'Action failed', 'error');
@@ -695,7 +749,7 @@
       }
     };
 
-    // Root Admin Action with Direct Case ID Binding & Immediate State Update
+    // Root Admin Action with Direct Case ID Binding, Serverless Recovery & Immediate State Update
     const handleAdminAction = async (action, targetCaseId) => {
       const caseId = targetCaseId || selectedCase?.id;
       if (!caseId) {
@@ -704,18 +758,32 @@
       }
       setLoading(true);
       try {
+        const token = await getRoleToken('admin');
+        const targetCase = cases.find((c) => c.id === caseId) || justUploadedCase || selectedCase;
         const res = await fetch(`/api/cases/${caseId}/admin-action`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authTokens.admin || ''}`
+            'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({ action })
+          body: JSON.stringify({
+            action,
+            adminRemarks: 'Digitally verified and sealed under Section 65B Indian Evidence Act.',
+            caseData: targetCase
+          })
         });
         const data = await res.json();
         if (res.ok) {
-          const caseNum = data.case ? data.case.caseNumber : caseId;
+          const updatedCase = data.case || { ...targetCase, status: 'APPROVED' };
+          const caseNum = updatedCase.caseNumber || caseId;
           showToast(`FINAL GOVERNMENT SEAL EXECUTED: Case #${caseNum} Authorized & Issued!`, 'success');
+
+          // Optimistically update case in local state immediately
+          setCases((prev) => prev.map((c) => (c.id === updatedCase.id ? updatedCase : c)));
+          if (justUploadedCase && justUploadedCase.id === updatedCase.id) {
+            setJustUploadedCase(updatedCase);
+          }
+
           await loadData();
           setSelectedCaseId(caseId);
         } else {
@@ -1291,11 +1359,11 @@
           ? forwardedQueue
           : returnedQueue;
 
-      // Smart selection: Always guarantee that an appropriate case is selected for this tab
+      // Smart selection: Strictly pick from current queue tab to prevent displaying unrelated approved cases
       const officerSelectedCase =
         displayedQueue.find((c) => c.id === selectedCaseId) ||
         displayedQueue[0] ||
-        cases[0];
+        null;
 
       return h('div', { className: 'space-y-6' },
         // Tehsildar Banner
@@ -1407,8 +1475,39 @@
           )
         ),
 
-        // Split-Screen Scrutiny Workspace
-        officerSelectedCase && h('div', { className: 'grid grid-cols-1 md:grid-cols-12 gap-6' },
+        // Split-Screen Scrutiny Workspace or Empty Queue Notice
+        displayedQueue.length === 0
+          ? h('div', { className: 'bg-white p-12 rounded-3xl border border-slate-200/80 shadow-sm text-center space-y-4' },
+              h('div', { className: 'w-16 h-16 rounded-3xl bg-indigo-50 border border-indigo-100 text-indigo-600 flex items-center justify-center mx-auto' },
+                h(SvgIcon, { name: 'FileSearch', className: 'w-8 h-8' })
+              ),
+              h('h3', { className: 'text-base font-bold text-slate-800' },
+                officerQueueTab === 'ACTIVE'
+                  ? (currentLang === 'mr' ? 'कोणतेही अर्ज प्रलंबित नाहीत: सक्रिय छाननी शून्य अनुशेष' : currentLang === 'hi' ? 'कोई आवेदन लंबित नहीं: सक्रिय जांच शून्य बैकलॉग' : 'Zero Scrutiny Backlog: All active dossiers have been processed')
+                  : officerQueueTab === 'FORWARDED'
+                  ? (currentLang === 'mr' ? 'कोणतेही अर्ज अजून अग्रेषित केलेले नाहीत' : 'No dossiers forwarded or approved yet')
+                  : (currentLang === 'mr' ? 'त्रुटीसह परत केलेले कोणतेही अर्ज नाहीत' : 'No dossiers currently marked with discrepancies')
+              ),
+              h('p', { className: 'text-xs text-slate-500 max-w-md mx-auto' },
+                officerQueueTab === 'ACTIVE'
+                  ? (currentLang === 'mr' ? 'नागरिकांनी सादर केलेले नवीन अर्ज येथे आपोआप ओसीआर व राजपत्र नियमांसह दिसतील.' : 'New applications submitted by citizens will appear here in real time with automated OCR entity extraction and Gazette compliance evaluation.')
+                  : (currentLang === 'mr' ? 'इतर याद्या तपासण्यासाठी वरील टॅब वापरा किंवा नागरिक कक्षात नवीन अर्ज अपलोड करा.' : 'Switch tabs above or return to the citizen desk to verify an application.')
+              ),
+              h('div', { className: 'flex justify-center gap-3 pt-2' },
+                officerQueueTab !== 'ACTIVE' && h('button', {
+                  onClick: () => {
+                    setOfficerQueueTab('ACTIVE');
+                    if (activeQueue.length > 0) setSelectedCaseId(activeQueue[0].id);
+                  },
+                  className: 'px-4 py-2 rounded-xl text-xs font-bold bg-indigo-600 text-white cursor-pointer hover:bg-indigo-700'
+                }, currentLang === 'mr' ? 'सक्रिय छाननी यादी पहा' : 'View Active Scrutiny Queue'),
+                h('button', {
+                  onClick: () => handleRoleSwitch('USER'),
+                  className: 'px-4 py-2 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 cursor-pointer hover:bg-slate-200'
+                }, currentLang === 'mr' ? 'नागरिक कक्षात जाऊन दस्तऐवज जोडा' : 'Switch to Citizen Desk to Upload Document')
+              )
+            )
+          : officerSelectedCase && h('div', { className: 'grid grid-cols-1 md:grid-cols-12 gap-6' },
           // Left: Queue Tabs & Selector & Zoomable Scanned Artifact (4 cols)
           h('div', { className: 'md:col-span-4 space-y-4' },
             // Queue Tabs & Selector Box
@@ -1644,46 +1743,101 @@
 
             // Tehsildar Action Bar (Directly bound to officerSelectedCase)
             h('div', { className: 'bg-white p-5 rounded-3xl border border-slate-200/80 shadow-sm ring-1 ring-slate-900/5 flex flex-wrap items-center justify-between gap-3' },
-              h('div', { className: 'text-xs text-slate-500' },
-                `Dossier Status: `,
-                h('strong', { className: 'text-slate-800 font-mono font-bold' }, officerSelectedCase.status)
+              h('div', { className: 'flex items-center gap-3' },
+                h('span', { className: 'text-xs text-slate-500 font-semibold' }, 'Dossier Status:'),
+                h('span', {
+                  className: `px-2.5 py-1 rounded-full text-xs font-mono font-bold ${
+                    officerSelectedCase.status === 'UNDER_SCRUTINY'
+                      ? 'bg-amber-100 text-amber-800'
+                      : officerSelectedCase.status === 'FORWARDED_TO_ADMIN'
+                      ? 'bg-indigo-100 text-indigo-800'
+                      : officerSelectedCase.status === 'APPROVED'
+                      ? 'bg-emerald-100 text-emerald-800'
+                      : 'bg-rose-100 text-rose-800'
+                  }`
+                }, officerSelectedCase.status)
               ),
 
-              h('div', { className: 'flex items-center gap-3' },
-                // Return Button
-                h('button', {
-                  disabled: loading || officerSelectedCase.status === 'APPROVED',
-                  onClick: () => {
-                    setReturnModalTarget(officerSelectedCase);
-                    setShowReturnModal(true);
+              h('div', { className: 'flex flex-wrap items-center gap-2.5' },
+                // 1. ACTIVE SCRUTINY: Return with Proof & Approve and Forward
+                officerSelectedCase.status === 'UNDER_SCRUTINY' && [
+                  h('button', {
+                    key: 'btn-return',
+                    disabled: loading,
+                    onClick: () => {
+                      setReturnModalTarget(officerSelectedCase);
+                      setShowReturnModal(true);
+                    },
+                    className: 'px-4 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200'
                   },
-                  className: `px-4 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer ${
-                    officerSelectedCase.status === 'APPROVED'
-                      ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed'
-                      : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200'
-                  }`
-                },
-                  h(SvgIcon, { name: 'AlertTriangle', className: 'w-4 h-4' }),
-                  t('btnReturnWithProof')
-                ),
+                    h(SvgIcon, { name: 'AlertTriangle', className: 'w-4 h-4' }),
+                    t('btnReturnWithProof')
+                  ),
+                  h('button', {
+                    key: 'btn-approve',
+                    disabled: loading,
+                    onClick: () => handleOfficerAction('APPROVE', officerSelectedCase.id),
+                    className: 'px-6 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 transition-all shadow-md shadow-emerald-500/20 cursor-pointer bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white'
+                  },
+                    h(SvgIcon, { name: 'Check', className: 'w-4 h-4' }),
+                    loading ? (currentLang === 'mr' ? 'अग्रेषित होत आहे...' : 'Forwarding...') : t('btnApproveForward')
+                  )
+                ],
 
-                // Approve & Forward Button
-                h('button', {
-                  disabled: loading || officerSelectedCase.status === 'APPROVED' || officerSelectedCase.status === 'FORWARDED_TO_ADMIN',
-                  onClick: () => handleOfficerAction('APPROVE', officerSelectedCase.id),
-                  className: `px-5 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-1.5 transition-all shadow-md cursor-pointer ${
-                    officerSelectedCase.status === 'APPROVED' || officerSelectedCase.status === 'FORWARDED_TO_ADMIN'
-                      ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
-                      : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-500/10'
-                  }`
-                },
-                  h(SvgIcon, { name: 'Check', className: 'w-4 h-4' }),
-                  officerSelectedCase.status === 'FORWARDED_TO_ADMIN'
-                    ? t('tabForwarded')
-                    : officerSelectedCase.status === 'APPROVED'
-                    ? t('sealedAndIssuedBadge')
-                    : t('btnApproveForward')
-                )
+                // 2. FORWARDED TO ADMIN: Direct action to switch to Admin Desk OR execute final seal immediately!
+                officerSelectedCase.status === 'FORWARDED_TO_ADMIN' && [
+                  h('button', {
+                    key: 'btn-reforward',
+                    disabled: loading,
+                    onClick: () => handleOfficerAction('APPROVE', officerSelectedCase.id),
+                    className: 'px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 transition-all cursor-pointer'
+                  }, currentLang === 'mr' ? 'पुन्हा शिफारस पाठवा' : 'Re-send Endorsement'),
+                  h('button', {
+                    key: 'btn-switch-admin',
+                    onClick: () => {
+                      setSelectedCaseId(officerSelectedCase.id);
+                      handleRoleSwitch('ADMIN');
+                    },
+                    className: 'px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md shadow-indigo-500/20 transition-all cursor-pointer'
+                  },
+                    h(SvgIcon, { name: 'ShieldCheck', className: 'w-4 h-4' }),
+                    currentLang === 'mr' ? 'जिल्हाधिकारी पटल उघडा ->' : currentLang === 'hi' ? 'जिला मजिस्ट्रेट पटल खोलें ->' : 'Switch to Root Admin Desk ->'
+                  ),
+                  h('button', {
+                    key: 'btn-direct-final-seal',
+                    disabled: loading,
+                    onClick: () => handleAdminAction('FINAL_APPROVE', officerSelectedCase.id),
+                    className: 'px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-500/20 transition-all cursor-pointer'
+                  },
+                    h(SvgIcon, { name: 'ShieldCheck', className: 'w-4 h-4' }),
+                    loading ? t('sealingInProgress') : t('btnExecuteFinalSeal')
+                  )
+                ],
+
+                // 3. RETURNED: Option to clear discrepancy and forward to admin
+                officerSelectedCase.status === 'RETURNED' && [
+                  h('button', {
+                    key: 'btn-clear-return',
+                    disabled: loading,
+                    onClick: () => handleOfficerAction('APPROVE', officerSelectedCase.id),
+                    className: 'px-5 py-2.5 rounded-2xl text-xs font-bold bg-amber-500 hover:bg-amber-600 text-slate-950 flex items-center gap-1.5 shadow-md transition-all cursor-pointer'
+                  },
+                    h(SvgIcon, { name: 'Check', className: 'w-4 h-4' }),
+                    currentLang === 'mr' ? 'त्रुटी निरसन करून अग्रेषित करा' : 'Clear Discrepancy & Forward to Admin'
+                  )
+                ],
+
+                // 4. APPROVED: View certificate
+                officerSelectedCase.status === 'APPROVED' && [
+                  h('button', {
+                    key: 'btn-view-cert',
+                    onClick: () => handleOpenCertificate(officerSelectedCase),
+                    className: 'px-5 py-2.5 rounded-2xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 shadow-md shadow-emerald-500/10 transition-all cursor-pointer'
+                  },
+                    h(SvgIcon, { name: 'ShieldCheck', className: 'w-4 h-4' }),
+                    currentLang === 'mr' ? 'डिजिटल स्वाक्षरीत प्रमाणपत्र पहा' : 'View Sealed Certificate'
+                  )
+                ]
               )
             )
           )

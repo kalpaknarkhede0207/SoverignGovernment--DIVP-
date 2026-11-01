@@ -311,10 +311,10 @@ function verifyLedgerIntegrity() {
 const VALID_TRANSITIONS = {
   SUBMITTED: ['UNDER_SCRUTINY'],
   UNDER_SCRUTINY: ['FORWARDED_TO_ADMIN', 'RETURNED'],
-  FORWARDED_TO_ADMIN: ['APPROVED', 'REJECTED', 'RETURNED'],
-  RETURNED: ['UNDER_SCRUTINY'],
+  FORWARDED_TO_ADMIN: ['APPROVED', 'REJECTED', 'RETURNED', 'FORWARDED_TO_ADMIN'],
+  RETURNED: ['UNDER_SCRUTINY', 'FORWARDED_TO_ADMIN'],
   APPROVED: [],
-  REJECTED: []
+  REJECTED: ['UNDER_SCRUTINY']
 };
 
 function isValidTransition(currentStatus, nextStatus) {
@@ -587,10 +587,23 @@ async function requestHandler(req, res) {
 
     const caseId = pathname.split('/')[3];
     try {
-      const { action, returnReason, returnProof, remedialInstructions, officerRemarks } = await parseRequestBody(req);
+      const { action, returnReason, returnProof, remedialInstructions, officerRemarks, caseData } = await parseRequestBody(req);
 
       return withFileLock(CASES_FILE, async () => {
-        const caseItem = memoryCasesCache.get(caseId);
+        let caseItem = memoryCasesCache.get(caseId);
+
+        // Serverless multi-instance fallback recovery
+        if (!caseItem) {
+          const diskCases = readJsonSafe(CASES_FILE, []);
+          const found = diskCases.find((c) => c.id === caseId);
+          if (found) {
+            caseItem = found;
+            memoryCasesCache.set(caseItem.id, caseItem);
+          } else if (caseData && caseData.id === caseId) {
+            caseItem = caseData;
+            memoryCasesCache.set(caseItem.id, caseItem);
+          }
+        }
 
         if (!caseItem) {
           return sendJson(res, 404, { error: 'Case not found' });
@@ -674,16 +687,38 @@ async function requestHandler(req, res) {
 
     const caseId = pathname.split('/')[3];
     try {
-      const { action, adminRemarks } = await parseRequestBody(req);
+      const { action, adminRemarks, caseData } = await parseRequestBody(req);
 
       return withFileLock(CASES_FILE, async () => {
-        const caseItem = memoryCasesCache.get(caseId);
+        let caseItem = memoryCasesCache.get(caseId);
+
+        // Serverless multi-instance fallback recovery
+        if (!caseItem) {
+          const diskCases = readJsonSafe(CASES_FILE, []);
+          const found = diskCases.find((c) => c.id === caseId);
+          if (found) {
+            caseItem = found;
+            memoryCasesCache.set(caseItem.id, caseItem);
+          } else if (caseData && caseData.id === caseId) {
+            caseItem = caseData;
+            memoryCasesCache.set(caseItem.id, caseItem);
+          }
+        }
 
         if (!caseItem) {
           return sendJson(res, 404, { error: 'Case not found' });
         }
 
         if (action === 'FINAL_APPROVE') {
+          // Idempotent final approval: If already approved, return current sealed certificate
+          if (caseItem.status === 'APPROVED' && caseItem.certificate) {
+            return sendJson(res, 200, {
+              success: true,
+              message: 'Certificate already sealed and issued.',
+              case: caseItem
+            });
+          }
+
           if (!isValidTransition(caseItem.status, 'APPROVED')) {
             return sendJson(res, 409, {
               error: `ILLEGAL STATE TRANSITION: Case in '${caseItem.status}' cannot receive Root Administrator Final Seal. Mandatory Tehsildar scrutiny required.`
