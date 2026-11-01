@@ -1,0 +1,23 @@
+{
+  "name": "sg-divp",
+  "version": "1.0.0",
+  "description": "Sovereign Government Document Intelligence & Verification Platform (SG-DIVP) - SIH 2026 Innovation Entry",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test_suite.js",
+    "migrate": "node -e \"require('./migrations').runMigrations()\""
+  },
+  "keywords": [
+    "sovereign-ai",
+    "air-gap",
+    "worm-ledger",
+    "cryptography",
+    "smart-india-hackathon-2026",
+    "document-intelligence",
+    "dpdp-act"
+  ],
+  "author": "Kalpak Kishor Narkhede & Niraj Sanjay Padwale (JSPM University, Pune)",
+  "license": "Apache-2.0"
+}

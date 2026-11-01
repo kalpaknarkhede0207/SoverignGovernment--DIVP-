@@ -1,0 +1,21 @@
+{
+  "applied": [
+    {
+      "id": "001_initial_schema",
+      "description": "Initializes base case schemas, audit ledger and DMN gazette rules",
+      "appliedAt": "2026-11-01T08:00:05.794Z"
+    },
+    {
+      "id": "002_add_risk_scoring",
+      "description": "Adds multi-dimensional risk matrix & layout anomaly confidence fields",
+      "appliedAt": "2026-11-01T08:00:05.794Z"
+    },
+    {
+      "id": "003_add_pqc_stubs",
+      "description": "Injects Post-Quantum Cryptography (PQC) readiness headers for CRYSTALS-Dilithium",
+      "appliedAt": "2026-11-01T08:00:05.794Z"
+    }
+  ],
+  "currentVersion": "003",
+  "updatedAt": "2026-11-01T10:22:03.328Z"
+}

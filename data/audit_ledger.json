@@ -1,0 +1,253 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2026-10-25T00:00:00.000Z",
+    "action": "GENESIS_LEDGER_INIT",
+    "caseId": "SYSTEM",
+    "officerId": "SYSADMIN_ROOT",
+    "officerRole": "SYSTEM_ADMIN",
+    "department": "National Informatics & Sovereign Audit",
+    "details": {
+      "message": "SG-DIVP Air-Gapped WORM Cryptographic Ledger Initialized",
+      "sihYear": "2026"
+    },
+    "previousHash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "38bd0945325a3ae381f4941f1812a84450edcffe03b5193dc62989dc1da8135e"
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-10-26T09:15:00.000Z",
+    "action": "ENVELOPE_INGEST_SANITISED",
+    "caseId": "CASE-2026-NCL-001",
+    "officerId": "CLERK_MH_PUNE_104",
+    "officerRole": "L1_SCRUTINY_CLERK",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "applicant": "Amit Ramesh Patil",
+      "scheme": "Non-Creamy Layer",
+      "docHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "previousHash": "38bd0945325a3ae381f4941f1812a84450edcffe03b5193dc62989dc1da8135e",
+    "blockHash": "d290a8127dd3b0122d27aaba559575d55aa79ec3535fc1dfe9376e696ee5d5cc"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-10-26T09:16:30.000Z",
+    "action": "STATUTORY_DMN_EVALUATED",
+    "caseId": "CASE-2026-NCL-001",
+    "officerId": "DMN_AUTO_STUDIO",
+    "officerRole": "STATUTORY_RULE_ENGINE",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "ruleId": "RULE-NCL-INCOME-CEILING",
+      "gazette": "2026/FST-12",
+      "result": "PASS",
+      "income": 650000,
+      "ceiling": 800000
+    },
+    "previousHash": "d290a8127dd3b0122d27aaba559575d55aa79ec3535fc1dfe9376e696ee5d5cc",
+    "blockHash": "5963782bbcef7dc8c99eefc4a52233a22234bbcd29ddb732395c3447f1470359"
+  },
+  {
+    "index": 3,
+    "timestamp": "2026-10-26T10:45:00.000Z",
+    "action": "CASE_DIGITAL_APPROVAL_SIGNED",
+    "caseId": "CASE-2026-NCL-001",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "L2_APPROVING_OFFICER_TEHSILDAR",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "dvrHash": "a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a",
+      "status": "COMPLETED",
+      "sec65BAttested": true
+    },
+    "previousHash": "5963782bbcef7dc8c99eefc4a52233a22234bbcd29ddb732395c3447f1470359",
+    "blockHash": "3b2eff3ea1fb15134c454cf55c83f11457736a76bdd9655b72e9b4a33ce4a0f8"
+  },
+  {
+    "index": 4,
+    "timestamp": "2026-11-01T09:48:45.454Z",
+    "action": "CITIZEN_DOCUMENT_UPLOAD",
+    "caseId": "CASE-2026-NON-379",
+    "officerId": "CITIZEN_USER_01",
+    "officerRole": "USER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+      "applicant": "Rohan Vilas Shinde",
+      "aiSummary": "CLEAN"
+    },
+    "previousHash": "3b2eff3ea1fb15134c454cf55c83f11457736a76bdd9655b72e9b4a33ce4a0f8",
+    "blockHash": "d35b15679e3b9681dafac33abc0a63c44179c6211c0a80fe541a2b433d684b0d"
+  },
+  {
+    "index": 5,
+    "timestamp": "2026-11-01T09:49:02.498Z",
+    "action": "OFFICER_APPROVED_AND_FORWARDED",
+    "caseId": "CASE-2026-CAS-861",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "APPROVING_OFFICER",
+    "department": "Social Justice & Special Assistance Department",
+    "details": {
+      "status": "FORWARDED_TO_ADMIN",
+      "remarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+    },
+    "previousHash": "d35b15679e3b9681dafac33abc0a63c44179c6211c0a80fe541a2b433d684b0d",
+    "blockHash": "bc045473f1c7e3115f02ea114d5d54fade8ef4918290fd1c674d0ca5bc5f2088"
+  },
+  {
+    "index": 6,
+    "timestamp": "2026-11-01T09:49:05.112Z",
+    "action": "OFFICER_APPROVED_AND_FORWARDED",
+    "caseId": "CASE-2026-NON-863",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "APPROVING_OFFICER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "status": "FORWARDED_TO_ADMIN",
+      "remarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+    },
+    "previousHash": "bc045473f1c7e3115f02ea114d5d54fade8ef4918290fd1c674d0ca5bc5f2088",
+    "blockHash": "7a8da42700595cc25f7bad1fe47d4f5e5f1766fa09c7a7929c33f1c515cb8471"
+  },
+  {
+    "index": 7,
+    "timestamp": "2026-11-01T09:49:13.298Z",
+    "action": "ROOT_ADMIN_FINAL_SEAL_ISSUED",
+    "caseId": "CASE-2026-CST-102",
+    "officerId": "SYSADMIN_ROOT",
+    "officerRole": "ROOT_ADMIN",
+    "department": "Social Justice & Special Assistance Department",
+    "details": {
+      "certificateNumber": "MH-CAS-2026-1486-PUN",
+      "status": "APPROVED"
+    },
+    "previousHash": "7a8da42700595cc25f7bad1fe47d4f5e5f1766fa09c7a7929c33f1c515cb8471",
+    "blockHash": "235d044926cc299894fdd5f764398993c7ee4e1acf8faa9de96917fca36547be"
+  },
+  {
+    "index": 8,
+    "timestamp": "2026-11-01T09:49:55.527Z",
+    "action": "CITIZEN_DOCUMENT_UPLOAD",
+    "caseId": "CASE-2026-NON-508",
+    "officerId": "CITIZEN_USER_01",
+    "officerRole": "USER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+      "applicant": "Rohan Vilas Shinde",
+      "aiSummary": "CLEAN"
+    },
+    "previousHash": "235d044926cc299894fdd5f764398993c7ee4e1acf8faa9de96917fca36547be",
+    "blockHash": "5739a4f368b21a6545368f7023175bba42eca35a8ad53f6832e5c5d5c115f0b1"
+  },
+  {
+    "index": 9,
+    "timestamp": "2026-11-01T09:50:24.713Z",
+    "action": "OFFICER_RETURNED_WITH_REASON",
+    "caseId": "CASE-2026-NON-310",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "APPROVING_OFFICER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "returnedAt": "2026-11-01T09:50:24.712Z",
+      "returnedByOfficer": "Dr. Anand K. Kulkarni (APPROVING_OFFICER)",
+      "returnReason": "Declared family gross annual income exceeds statutory Rs. 8,00,000&#x2F;- ceiling.",
+      "statutoryViolationProof": "Assessed gross family income exceeds statutory Rs. 8,00,000&#x2F;- ceiling under Government of Maharashtra Gazette 2026&#x2F;FST-12 Clause 4.3.",
+      "remedialInstructions": "Applicant must submit updated Form 16 &#x2F; ITR assessment or apply under non-subsidized category."
+    },
+    "previousHash": "5739a4f368b21a6545368f7023175bba42eca35a8ad53f6832e5c5d5c115f0b1",
+    "blockHash": "01adc5ef5ffe122a2fb9b21e5432e02e135a1a7348b4ff7be839061d6be2b000"
+  },
+  {
+    "index": 10,
+    "timestamp": "2026-11-01T09:50:42.130Z",
+    "action": "ROOT_ADMIN_FINAL_SEAL_ISSUED",
+    "caseId": "CASE-2026-NON-863",
+    "officerId": "SYSADMIN_ROOT",
+    "officerRole": "ROOT_ADMIN",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "certificateNumber": "MH-NON-2026-5255-PUN",
+      "status": "APPROVED"
+    },
+    "previousHash": "01adc5ef5ffe122a2fb9b21e5432e02e135a1a7348b4ff7be839061d6be2b000",
+    "blockHash": "6996e4c29264b3a9173fc7f83185836349e6ac0da2352b82d01253931a51aefb"
+  },
+  {
+    "index": 11,
+    "timestamp": "2026-11-01T10:12:31.414Z",
+    "action": "CITIZEN_DOCUMENT_UPLOAD",
+    "caseId": "CASE-2026-NON-651",
+    "officerId": "CITIZEN_USER_01",
+    "officerRole": "USER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+      "applicant": "Rohan Vilas Shinde",
+      "aiSummary": "CLEAN"
+    },
+    "previousHash": "6996e4c29264b3a9173fc7f83185836349e6ac0da2352b82d01253931a51aefb",
+    "blockHash": "48fb0d965f95b905f95f4bdbf82d47417e84ec44ff764d1b812692434392723c"
+  },
+  {
+    "index": 12,
+    "timestamp": "2026-11-01T10:12:47.063Z",
+    "action": "OFFICER_APPROVED_AND_FORWARDED",
+    "caseId": "CASE-2026-NON-423",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "APPROVING_OFFICER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "status": "FORWARDED_TO_ADMIN",
+      "remarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+    },
+    "previousHash": "48fb0d965f95b905f95f4bdbf82d47417e84ec44ff764d1b812692434392723c",
+    "blockHash": "b23be6668240ee8f081d4cd86b0b61176100ba91270641575364a0eb457699af"
+  },
+  {
+    "index": 13,
+    "timestamp": "2026-11-01T10:12:49.760Z",
+    "action": "OFFICER_APPROVED_AND_FORWARDED",
+    "caseId": "CASE-2026-LND-103",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "APPROVING_OFFICER",
+    "department": "Revenue & Land Records Collectorate",
+    "details": {
+      "status": "FORWARDED_TO_ADMIN",
+      "remarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+    },
+    "previousHash": "b23be6668240ee8f081d4cd86b0b61176100ba91270641575364a0eb457699af",
+    "blockHash": "8be7d43e415ae8270e7a78e542e00ca0c3dcbab8ff880ad11e9031f137f302df"
+  },
+  {
+    "index": 14,
+    "timestamp": "2026-11-01T10:12:53.428Z",
+    "action": "OFFICER_APPROVED_AND_FORWARDED",
+    "caseId": "CASE-2026-DIS-105",
+    "officerId": "TEHSILDAR_HAVELI_01",
+    "officerRole": "APPROVING_OFFICER",
+    "department": "Divyang Welfare Department",
+    "details": {
+      "status": "FORWARDED_TO_ADMIN",
+      "remarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+    },
+    "previousHash": "8be7d43e415ae8270e7a78e542e00ca0c3dcbab8ff880ad11e9031f137f302df",
+    "blockHash": "8e18ecfa2ef78aa7d5be00983b8ca6e8b454d19b9b1943ff4b2af8e25ee83645"
+  },
+  {
+    "index": 15,
+    "timestamp": "2026-11-01T10:13:00.201Z",
+    "action": "ROOT_ADMIN_FINAL_SEAL_ISSUED",
+    "caseId": "CASE-2026-CAS-861",
+    "officerId": "SYSADMIN_ROOT",
+    "officerRole": "ROOT_ADMIN",
+    "department": "Social Justice & Special Assistance Department",
+    "details": {
+      "certificateNumber": "MH-CAS-2026-6558-PUN",
+      "status": "APPROVED"
+    },
+    "previousHash": "8e18ecfa2ef78aa7d5be00983b8ca6e8b454d19b9b1943ff4b2af8e25ee83645",
+    "blockHash": "9f7c8b05061175fea11377edf64f8f56480a48e210c56ffa1efecdb33d8fdd21"
+  }
+]

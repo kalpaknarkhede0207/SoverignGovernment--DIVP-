@@ -1,0 +1,172 @@
+{
+  "statutoryRules": [
+    {
+      "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+      "ruleId": "RULE-NCL-INCOME-CEILING",
+      "documentTitle": "Non-Creamy Layer (OBC/VJNT) Certificate",
+      "department": "Revenue and Forest Department",
+      "gazetteNotification": "Government of Maharashtra Gazette 2026/FST-12",
+      "processingTimeStandard": "14 to 21 Days (Manual) -> Instant (SG-DIVP)",
+      "criteria": {
+        "maxGrossAnnualIncomeINR": 800000,
+        "evaluationFormula": "annualIncome <= 800000",
+        "mandatoryNorms": [
+          "Family gross annual income from all sources across preceding 3 financial years must not exceed Rs. 8,00,000/-.",
+          "Caste must be listed in Central/State OBC/VJNT/SBC schedule.",
+          "Must have verified Tahsildar / Executive Magistrate signature & municipal seal."
+        ]
+      },
+      "outcomes": {
+        "PASS": "ELIGIBLE: Annual income satisfies the Rs. 8,00,000/- ceiling under Gazette 2026/FST-12 Section 4.",
+        "REJECT": "INELIGIBLE: Declared annual income exceeds the statutory Rs. 8,00,000/- ceiling."
+      }
+    },
+    {
+      "documentType": "CASTE_VALIDITY_CERTIFICATE",
+      "ruleId": "RULE-CASTE-SC-ST-OBC",
+      "documentTitle": "Caste Validity Certificate (SC/ST/OBC)",
+      "department": "Social Justice & Special Assistance Department",
+      "gazetteNotification": "Maharashtra Act XXIII of 2001 & Rules 2012 (Form 3/8)",
+      "processingTimeStandard": "30 to 60 Days (Manual) -> Instant (SG-DIVP)",
+      "criteria": {
+        "baselineYearSC": 1950,
+        "baselineYearOBC": 1967,
+        "evaluationFormula": "lineageProofYear <= baselineYear && affidavitForm3Verified == true",
+        "mandatoryNorms": [
+          "Documentary proof establishing ancestor residence in Maharashtra prior to 1950 (SC) or 1967 (OBC).",
+          "Duly executed Affidavit on Form 3 with genealogical family tree (Vanshavali).",
+          "Verification of Divisional Caste Scrutiny Committee stamp and Vigilance Cell report."
+        ]
+      },
+      "outcomes": {
+        "PASS": "ELIGIBLE: Primary ancestral records pre-date statutory cutoff year with verified genealogical tree.",
+        "REJECT": "INELIGIBLE: Missing ancestral proof pre-dating the statutory cutoff year (1950/1967)."
+      }
+    },
+    {
+      "documentType": "INCOME_CERTIFICATE",
+      "ruleId": "RULE-TAHSIL-INCOME",
+      "documentTitle": "Tahsil Income Attestation Certificate",
+      "department": "Revenue and Forest Department",
+      "gazetteNotification": "Revenue Department Circular REV-2024/CR-18",
+      "processingTimeStandard": "7 to 14 Days (Manual) -> Instant (SG-DIVP)",
+      "criteria": {
+        "evaluationFormula": "itrOrSalaryReportMatched == true && talathiEnquiryClear == true",
+        "mandatoryNorms": [
+          "Cross-verification of 3-year ITR or employer Form 16.",
+          "Talathi (Village Officer) local enquiry verification report.",
+          "Agricultural yield income assessment against 7/12 land crop patterns."
+        ]
+      },
+      "outcomes": {
+        "PASS": "ELIGIBLE: Income disclosures match Talathi ground report and tax records.",
+        "REJECT": "INELIGIBLE: Discrepancy between declared income and verified land crop / tax disclosures."
+      }
+    },
+    {
+      "documentType": "LAND_RECORD_7_12_EXTRACT",
+      "ruleId": "RULE-7-12-LAND-EXTRACT",
+      "documentTitle": "7/12 Land Title Extract & Ferfar (Mutation)",
+      "department": "Revenue & Land Records Collectorate",
+      "gazetteNotification": "Maharashtra Land Revenue Code (MLRC) 1966 Section 148",
+      "processingTimeStandard": "10 to 20 Days (Manual) -> Instant (SG-DIVP)",
+      "criteria": {
+        "evaluationFormula": "encumbranceStatus == 'CLEAR' && digitalMahabhumiSeal == true",
+        "mandatoryNorms": [
+          "Potkharaba (uncultivable) land deduction calculation.",
+          "Verification of e-Mahabhumi digital watermark and sub-registrar hash.",
+          "Zero active judicial stay orders or pending bank attachment encumbrances in Ferfar register."
+        ]
+      },
+      "outcomes": {
+        "PASS": "ELIGIBLE: Land title is unencumbered with authenticated e-Mahabhumi digital seal.",
+        "REJECT": "INELIGIBLE: Active dispute, pending mutation litigation, or encumbrance detected."
+      }
+    },
+    {
+      "documentType": "DIVYANGJAN_DISABILITY_CERTIFICATE",
+      "ruleId": "RULE-DIVYANGJAN-PENSION",
+      "documentTitle": "Divyangjan Disability Welfare Life Certificate",
+      "department": "Divyang Welfare Department",
+      "gazetteNotification": "Divyangjan Welfare Department Gazette 2025/DIV-09",
+      "processingTimeStandard": "15 to 30 Days (Manual) -> Instant (SG-DIVP)",
+      "criteria": {
+        "minDisabilityPercentage": 40,
+        "evaluationFormula": "disabilityPercentage >= 40 && udidVerified == true",
+        "mandatoryNorms": [
+          "Minimum 40% certified disability percentage evaluated by District Medical Board.",
+          "Unique Disability ID (UDID) registration verification.",
+          "Authorized Civil Surgeon signature and District Hospital seal."
+        ]
+      },
+      "outcomes": {
+        "PASS": "ELIGIBLE: Certified disability >= 40% with verified UDID registry and Civil Surgeon signature.",
+        "REJECT": "INELIGIBLE: Certified disability percentage is below 40% statutory welfare threshold."
+      }
+    },
+    {
+      "documentType": "EWS_CERTIFICATE",
+      "ruleId": "RULE-EWS-CENTRAL-STATE",
+      "documentTitle": "Economically Weaker Section (EWS) Certificate",
+      "department": "General Administration Department",
+      "gazetteNotification": "103rd Constitutional Amendment Act & State Gazette EWS-2024",
+      "processingTimeStandard": "15 to 25 Days (Manual) -> Instant (SG-DIVP)",
+      "criteria": {
+        "maxFamilyIncomeINR": 800000,
+        "maxAgriculturalLandAcres": 5,
+        "maxResidentialFlatSqFt": 1000,
+        "evaluationFormula": "familyIncome <= 800000 && agriLand < 5 && residentialFlat < 1000",
+        "mandatoryNorms": [
+          "Family gross annual income below Rs. 8,00,000/- for the fiscal year prior to application.",
+          "Family does not own 5 acres or more of agricultural land.",
+          "Residential flat area does not exceed 1000 sq. ft."
+        ]
+      },
+      "outcomes": {
+        "PASS": "ELIGIBLE: Meets all income and property criteria prescribed under 103rd Constitutional Amendment.",
+        "REJECT": "INELIGIBLE: Exceeds income ceiling or asset ownership limits specified under EWS norms."
+      }
+    },
+    {
+      "documentType": "DOMICILE_CERTIFICATE",
+      "ruleId": "RULE-DOMICILE-NATIONALITY",
+      "documentTitle": "Age, Nationality & Domicile Certificate",
+      "department": "General Administration Department",
+      "gazetteNotification": "General Administration Department Regulations GAD-2023",
+      "processingTimeStandard": "7 to 15 Days (Manual) -> Instant (SG-DIVP)",
+      "criteria": {
+        "minContinuousResidenceYears": 15,
+        "evaluationFormula": "continuousResidenceYears >= 15 && birthProofVerified == true",
+        "mandatoryNorms": [
+          "Continuous residence in the State for minimum 15 years supported by ration card/school leaving certificates.",
+          "Birth certificate or parent domicile attestation.",
+          "Police verification clearance for adult applicants."
+        ]
+      },
+      "outcomes": {
+        "PASS": "ELIGIBLE: 15-year continuous residence proof verified with authenticated municipal birth records.",
+        "REJECT": "INELIGIBLE: Continuous residence falls short of statutory 15-year requirement."
+      }
+    },
+    {
+      "documentType": "AGRICULTURAL_SOLVENCY_CERTIFICATE",
+      "ruleId": "RULE-FARMER-SOLVENCY",
+      "documentTitle": "Farmer Agricultural Solvency Certificate",
+      "department": "Agriculture & Farmers Welfare Department",
+      "gazetteNotification": "Agriculture Department Directive AGRI-2025/FS-04",
+      "processingTimeStandard": "14 to 21 Days (Manual) -> Instant (SG-DIVP)",
+      "criteria": {
+        "evaluationFormula": "isFarmer == true && cooperativeBankNoDues == true",
+        "mandatoryNorms": [
+          "Applicant name recorded as primary landholder on verified 7/12 extract.",
+          "Primary Agricultural Cooperative Society (PACS) no-dues clearance.",
+          "Crop inspection survey entry (Pik Pahani) in current Kharif/Rabi season."
+        ]
+      },
+      "outcomes": {
+        "PASS": "ELIGIBLE: Verified farmer status with unencumbered agricultural title and PACS solvency clearance.",
+        "REJECT": "INELIGIBLE: Outstanding loan default or absence of current crop cultivation entry."
+      }
+    }
+  ]
+}

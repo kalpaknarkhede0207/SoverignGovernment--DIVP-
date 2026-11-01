@@ -1,0 +1,951 @@
+[
+  {
+    "id": "CASE-2026-CAS-861",
+    "caseNumber": "MH/PUN/CAS/2026/51042",
+    "applicantName": "Priya Suresh Jadhav",
+    "applicantId": "UIDAI-XXXX-XXXX-4109",
+    "documentType": "CASTE_VALIDITY_CERTIFICATE",
+    "scheme": "Caste Validity Certificate (SC/ST/OBC)",
+    "department": "Social Justice & Special Assistance Department",
+    "subDivision": "Pune City Sub-Division",
+    "status": "APPROVED",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": "SYSADMIN_ROOT",
+    "intakeTimestamp": "2026-11-01T09:23:39.183Z",
+    "officerApprovedTimestamp": "2026-11-01T09:49:02.496Z",
+    "finalApprovedTimestamp": "2026-11-01T10:13:00.199Z",
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Priya Suresh Jadhav",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Suresh Maruti Jadhav",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Statutory Criteria Metric",
+        "value": 1948,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Pune City Sub-Division",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "jadhav_1948_school_record.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Pre-1950 (SC) / Pre-1967 (OBC) Residence Proof in Maharashtra State",
+          "status": "SATISFIED",
+          "proof": "Ancestral municipal record pre-dating cutoff verified."
+        },
+        {
+          "norm": "Affidavit on Form 3 with Family Genealogy Tree (Vanshavali)",
+          "status": "SATISFIED",
+          "proof": "Registered notary affidavit verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    },
+    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms.",
+    "certificate": {
+      "certificateNumber": "MH-CAS-2026-6558-PUN",
+      "issueDate": "2026-11-01",
+      "validUntil": "2027-03-31",
+      "statutoryClause": "Issued under the authority of Maharashtra Government Gazette regulations and Section 65B Indian Evidence Act.",
+      "qrSeal": "SG-DIVP://VERIFY/MH-CAS-2026-6558-PUN/1722aa9f",
+      "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
+      "sanctioningAuthority": "District Magistrate & Collector, Pune"
+    }
+  },
+  {
+    "id": "CASE-2026-NON-863",
+    "caseNumber": "MH/PUN/NON/2026/51517",
+    "applicantName": "Rohan Vilas Shinde",
+    "applicantId": "UIDAI-XXXX-XXXX-8492",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "APPROVED",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": "SYSADMIN_ROOT",
+    "intakeTimestamp": "2026-11-01T09:10:39.538Z",
+    "officerApprovedTimestamp": "2026-11-01T09:49:05.110Z",
+    "finalApprovedTimestamp": "2026-11-01T09:50:42.128Z",
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Rohan Vilas Shinde",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Vilas Dnyaneshwar Shinde",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "shinde_income_affidavit_2026.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    },
+    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms.",
+    "certificate": {
+      "certificateNumber": "MH-NON-2026-5255-PUN",
+      "issueDate": "2026-11-01",
+      "validUntil": "2027-03-31",
+      "statutoryClause": "Issued under the authority of Maharashtra Government Gazette regulations and Section 65B Indian Evidence Act.",
+      "qrSeal": "SG-DIVP://VERIFY/MH-NON-2026-5255-PUN/be35eef0",
+      "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
+      "sanctioningAuthority": "District Magistrate & Collector, Pune"
+    }
+  },
+  {
+    "id": "CASE-2026-NON-310",
+    "caseNumber": "MH/PUN/NON/2026/21105",
+    "applicantName": "Rohan Vilas Shinde",
+    "applicantId": "UIDAI-XXXX-XXXX-8492",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "RETURNED",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-11-01T08:51:35.088Z",
+    "officerApprovedTimestamp": null,
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Rohan Vilas Shinde",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Vilas Dnyaneshwar Shinde",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "shinde_income_affidavit_2026.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    },
+    "returnRecord": {
+      "returnedAt": "2026-11-01T09:50:24.712Z",
+      "returnedByOfficer": "Dr. Anand K. Kulkarni (APPROVING_OFFICER)",
+      "returnReason": "Declared family gross annual income exceeds statutory Rs. 8,00,000&#x2F;- ceiling.",
+      "statutoryViolationProof": "Assessed gross family income exceeds statutory Rs. 8,00,000&#x2F;- ceiling under Government of Maharashtra Gazette 2026&#x2F;FST-12 Clause 4.3.",
+      "remedialInstructions": "Applicant must submit updated Form 16 &#x2F; ITR assessment or apply under non-subsidized category."
+    }
+  },
+  {
+    "id": "CASE-2026-NON-423",
+    "caseNumber": "MH/PUN/NON/2026/30822",
+    "applicantName": "Rohan Vilas Shinde",
+    "applicantId": "UIDAI-XXXX-XXXX-8492",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "FORWARDED_TO_ADMIN",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-11-01T08:36:15.534Z",
+    "officerApprovedTimestamp": "2026-11-01T10:12:47.062Z",
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Rohan Vilas Shinde",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Vilas Dnyaneshwar Shinde",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "ncl_patil_affidavit.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    },
+    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+  },
+  {
+    "id": "CASE-2026-NCL-101",
+    "caseNumber": "MH/PUN/HAV/2026/09412",
+    "applicantName": "Rohan Vilas Shinde",
+    "applicantId": "UIDAI-XXXX-XXXX-8492",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune District",
+    "status": "APPROVED",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": "SYSADMIN_ROOT",
+    "intakeTimestamp": "2026-10-26T09:14:22.000Z",
+    "officerApprovedTimestamp": "2026-10-26T10:30:00.000Z",
+    "finalApprovedTimestamp": "2026-10-26T11:15:00.000Z",
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Rohan Vilas Shinde",
+        "confidence": 0.994
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Vilas Dnyaneshwar Shinde",
+        "confidence": 0.988
+      },
+      "subCaste": {
+        "label": "Sub-Caste & Schedule Entry",
+        "value": "Kunbi (OBC Schedule Entry No. 83)",
+        "confidence": 0.991
+      },
+      "financialYearsEvaluated": {
+        "label": "Assessment Financial Years",
+        "value": "2023-24, 2024-25, 2025-26",
+        "confidence": 0.985
+      },
+      "grossAnnualIncomeINR": {
+        "label": "Verified Gross Annual Income",
+        "value": 620000,
+        "confidence": 0.997
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Office",
+        "value": "Tahsildar & Executive Magistrate Haveli, Pune",
+        "confidence": 0.992
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government of Maharashtra State Emblem Watermark Authenticated (Match: 99.4%)"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "e-Sign / Digital Cryptographic Signature of Tehsildar Validated"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Income <= Rs. 8,00,000/- (Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed Income: Rs. 6,20,000/- (Ceiling: Rs. 8,00,000/-)"
+        },
+        {
+          "norm": "OBC Caste Schedule Inclusion Verification",
+          "status": "SATISFIED",
+          "proof": "Kunbi entry #83 in Central & State Gazette verified"
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "ITR Ack #99281948 verified with zero discrepancy"
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seal authenticated, clear signature integrity."
+      }
+    },
+    "certificate": {
+      "certificateNumber": "MH-NCL-2026-9412-PUN",
+      "issueDate": "2026-10-26",
+      "validUntil": "2027-03-31",
+      "statutoryClause": "Issued under the authority of Maharashtra Government Gazette 2026/FST-12 and Section 65B Indian Evidence Act.",
+      "qrSeal": "SG-DIVP://VERIFY/MH-NCL-2026-9412-PUN/c379bf82",
+      "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
+      "sanctioningAuthority": "District Magistrate & Collector, Pune"
+    }
+  },
+  {
+    "id": "CASE-2026-CST-102",
+    "caseNumber": "MH/PUN/SDM/2026/01824",
+    "applicantName": "Priya Suresh Jadhav",
+    "applicantId": "UIDAI-XXXX-XXXX-4109",
+    "documentType": "CASTE_VALIDITY_CERTIFICATE",
+    "scheme": "Caste Validity Certificate (SC/ST/OBC)",
+    "department": "Social Justice & Special Assistance Department",
+    "subDivision": "Pune City Sub-Division",
+    "status": "APPROVED",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": "SYSADMIN_ROOT",
+    "intakeTimestamp": "2026-10-27T08:30:00.000Z",
+    "officerApprovedTimestamp": "2026-10-27T10:00:00.000Z",
+    "finalApprovedTimestamp": "2026-11-01T09:49:13.295Z",
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Priya Suresh Jadhav",
+        "confidence": 0.995
+      },
+      "fatherName": {
+        "label": "Father's Name",
+        "value": "Suresh Maruti Jadhav",
+        "confidence": 0.991
+      },
+      "casteClaimed": {
+        "label": "Caste / Tribe Claimed",
+        "value": "Mahar (Scheduled Caste Entry No. 37)",
+        "confidence": 0.996
+      },
+      "ancestralResidenceYear": {
+        "label": "Ancestral Residence Proof Year",
+        "value": "1948 (School Leaving Record of Grandfather Maruti Jadhav)",
+        "confidence": 0.989
+      },
+      "affidavitForm3": {
+        "label": "Affidavit on Form 3 & Vanshavali",
+        "value": "Registered & Attested with Notary Seal",
+        "confidence": 0.993
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Divisional Caste Scrutiny Committee Official Seal Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Member Secretary & Sub-Divisional Officer Signature Confirmed"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Pre-1950 Residence Proof in Maharashtra State",
+          "status": "SATISFIED",
+          "proof": "Grandfather 1948 Primary School Register entry verified"
+        },
+        {
+          "norm": "Affidavit on Form 3 with Family Genealogy Tree (Vanshavali)",
+          "status": "SATISFIED",
+          "proof": "Affidavit #8491 registered with Executive Magistrate"
+        },
+        {
+          "norm": "Caste Scrutiny Vigilance Cell Field Report",
+          "status": "SATISFIED",
+          "proof": "Vigilance report #PUN-VC-2026-104 confirms clean lineage"
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.98,
+        "notes": "Tehsildar verified all ancestral proof pre-dating 1950. All norms satisfied. Ready for final Root Administrator seal."
+      }
+    },
+    "officerRemarks": "Recommended for issuance. Verified 1948 municipal school archive record.",
+    "certificate": {
+      "certificateNumber": "MH-CAS-2026-1486-PUN",
+      "issueDate": "2026-11-01",
+      "validUntil": "2027-03-31",
+      "statutoryClause": "Issued under the authority of Maharashtra Government Gazette regulations and Section 65B Indian Evidence Act.",
+      "qrSeal": "SG-DIVP://VERIFY/MH-CAS-2026-1486-PUN/4a7adfee",
+      "issuingOfficer": "Dr. Anand K. Kulkarni, Tehsildar & Executive Magistrate",
+      "sanctioningAuthority": "District Magistrate & Collector, Pune"
+    }
+  },
+  {
+    "id": "CASE-2026-LND-103",
+    "caseNumber": "MH/PUN/LND/2026/04118",
+    "applicantName": "Sunita Dnyaneshwar Gaikwad",
+    "applicantId": "UIDAI-XXXX-XXXX-9914",
+    "documentType": "LAND_RECORD_7_12_EXTRACT",
+    "scheme": "7/12 Land Title Extract & Ferfar (Mutation)",
+    "department": "Revenue & Land Records Collectorate",
+    "subDivision": "Wagholi Tehsil, Haveli Taluka, Pune",
+    "status": "FORWARDED_TO_ADMIN",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-10-28T14:20:00.000Z",
+    "officerApprovedTimestamp": "2026-11-01T10:12:49.759Z",
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "occupantName": {
+        "label": "Occupant / Khatedar Name",
+        "value": "Sunita Dnyaneshwar Gaikwad",
+        "confidence": 0.992
+      },
+      "villageAndTaluka": {
+        "label": "Village & Taluka Location",
+        "value": "Wagholi, Taluka Haveli, District Pune",
+        "confidence": 0.99
+      },
+      "surveyGatNumber": {
+        "label": "Survey / Gat Number",
+        "value": "Gat No. 422/3A",
+        "confidence": 0.996
+      },
+      "totalAreaHectares": {
+        "label": "Total Land Area",
+        "value": "1.42 Hectares (Potkharaba: 0.12 Hectares)",
+        "confidence": 0.984
+      },
+      "encumbranceStatus": {
+        "label": "Other Rights & Encumbrances",
+        "value": "NIL (Clear Title, Zero Court Stays)",
+        "confidence": 0.988
+      },
+      "digitalMahabhumiSeal": {
+        "label": "e-Mahabhumi Digital Seal",
+        "value": "AUTHENTICATED_CRYPTOGRAPHIC_SEAL",
+        "confidence": 0.997
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "e-Mahabhumi Portal Government Digital Watermark & Sub-Registrar Stamp Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Digital Signature of Talathi & Circle Officer Valid"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Potkharaba Land Deduction Calculation Verification",
+          "status": "SATISFIED",
+          "proof": "Cultivable area 1.30 Ha + 0.12 Ha potkharaba = 1.42 Ha total verified"
+        },
+        {
+          "norm": "Zero Pending Judicial Injunctions or Bank Encumbrances",
+          "status": "SATISFIED",
+          "proof": "Ferfar mutation entry register shows NIL active attachments"
+        },
+        {
+          "norm": "Section 148 Maharashtra Land Revenue Code (MLRC) 1966 Compliance",
+          "status": "SATISFIED",
+          "proof": "Title titleholders match computerized land records database"
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "Unencumbered agricultural title with authentic e-Mahabhumi signature. Ready for Tehsildar approval."
+      }
+    },
+    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+  },
+  {
+    "id": "CASE-2026-EWS-104",
+    "caseNumber": "MH/PUN/EWS/2026/02914",
+    "applicantName": "Vikram R. Deshpande",
+    "applicantId": "UIDAI-XXXX-XXXX-3190",
+    "documentType": "EWS_CERTIFICATE",
+    "scheme": "Economically Weaker Section (EWS) Certificate",
+    "department": "General Administration Department",
+    "subDivision": "Pune City Collectorate",
+    "status": "RETURNED",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-10-27T11:05:12.000Z",
+    "officerApprovedTimestamp": null,
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Vikram R. Deshpande",
+        "confidence": 0.992
+      },
+      "fatherName": {
+        "label": "Father's Name",
+        "value": "Ramchandra V. Deshpande",
+        "confidence": 0.987
+      },
+      "grossFamilyIncomeINR": {
+        "label": "Declared Family Annual Income",
+        "value": 980000,
+        "confidence": 0.998
+      },
+      "agriculturalLandHolding": {
+        "label": "Agricultural Land Holding",
+        "value": "6.2 Acres (Baramati Taluka)",
+        "confidence": 0.981
+      },
+      "residentialFlatArea": {
+        "label": "Residential Flat Area",
+        "value": "1150 sq. ft. (Kothrud, Pune)",
+        "confidence": 0.985
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Official Seal of Sub-Divisional Magistrate Present"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Applicant Affidavit Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Family Gross Annual Income < Rs. 8,00,000/- (103rd Constitutional Amendment)",
+          "status": "VIOLATED",
+          "proof": "Declared Family Income Rs. 9,80,000/- exceeds Rs. 8,00,000/- threshold by Rs. 1,80,000/-"
+        },
+        {
+          "norm": "Agricultural Land Holding < 5 Acres",
+          "status": "VIOLATED",
+          "proof": "Applicant family holds 6.2 Acres agricultural land (statutory ceiling: 5 Acres)"
+        },
+        {
+          "norm": "Residential Flat Area < 1000 sq. ft.",
+          "status": "VIOLATED",
+          "proof": "Residential flat area is 1150 sq. ft. (statutory ceiling: 1000 sq. ft.)"
+        }
+      ],
+      "aiSummary": {
+        "status": "ERROR",
+        "score": 0.15,
+        "notes": "MULTIPLE STATUTORY VIOLATIONS: Exceeds income limit, agricultural land ceiling, and residential flat ceiling under EWS Gazette rules."
+      }
+    },
+    "returnRecord": {
+      "returnedAt": "2026-10-27T11:45:00.000Z",
+      "returnedByOfficer": "Dr. Anand K. Kulkarni (Tehsildar & Executive Magistrate)",
+      "returnReason": "Income & Asset Ownership Exceeds Statutory EWS Ceilings",
+      "statutoryViolationProof": "1. Gross family income Rs. 9,80,000/- exceeds statutory limit of Rs. 8,00,000/- as per 103rd Constitutional Amendment Act.\n2. Agricultural land holding of 6.2 acres exceeds the 5-acre maximum ceiling.\n3. Residential property of 1150 sq. ft. exceeds 1000 sq. ft. statutory limit.",
+      "gazetteCitation": "Ministry of Social Justice & Empowerment Office Memorandum No. 20013/01/2018-BC-II & State Gazette EWS-2024 Clause 3.2.",
+      "remedialInstructions": "Applicant may submit an appeal or apply under General / Non-Reserved category."
+    }
+  },
+  {
+    "id": "CASE-2026-DIS-105",
+    "caseNumber": "MH/PUN/DIV/2026/01205",
+    "applicantName": "Bapu Shripad Joshi",
+    "applicantId": "UIDAI-XXXX-XXXX-4512",
+    "documentType": "DIVYANGJAN_DISABILITY_CERTIFICATE",
+    "scheme": "Divyangjan Disability Welfare Life Certificate",
+    "department": "Divyang Welfare Department",
+    "subDivision": "Baramati Sub-Division, Pune",
+    "status": "FORWARDED_TO_ADMIN",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-10-29T10:10:00.000Z",
+    "officerApprovedTimestamp": "2026-11-01T10:12:53.426Z",
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "beneficiaryName": {
+        "label": "Beneficiary Full Name",
+        "value": "Bapu Shripad Joshi",
+        "confidence": 0.993
+      },
+      "udidNumber": {
+        "label": "Unique Disability ID (UDID)",
+        "value": "MH2610419580021482",
+        "confidence": 0.996
+      },
+      "disabilityType": {
+        "label": "Certified Disability Category",
+        "value": "Locomotor Disability (Permanent)",
+        "confidence": 0.984
+      },
+      "disabilityPercentage": {
+        "label": "Evaluated Disability Percentage",
+        "value": "65%",
+        "confidence": 0.998
+      },
+      "medicalBoardHospital": {
+        "label": "Certifying Medical Board Hospital",
+        "value": "Sassoon General Hospital, Pune",
+        "confidence": 0.988
+      },
+      "lifeAttestationMethod": {
+        "label": "Annual Attestation Mode",
+        "value": "FIDO Offline Biometric Stamp Verified",
+        "confidence": 0.991
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "District Medical Board Official Emblem & Sassoon Hospital Stamp Authenticated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Civil Surgeon & Medical Superintendent Digital Signatures Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Disability Percentage >= 40% (Divyangjan Welfare Gazette 2025/DIV-09)",
+          "status": "SATISFIED",
+          "proof": "Assessed disability: 65% (Statutory threshold >= 40%)"
+        },
+        {
+          "norm": "Valid UDID (Unique Disability ID) Registration Verification",
+          "status": "SATISFIED",
+          "proof": "UDID MH2610419580021482 verified with central Divyangjan database"
+        },
+        {
+          "norm": "Civil Surgeon & District Medical Board Official Hospital Attestation",
+          "status": "SATISFIED",
+          "proof": "Medical Board Certificate #8942 validated with Civil Surgeon seal"
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "65% permanent disability exceeds minimum 40% threshold. All medical seals verified. Ready for Tehsildar sign-off."
+      }
+    },
+    "officerRemarks": "Verified all OCR entities, seals, and DMN statutory gazette norms."
+  },
+  {
+    "id": "CASE-2026-NON-379",
+    "caseNumber": "MH/PUN/NON/2026/19823",
+    "applicantName": "Rohan Vilas Shinde",
+    "applicantId": "UIDAI-XXXX-XXXX-8492",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "UNDER_SCRUTINY",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-11-01T09:48:45.452Z",
+    "officerApprovedTimestamp": null,
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Rohan Vilas Shinde",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Vilas Dnyaneshwar Shinde",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "shinde_income_affidavit_2026.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    }
+  },
+  {
+    "id": "CASE-2026-NON-508",
+    "caseNumber": "MH/PUN/NON/2026/90645",
+    "applicantName": "Rohan Vilas Shinde",
+    "applicantId": "UIDAI-XXXX-XXXX-8492",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "UNDER_SCRUTINY",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-11-01T09:49:55.527Z",
+    "officerApprovedTimestamp": null,
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Rohan Vilas Shinde",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Vilas Dnyaneshwar Shinde",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "shinde_income_affidavit_2026.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    }
+  },
+  {
+    "id": "CASE-2026-NON-651",
+    "caseNumber": "MH/PUN/NON/2026/43650",
+    "applicantName": "Rohan Vilas Shinde",
+    "applicantId": "UIDAI-XXXX-XXXX-8492",
+    "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+    "scheme": "Non-Creamy Layer (OBC/VJNT) Certificate",
+    "department": "Revenue and Forest Department",
+    "subDivision": "Haveli Sub-Division, Pune",
+    "status": "UNDER_SCRUTINY",
+    "assignedClerkId": "CLERK_MH_PUNE_104",
+    "approvingOfficerId": "TEHSILDAR_HAVELI_01",
+    "rootAdminId": null,
+    "intakeTimestamp": "2026-11-01T10:12:31.412Z",
+    "officerApprovedTimestamp": null,
+    "finalApprovedTimestamp": null,
+    "extractedFields": {
+      "applicantFullName": {
+        "label": "Applicant Full Name",
+        "value": "Rohan Vilas Shinde",
+        "confidence": 0.993
+      },
+      "fatherName": {
+        "label": "Father / Guardian Name",
+        "value": "Vilas Dnyaneshwar Shinde",
+        "confidence": 0.987
+      },
+      "criteriaDetail": {
+        "label": "Declared Annual Income",
+        "value": 620000,
+        "confidence": 0.995
+      },
+      "issuingAuthority": {
+        "label": "Issuing Magistrate Sub-Division",
+        "value": "Haveli Sub-Division, Pune",
+        "confidence": 0.991
+      },
+      "uploadedFileName": {
+        "label": "Source Scanned Artifact",
+        "value": "shinde_income_affidavit_2026.pdf",
+        "confidence": 1
+      }
+    },
+    "verificationResults": {
+      "sealAuthenticity": {
+        "verified": true,
+        "details": "Government Official Emblem & Watermark Validated"
+      },
+      "signatureAuthenticity": {
+        "verified": true,
+        "details": "Authorized Sub-Divisional Signature Verified"
+      },
+      "normsEvaluation": [
+        {
+          "norm": "Gross Annual Family Income <= Rs. 8,00,000/- (Government of Maharashtra Gazette 2026/FST-12)",
+          "status": "SATISFIED",
+          "proof": "Assessed income Rs. 6,20,000/- is within Rs. 8,00,000/- ceiling."
+        },
+        {
+          "norm": "Preceding 3-Year Income Tax Returns / Form 16 Cross-Check",
+          "status": "SATISFIED",
+          "proof": "Tahsildar tax enquiry record verified."
+        }
+      ],
+      "aiSummary": {
+        "status": "CLEAN",
+        "score": 0.99,
+        "notes": "100% norms satisfied. Zero data discrepancy, official seals authenticated."
+      }
+    }
+  }
+]
