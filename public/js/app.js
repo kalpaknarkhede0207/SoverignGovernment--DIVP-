@@ -892,14 +892,6 @@
             )
           )
         ),
-              className: 'px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shadow-lg',
-              style: { backgroundColor: '#4f46e5', color: '#ffffff' }
-            },
-              h(SvgIcon, { name: 'FileSearch', className: 'w-4 h-4 text-white' }),
-              'Switch to Tehsildar Desk to Scrutinize this Document ->'
-            )
-          )
-        ),
 
         // Section A: Catalogue of Essential Government Documents
         h('div', { className: 'bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm ring-1 ring-slate-900/5' },
