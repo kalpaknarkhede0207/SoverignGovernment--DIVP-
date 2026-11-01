@@ -44,6 +44,7 @@ window.I18N = {
     allDepartments: "All Departments",
     applyAndAttach: "Apply & Attach Scan ->",
     closeSection: "Close Section [x]",
+    backToCatalogue: "<- Back to All Documents",
 
     // Application Intake Form
     intakeBadge: "General Administration Department",
@@ -132,6 +133,55 @@ window.I18N = {
 
     // Documents Catalog Items
     docs: {
+      NON_CREAMY_LAYER_CERTIFICATE: {
+        name: "Non-Creamy Layer (OBC/VJNT) Certificate",
+        dept: "Social Justice & Special Assistance Department",
+        desc: "Mandatory statutory verification certifying that OBC/VJNT/SBC applicant does not belong to the elite creamy layer.",
+        criteria: "Gross annual parental income under Rs. 8,00,000/- consecutively for preceding 3 financial years."
+      },
+      CASTE_VALIDITY_CERTIFICATE: {
+        name: "Caste Validity Certificate (SC/ST/OBC)",
+        dept: "Social Justice & Special Assistance Department",
+        desc: "Constitutional affirmation of applicant caste lineage for availing statutory reservations and educational benefits.",
+        criteria: "Documentary proof establishing ancestor residence in Maharashtra prior to 1950 (SC) or 1967 (OBC) with verified genealogical family tree."
+      },
+      INCOME_CERTIFICATE: {
+        name: "Tahsil Income Attestation Certificate",
+        dept: "Revenue & Forest Department",
+        desc: "Statutory proof of gross annual family income from all legal sources, required for state educational subsidies and welfare schemes.",
+        criteria: "Total annual family income must be verified via Tehsil records and income tax returns."
+      },
+      LAND_RECORD_7_12_EXTRACT: {
+        name: "Rights Record (7/12 & 8-A Extract)",
+        dept: "Revenue & Forest Department (e-Mahabhumi)",
+        desc: "Official land record extract certifying survey number, ownership title, potkharaba area, and unencumbered possession.",
+        criteria: "Survey number title verified with zero pending legal disputes, unencumbered status, and active mutation record."
+      },
+      DIVYANGJAN_DISABILITY_CERTIFICATE: {
+        name: "Divyangjan Disability Welfare Life Certificate",
+        dept: "Divyang Welfare Department",
+        desc: "Assessment certificate verifying permanent benchmark physical, sensory, or neurological disability under RPwD Act.",
+        criteria: "Minimum 40% benchmark permanent disability certified by District Medical Board with verified UDID registry."
+      },
+      EWS_CERTIFICATE: {
+        name: "Economically Weaker Section (EWS) Certificate",
+        dept: "General Administration Department",
+        desc: "Statutory certificate granting 10% reservation in state government jobs and higher education admissions.",
+        criteria: "Family gross annual income below Rs. 8,00,000/- and agricultural land holding under 5.0 acres for the prior fiscal year."
+      },
+      DOMICILE_CERTIFICATE: {
+        name: "Domicile & Age/Nationality Certificate",
+        dept: "Revenue & Forest Department",
+        desc: "Authoritative proof of continuous residence in the State of Maharashtra for school/college admissions and state quota.",
+        criteria: "Minimum continuous 15 years lawful residence in Maharashtra verified via electricity bills or ration cards."
+      },
+      AGRICULTURAL_SOLVENCY_CERTIFICATE: {
+        name: "Agricultural Land Solvency & Valuation Certificate",
+        dept: "Revenue & Forest Department",
+        desc: "Magisterial valuation attesting the solvency and market value of agricultural holdings for surety and institutional bidding.",
+        criteria: "Freehold agricultural holding verified via certified valuation index and Sub-Divisional Officer attestation."
+      },
+      // Backwards-compatible aliases
       income_certificate: {
         name: "Income Certificate",
         dept: "Revenue & Forest Department",
@@ -148,7 +198,7 @@ window.I18N = {
         name: "Caste Certificate (SC/ST/VJNT/OBC/SBC)",
         dept: "Social Justice & Special Assistance Department",
         desc: "Constitutional affirmation of applicant caste lineage for availing statutory reservations and educational benefits.",
-        criteria: "Permanent residence proof in Maharashtra prior to deemed deemed cut-off date (1950/1961/1967)."
+        criteria: "Permanent residence proof in Maharashtra prior to deemed cut-off date (1950/1961/1967)."
       },
       non_creamy_layer: {
         name: "Non-Creamy Layer (OBC/VJNT) Certificate",
@@ -216,6 +266,7 @@ window.I18N = {
     allDepartments: "सर्व शासकीय विभाग",
     applyAndAttach: "अर्ज करा व स्कॅन जोडा ->",
     closeSection: "विभाग बंद करा [x]",
+    backToCatalogue: "<- सर्व दस्तऐवज सूचीवर परत",
 
     // Application Intake Form
     intakeBadge: "सामान्य प्रशासन विभाग",
@@ -304,6 +355,55 @@ window.I18N = {
 
     // Documents Catalog Items
     docs: {
+      NON_CREAMY_LAYER_CERTIFICATE: {
+        name: "नॉन-क्रीमी लेयर (OBC/VJNT) प्रमाणपत्र",
+        dept: "सामाजिक न्याय व विशेष सहाय्य विभाग",
+        desc: "OBC/VJNT/SBC प्रवर्गातील उमेदवार उन्नत व प्रगत गटात (क्रीमी लेयर) मोडत नसल्याचे अनिवार्य प्रमाणपत्र.",
+        criteria: "मागील सलग ३ आर्थिक वर्षांमध्ये पालकांचे एकूण वार्षिक उत्पन्न रु. ८,००,००० च्या आत असणे आवश्यक."
+      },
+      CASTE_VALIDITY_CERTIFICATE: {
+        name: "जात पडताळणी प्रमाणपत्र (SC/ST/OBC)",
+        dept: "सामाजिक न्याय व विशेष सहाय्य विभाग",
+        desc: "वैधानिक आरक्षणे आणि शैक्षणिक सवलतींचा लाभ घेण्यासाठी अर्जदाराच्या जात वंशावळीची घटनात्मक पडताळणी.",
+        criteria: "महाराष्ट्र राज्यातील विहित वर्षांपूर्वीचे (१९५० SC / १९६७ OBC) वास्तव्याचे पुरावे व प्रमाणित वंशावळ."
+      },
+      INCOME_CERTIFICATE: {
+        name: "तहसीलदार उत्पन्न प्रमाणपत्र",
+        dept: "महसूल व वन विभाग",
+        desc: "सर्व कायदेशीर स्त्रोतांकडून मिळणाऱ्या कौटुंबिक वार्षिक उत्पन्नाचा अधिकृत पुरावा; शैक्षणिक सवलती व योजनांसाठी आवश्यक.",
+        criteria: "एकूण वार्षिक कौटुंबिक उत्पन्न तहसील नोंद व आयकर विवरणाद्वारे प्रमाणित असणे आवश्यक."
+      },
+      LAND_RECORD_7_12_EXTRACT: {
+        name: "अधिकार अभिलेख (७/१२ व ८-अ उतारा)",
+        dept: "महसूल व वन विभाग (ई-महाभूमी)",
+        desc: "जमिनीचा सर्व्हे क्रमांक, मालकी हक्क, पोटखराबा क्षेत्र आणि बोजाविरहित धारणा दर्शविणारा अधिकृत महसूल उतारा.",
+        criteria: "सर्व्हे क्रमांक मालकी हक्क प्रमाणित, बिनशर्त ताबा आणि कोणताही न्यायालयीन वाद अथवा बोजा नसणे आवश्यक."
+      },
+      DIVYANGJAN_DISABILITY_CERTIFICATE: {
+        name: "दिव्यांगजन कल्याण जीवन प्रमाणपत्र (UDID)",
+        dept: "दिव्यांग कल्याण विभाग",
+        desc: "RPwD कायद्यांतर्गत कायमस्वरूपी शारीरिक, संवेदी किंवा मानसिक दिव्यांगत्वाची पडताळणी करणारे वैद्यकीय प्रमाणपत्र.",
+        criteria: "जिल्हा शासकीय वैद्यकीय मंडळाने प्रमाणित केलेले किमान ४०% बेंचमार्क दिव्यांगत्व व वैध UDID नोंदणी."
+      },
+      EWS_CERTIFICATE: {
+        name: "आर्थिकदृष्ट्या दुर्बल घटक (EWS) प्रमाणपत्र",
+        dept: "सामान्य प्रशासन विभाग",
+        desc: "शासकीय नोकऱ्या आणि उच्च शिक्षणात १०% आरक्षणासाठी आवश्यक वैधानिक प्रमाणपत्र.",
+        criteria: "कुटुंबाचे वार्षिक उत्पन्न रु. ८,००,००० पेक्षा कमी व शेतजमीन धारणा ५ एकरांपेक्षा कमी असणे आवश्यक."
+      },
+      DOMICILE_CERTIFICATE: {
+        name: "अधिवास (डोमिसाईल) व वय/राष्ट्रीयत्व प्रमाणपत्र",
+        dept: "महसूल व वन विभाग",
+        desc: "शाळा/महाविद्यालय प्रवेश व शासकीय कोट्यासाठी महाराष्ट्र राज्यात सलग वास्तव्याचा अधिकृत पुरावा.",
+        criteria: "महाराष्ट्र राज्यात किमान सलग १५ वर्षे कायदेशीर वास्तव्य (लाईट बिल, रेशन कार्डद्वारे पडताळणी)."
+      },
+      AGRICULTURAL_SOLVENCY_CERTIFICATE: {
+        name: "शेतजमीन सॉल्व्हन्सी (पतक्षमता) प्रमाणपत्र",
+        dept: "महसूल व वन विभाग",
+        desc: "जमीन महसूल कायद्यानुसार शेतजमिनीचे मूल्यांकन व न्यायालयीन किंवा शासकीय हमीसाठी पतक्षमता प्रमाणपत्र.",
+        criteria: "शासकीय दरपत्रकानुसार शेतजमिनीचे अधिकृत मूल्यांकन व उपविभागीय अधिकारी (SDO) यांच्याद्वारे पडताळणी."
+      },
+      // Backwards-compatible aliases
       income_certificate: {
         name: "उत्पन्नाचे प्रमाणपत्र",
         dept: "महसूल व वन विभाग",
@@ -388,6 +488,7 @@ window.I18N = {
     allDepartments: "सभी शासकीय विभाग",
     applyAndAttach: "आवेदन करें व स्कैन जोड़ें ->",
     closeSection: "खंड बंद करें [x]",
+    backToCatalogue: "<- सभी दस्तावेज़ सूची पर वापस",
 
     // Application Intake Form
     intakeBadge: "सामान्य प्रशासन विभाग",
@@ -476,6 +577,55 @@ window.I18N = {
 
     // Documents Catalog Items
     docs: {
+      NON_CREAMY_LAYER_CERTIFICATE: {
+        name: "नॉन-क्रीमी लेयर (OBC/VJNT) प्रमाण पत्र",
+        dept: "सामाजिक न्याय एवं विशेष सहायता विभाग",
+        desc: "OBC/VJNT/SBC वर्ग के आवेदक के संपन्न वर्ग (क्रीमी लेयर) में न होने का अनिवार्य प्रमाण पत्र।",
+        criteria: "विगत लगातार 3 वित्तीय वर्षों में माता-पिता की सकल वार्षिक आय रु. 8,00,000 के भीतर होना आवश्यक।"
+      },
+      CASTE_VALIDITY_CERTIFICATE: {
+        name: "जाति वैधता प्रमाण पत्र (SC/ST/OBC)",
+        dept: "सामाजिक न्याय एवं विशेष सहायता विभाग",
+        desc: "आरक्षण एवं शैक्षणिक लाभ प्राप्त करने हेतु आवेदक की जाति वंशावली का संवैधानिक प्रमाण।",
+        criteria: "महाराष्ट्र राज्य में निर्धारित कट-ऑफ तिथि (1950 SC / 1967 OBC) से पूर्व स्थायी निवास साक्ष्य एवं सत्यापित वंशावली।"
+      },
+      INCOME_CERTIFICATE: {
+        name: "तहसीलदार आय प्रमाण पत्र",
+        dept: "राजस्व एवं वन विभाग",
+        desc: "सभी कानूनी स्रोतों से पारिवारिक सकल वार्षिक आय का आधिकारिक प्रमाण; छात्रवृत्ति एवं कल्याणकारी योजनाओं हेतु आवश्यक।",
+        criteria: "कुल वार्षिक पारिवारिक आय तहसील अभिलेखों एवं आयकर रिटर्न द्वारा सत्यापित होना अनिवार्य।"
+      },
+      LAND_RECORD_7_12_EXTRACT: {
+        name: "अधिकार अभिलेख (7/12 एवं 8-अ उद्धरण)",
+        dept: "राजस्व एवं वन विभाग (ई-महाभूमि)",
+        desc: "सर्वे संख्या, स्वामित्व हक, पोटखराबा क्षेत्रफल एवं प्रभाररहित कब्जा प्रमाणित करने वाला आधिकारिक राजस्व उद्धरण।",
+        criteria: "सर्वे संख्या का स्वामित्व प्रमाणित, निर्विवाद कब्जा एवं किसी भी प्रकार के प्रभार या विवाद से मुक्त होना आवश्यक।"
+      },
+      DIVYANGJAN_DISABILITY_CERTIFICATE: {
+        name: "दिव्यांगजन कल्याण जीवन प्रमाण पत्र (UDID)",
+        dept: "दिव्यांग कल्याण विभाग",
+        desc: "RPwD अधिनियम अंतर्गत स्थायी शारीरिक, संवेदी अथवा मानसिक दिव्यांगता का सत्यापन करने वाला प्रमाण पत्र।",
+        criteria: "जिला सरकारी मेडिकल बोर्ड द्वारा प्रमाणित न्यूनतम 40% बेंचमार्क दिव्यांगता एवं वैध UDID पंजीकरण।"
+      },
+      EWS_CERTIFICATE: {
+        name: "आर्थिक रूप से कमजोर वर्ग (EWS) प्रमाण पत्र",
+        dept: "सामान्य प्रशासन विभाग",
+        desc: "सरकारी नौकरियों और उच्च शिक्षा में 10% आरक्षण हेतु आवश्यक सांविधिक प्रमाण पत्र।",
+        criteria: "पारिवारिक सकल वार्षिक आय रु. 8,00,000 से कम एवं कृषि भूमि 5 एकड़ से कम होना अनिवार्य।"
+      },
+      DOMICILE_CERTIFICATE: {
+        name: "अधिवास (डोमिसाइल) एवं आयु/राष्ट्रीयता प्रमाण पत्र",
+        dept: "राजस्व एवं वन विभाग",
+        desc: "प्रवेश एवं राज्य कोटे हेतु महाराष्ट्र राज्य में निरंतर स्थायी निवास का प्रामाणिक दस्तावेज़।",
+        criteria: "महाराष्ट्र में न्यूनतम लगातार 15 वर्षों का वैध निवास (पंजीकृत अभिलेखों द्वारा सत्यापित)।"
+      },
+      AGRICULTURAL_SOLVENCY_CERTIFICATE: {
+        name: "कृषि भूमि सॉल्वेंसी (शोधन-क्षमता) प्रमाण पत्र",
+        dept: "राजस्व एवं वन विभाग",
+        desc: "सरकारी निविदा या ज़मानत हेतु कृषि भूमि का आधिकारिक मूल्यांकन एवं शोधन-क्षमता प्रमाण पत्र।",
+        criteria: "शासकीय दर सूची अनुसार कृषि भूमि का वैध मूल्यांकन एवं अनुविभागीय अधिकारी (SDO) द्वारा सत्यापन।"
+      },
+      // Backwards-compatible aliases
       income_certificate: {
         name: "आय प्रमाण पत्र",
         dept: "राजस्व एवं वन विभाग",
@@ -532,17 +682,40 @@ window.I18N = {
  * Global Translation Helper function
  */
 window.t = function(key, lang = 'en') {
-  const currentLang = window.I18N[lang] ? lang : 'en';
-  const val = window.I18N[currentLang][key] || window.I18N['en'][key] || key;
+  const currentLang = (window.I18N && window.I18N[lang]) ? lang : 'en';
+  const val = (window.I18N && window.I18N[currentLang] && window.I18N[currentLang][key]) ||
+              (window.I18N && window.I18N['en'] && window.I18N['en'][key]) || key;
   return val;
 };
 
 /**
- * Translate Document Meta by id
+ * Robust Multi-Lingual Document Meta Translation Helper with Enum Normalization
  */
-window.translateDoc = function(docId, lang = 'en') {
-  const currentLang = window.I18N[lang] ? lang : 'en';
-  const docTranslations = window.I18N[currentLang].docs || {};
-  const fallbackDocs = window.I18N['en'].docs || {};
-  return docTranslations[docId] || fallbackDocs[docId] || null;
+window.translateDoc = function(docTypeOrId, lang = 'en') {
+  if (!docTypeOrId) return null;
+  const currentLang = (window.I18N && window.I18N[lang]) ? lang : 'en';
+  const docs = (window.I18N && window.I18N[currentLang] && window.I18N[currentLang].docs) || {};
+  const fallbackDocs = (window.I18N && window.I18N['en'] && window.I18N['en'].docs) || {};
+
+  const rawKey = String(docTypeOrId).trim();
+  const lowerKey = rawKey.toLowerCase();
+  const upperKey = rawKey.toUpperCase();
+
+  // Alias dictionary mapping non-canonical or legacy identifiers to canonical enum keys
+  const aliases = {
+    'caste_certificate': 'CASTE_VALIDITY_CERTIFICATE',
+    'disability_certificate': 'DIVYANGJAN_DISABILITY_CERTIFICATE',
+    'non_creamy_layer': 'NON_CREAMY_LAYER_CERTIFICATE',
+    '7_12_extract': 'LAND_RECORD_7_12_EXTRACT',
+    'satbara': 'LAND_RECORD_7_12_EXTRACT',
+    'solvency_certificate': 'AGRICULTURAL_SOLVENCY_CERTIFICATE',
+    'ews': 'EWS_CERTIFICATE',
+    'income': 'INCOME_CERTIFICATE',
+    'domicile': 'DOMICILE_CERTIFICATE'
+  };
+
+  const resolvedCanonical = aliases[lowerKey] || aliases[upperKey] || upperKey;
+
+  return docs[resolvedCanonical] || docs[upperKey] || docs[lowerKey] || docs[rawKey] ||
+         fallbackDocs[resolvedCanonical] || fallbackDocs[upperKey] || fallbackDocs[lowerKey] || fallbackDocs[rawKey] || null;
 };

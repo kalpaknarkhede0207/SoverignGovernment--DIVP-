@@ -376,9 +376,29 @@
     const t = (key) => (window.t ? window.t(key, currentLang) : key);
     const getDocMeta = (doc) => {
       if (!doc) return {};
-      const typeKey = (doc.documentType || doc.id || '').toLowerCase();
+      const typeKey = doc.documentType || doc.id || doc.scheme || '';
       const tr = window.translateDoc ? window.translateDoc(typeKey, currentLang) : null;
-      return tr || doc;
+      if (tr) {
+        return tr;
+      }
+      let safeCriteria = '';
+      if (typeof doc.criteria === 'string' && doc.criteria.trim()) {
+        safeCriteria = doc.criteria;
+      } else if (Array.isArray(doc.criteria?.mandatoryNorms) && doc.criteria.mandatoryNorms.length > 0) {
+        safeCriteria = doc.criteria.mandatoryNorms[0];
+      } else {
+        safeCriteria = currentLang === 'mr'
+          ? 'महाराष्ट्र शासन राजपत्रानुसार वैधानिक निकष पडताळणी अनिवार्य आहे.'
+          : currentLang === 'hi'
+          ? 'महाराष्ट्र शासन राजपत्र अनुसार वैधानिक पात्रता मानकों का सत्यापन अनिवार्य है।'
+          : 'Mandatory statutory gazette eligibility norm verified upon submission.';
+      }
+      return {
+        name: doc.documentTitle || doc.scheme || typeKey,
+        dept: doc.department || (currentLang === 'mr' ? 'महाराष्ट्र शासन' : currentLang === 'hi' ? 'महाराष्ट्र शासन' : 'Government of Maharashtra'),
+        desc: doc.gazetteNotification || '',
+        criteria: safeCriteria
+      };
     };
 
     // 3 Dedicated Roles: 'USER' (Citizen), 'OFFICER' (Tehsildar), 'ADMIN' (Root Admin)
@@ -813,9 +833,10 @@
           className: 'p-6 rounded-3xl text-white shadow-2xl space-y-4 border',
           style: {
             backgroundColor: '#0f172a',
-            borderColor: '#334155',
-            borderWidth: '1px',
+            borderColor: '#38bdf8',
+            borderWidth: '2px',
             borderStyle: 'solid',
+            boxShadow: '0 20px 25px -5px rgba(15, 23, 42, 0.4)',
             color: '#ffffff'
           }
         },
@@ -823,7 +844,7 @@
             h('div', { className: 'flex items-center gap-3' },
               h('div', {
                 className: 'w-12 h-12 rounded-2xl flex items-center justify-center font-bold flex-shrink-0',
-                style: { backgroundColor: 'rgba(16, 185, 129, 0.2)', borderColor: '#10b981', borderWidth: '1px', borderStyle: 'solid', color: '#34d399' }
+                style: { backgroundColor: '#064e3b', borderColor: '#10b981', borderWidth: '1px', borderStyle: 'solid', color: '#34d399' }
               },
                 h(SvgIcon, { name: 'CheckCircle2', className: 'w-7 h-7' })
               ),
@@ -843,27 +864,27 @@
             h('button', {
               onClick: () => setJustUploadedCase(null),
               className: 'w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs cursor-pointer transition-all',
-              style: { backgroundColor: 'rgba(255, 255, 255, 0.15)', color: '#ffffff' }
+              style: { backgroundColor: '#334155', color: '#ffffff' }
             }, 'x')
           ),
 
           h('div', {
             className: 'grid grid-cols-1 md:grid-cols-3 gap-3 text-xs p-4 rounded-2xl',
-            style: { backgroundColor: 'rgba(255, 255, 255, 0.06)', borderColor: 'rgba(255, 255, 255, 0.15)', borderWidth: '1px', borderStyle: 'solid' }
+            style: { backgroundColor: '#1e293b', borderColor: '#475569', borderWidth: '1px', borderStyle: 'solid' }
           },
             h('div', null,
-              h('span', { className: 'text-[10px] block uppercase font-semibold', style: { color: '#93c5fd' } }, t('applicantFullName')),
-              h('strong', { className: 'text-xs', style: { color: '#ffffff' } }, justUploadedCase.applicantName)
+              h('span', { className: 'text-[10px] block uppercase font-semibold', style: { color: '#94a3b8' } }, t('applicantFullName')),
+              h('strong', { className: 'text-xs', style: { color: '#f8fafc' } }, justUploadedCase.applicantName)
             ),
             h('div', null,
-              h('span', { className: 'text-[10px] block uppercase font-semibold', style: { color: '#93c5fd' } }, t('attachedArtifact')),
+              h('span', { className: 'text-[10px] block uppercase font-semibold', style: { color: '#94a3b8' } }, t('attachedArtifact')),
               h('strong', { className: 'text-xs font-mono', style: { color: '#c7d2fe' } },
                 justUploadedCase.extractedFields?.uploadedFileName?.value || 'document_scan.pdf'
               )
             ),
             h('div', null,
-              h('span', { className: 'text-[10px] block uppercase font-semibold', style: { color: '#93c5fd' } }, t('verificationStage')),
-              h('span', { className: 'font-bold flex items-center gap-1 mt-0.5', style: { color: '#fbbf24' } },
+              h('span', { className: 'text-[10px] block uppercase font-semibold', style: { color: '#94a3b8' } }, t('verificationStage')),
+              h('span', { className: 'font-bold flex items-center gap-1 mt-0.5', style: { color: '#34d399' } },
                 h(SvgIcon, { name: 'FileSearch', className: 'w-3.5 h-3.5' }),
                 t('underScrutinyStage')
               )
@@ -873,7 +894,7 @@
           // Direct switch button to view this exact document on Tehsildar dashboard
           h('div', {
             className: 'flex flex-wrap items-center justify-between gap-3 pt-3',
-            style: { borderTopColor: 'rgba(255, 255, 255, 0.12)', borderTopWidth: '1px', borderTopStyle: 'solid' }
+            style: { borderTopColor: '#334155', borderTopWidth: '1px', borderTopStyle: 'solid' }
           },
             h('div', { className: 'text-xs', style: { color: '#cbd5e1' } },
               t('uploadNotice')
@@ -885,7 +906,7 @@
                 setCurrentRole('OFFICER');
               },
               className: 'px-5 py-2.5 rounded-2xl text-xs font-extrabold flex items-center gap-2 transition-all cursor-pointer shadow-lg',
-              style: { backgroundColor: '#4f46e5', color: '#ffffff' }
+              style: { backgroundColor: '#4f46e5', color: '#ffffff', border: '1px solid #6366f1' }
             },
               h(SvgIcon, { name: 'FileSearch', className: 'w-4 h-4 text-white' }),
               t('switchToOfficerDesk')
@@ -933,15 +954,25 @@
             })
           ),
 
-          // Section A.1: Dedicated Application Intake Workspace (Rendered INLINE AT THE TOP - ZERO SCROLL REQUIRED)
-          selectedDocForUpload && (() => {
+          // Section A.1: Dedicated Application Intake Workspace (When a document is selected, ONLY this section is open - zero scroll required)
+          selectedDocForUpload ? (() => {
             const selectedDocMeta = getDocMeta(selectedDocForUpload);
+            const criteriaDisplay = typeof selectedDocMeta.criteria === 'string' && selectedDocMeta.criteria.trim()
+              ? selectedDocMeta.criteria
+              : Array.isArray(selectedDocMeta.criteria?.mandatoryNorms) && selectedDocMeta.criteria.mandatoryNorms.length > 0
+              ? selectedDocMeta.criteria.mandatoryNorms[0]
+              : Array.isArray(selectedDocForUpload.criteria?.mandatoryNorms) && selectedDocForUpload.criteria.mandatoryNorms.length > 0
+              ? selectedDocForUpload.criteria.mandatoryNorms[0]
+              : typeof selectedDocForUpload.criteria === 'string' && selectedDocForUpload.criteria.trim()
+              ? selectedDocForUpload.criteria
+              : (currentLang === 'mr' ? 'महाराष्ट्र शासन राजपत्रानुसार वैधानिक निकष पडताळणी अनिवार्य आहे.' : currentLang === 'hi' ? 'महाराष्ट्र शासन राजपत्र अनुसार वैधानिक पात्रता मानकों का सत्यापन अनिवार्य है।' : 'Mandatory statutory gazette eligibility norm verified upon submission.');
+
             return h('div', {
               id: 'application-intake-section',
-              className: 'bg-indigo-50/30 p-6 rounded-3xl border-2 border-indigo-600 shadow-xl ring-4 ring-indigo-500/10 space-y-5 mb-8'
+              className: 'bg-indigo-50/40 p-6 rounded-3xl border-2 border-indigo-600 shadow-xl ring-4 ring-indigo-500/10 space-y-5'
             },
-              // Header with Department Badge & Close
-              h('div', { className: 'flex justify-between items-start border-b border-slate-200 pb-4' },
+              // Header with Department Badge & Back Button
+              h('div', { className: 'flex flex-wrap justify-between items-start border-b border-slate-200 pb-4 gap-3' },
                 h('div', null,
                   h('div', { className: 'flex items-center gap-2 mb-1' },
                     h('span', { className: 'text-[10px] font-mono font-extrabold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2.5 py-0.5 rounded-full uppercase' },
@@ -958,10 +989,19 @@
                     t('catalogueSubtitle')
                   )
                 ),
-                h('button', {
-                  onClick: () => setSelectedDocForUpload(null),
-                  className: 'w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center font-bold text-sm cursor-pointer transition-all'
-                }, 'x')
+                h('div', { className: 'flex items-center gap-2' },
+                  h('button', {
+                    type: 'button',
+                    onClick: () => setSelectedDocForUpload(null),
+                    className: 'px-3.5 py-1.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs cursor-pointer transition-all flex items-center gap-1.5 shadow-sm'
+                  },
+                    t('backToCatalogue')
+                  ),
+                  h('button', {
+                    onClick: () => setSelectedDocForUpload(null),
+                    className: 'w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center font-bold text-sm cursor-pointer transition-all'
+                  }, 'x')
+                )
               ),
 
               // Statutory Gazette Notice Box
@@ -971,7 +1011,7 @@
                 ),
                 h('div', null,
                   h('strong', { className: 'block font-bold text-amber-900 mb-0.5' }, t('gazetteCriteria')),
-                  selectedDocMeta.criteria || selectedDocForUpload.criteria?.mandatoryNorms?.[0] || 'Mandatory gazette eligibility norm verified upon submission.'
+                  criteriaDisplay
                 )
               ),
 
@@ -1068,10 +1108,7 @@
                 )
               )
             );
-          })(),
-
-          // 8 Document Cards Grid with Clean Document References
-          h('div', { className: 'grid grid-cols-1 md:grid-cols-4 gap-4' },
+          })() : h('div', { className: 'grid grid-cols-1 md:grid-cols-4 gap-4' },
             filteredDocs.map((doc, idx) => {
               const docMeta = getDocMeta(doc);
               const docCodes = {
