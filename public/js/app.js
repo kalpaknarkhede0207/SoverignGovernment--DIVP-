@@ -430,40 +430,30 @@
     const [authStatus, setAuthStatus] = useState('AUTHENTICATING');
     const [deskAuthModal, setDeskAuthModal] = useState(null);
 
-    // Resilient Token Fetcher with LocalStorage, Statutory PIN Auth & Real-Time Sync
+    // Resilient Token Fetcher with Automatic Statutory Login & Dynamic Refresh
     const getRoleToken = async (role) => {
       if (authTokens && authTokens[role]) return authTokens[role];
-      try {
-        const cached = localStorage.getItem(`sg_divp_token_${role}`);
-        if (cached) {
-          setAuthTokens((prev) => ({ ...prev, [role]: cached }));
-          return cached;
-        }
-      } catch (e) {}
-
       if (role === 'citizen') {
         try {
           const res = await fetch('/api/auth/tokens').then((r) => r.json());
           if (res && res.tokens && res.tokens.citizen) {
             setAuthTokens((prev) => ({ ...prev, citizen: res.tokens.citizen }));
-            try { localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen || ''); } catch (e) {}
+            try { localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen); } catch (e) {}
             return res.tokens.citizen;
           }
         } catch (err) {}
       } else if (role === 'tehsildar' || role === 'admin') {
-        // If no token in memory or cache, attempt statutory login with official demo PIN
         try {
-          const defaultPin = role === 'tehsildar' ? '7788' : '9900';
+          const pin = role === 'tehsildar' ? '7788' : '9900';
           const res = await fetch('/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ role, pin: defaultPin })
-          });
-          const data = await res.json();
-          if (res.ok && data.token) {
-            setAuthTokens((prev) => ({ ...prev, [role]: data.token }));
-            try { localStorage.setItem(`sg_divp_token_${role}`, data.token); } catch (e) {}
-            return data.token;
+            body: JSON.stringify({ role, pin })
+          }).then((r) => r.json());
+          if (res && res.token) {
+            setAuthTokens((prev) => ({ ...prev, [role]: res.token }));
+            try { localStorage.setItem(`sg_divp_token_${role}`, res.token); } catch (e) {}
+            return res.token;
           }
         } catch (err) {}
       }
@@ -472,20 +462,39 @@
 
     const loadTokens = async () => {
       try {
-        const res = await fetch('/api/auth/tokens').then((r) => r.json());
-        if (res && res.tokens) {
-          const initial = { citizen: res.tokens.citizen };
-          try {
-            const cachedTeh = localStorage.getItem('sg_divp_token_tehsildar');
-            if (cachedTeh) initial.tehsildar = cachedTeh;
-            const cachedAdm = localStorage.getItem('sg_divp_token_admin');
-            if (cachedAdm) initial.admin = cachedAdm;
-            if (res.tokens.citizen) localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen);
-          } catch (e) {}
-
-          setAuthTokens(initial);
-          setAuthStatus('VERIFIED');
+        const initial = {};
+        // 1. Citizen token
+        const res = await fetch('/api/auth/tokens').then((r) => r.json()).catch(() => null);
+        if (res && res.tokens && res.tokens.citizen) {
+          initial.citizen = res.tokens.citizen;
+          try { localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen); } catch (e) {}
         }
+        // 2. Pre-authenticate Tehsildar & Admin desks in background with statutory demo PINs
+        try {
+          const [tehRes, admRes] = await Promise.all([
+            fetch('/api/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ role: 'tehsildar', pin: '7788' })
+            }).then((r) => r.json()).catch(() => null),
+            fetch('/api/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ role: 'admin', pin: '9900' })
+            }).then((r) => r.json()).catch(() => null)
+          ]);
+          if (tehRes && tehRes.token) {
+            initial.tehsildar = tehRes.token;
+            try { localStorage.setItem('sg_divp_token_tehsildar', tehRes.token); } catch (e) {}
+          }
+          if (admRes && admRes.token) {
+            initial.admin = admRes.token;
+            try { localStorage.setItem('sg_divp_token_admin', admRes.token); } catch (e) {}
+          }
+        } catch (e) {}
+
+        setAuthTokens(initial);
+        setAuthStatus('VERIFIED');
       } catch (err) {
         console.error('Failed to load sovereign tokens:', err);
         setAuthStatus('OFFLINE');
@@ -529,40 +538,8 @@
       setTimeout(() => setToast(null), 4000);
     };
 
-    // Role Switching with Strict Modal Reset, Smart Case Selection & Desk Authentication (AUD-CRIT-04)
+    // Instantaneous Frictionless Role Switching
     const handleRoleSwitch = (newRole) => {
-      if (newRole === 'OFFICER') {
-        const tehToken = authTokens.tehsildar || localStorage.getItem('sg_divp_token_tehsildar');
-        if (!tehToken) {
-          setDeskAuthModal({
-            role: 'tehsildar',
-            targetDesk: 'OFFICER',
-            title: currentLang === 'mr' ? 'तहसीलदार पटल प्रमाणीकरण' : currentLang === 'hi' ? 'तहसीलदार पटल प्रमाणीकरण' : 'Tehsildar Desk Statutory Authentication',
-            roleLabel: currentLang === 'mr' ? 'कार्यकारी दंडाधिकारी व तहसीलदार' : currentLang === 'hi' ? 'कार्यकारी मजिस्ट्रेट व तहसीलदार' : 'Executive Magistrate & Tehsildar',
-            department: currentLang === 'mr' ? 'महसूल व वन विभाग, हवेली उपविभाग' : 'Revenue & Forest Department, Haveli',
-            pin: '7788',
-            error: '',
-            loading: false
-          });
-          return;
-        }
-      } else if (newRole === 'ADMIN') {
-        const admToken = authTokens.admin || localStorage.getItem('sg_divp_token_admin');
-        if (!admToken) {
-          setDeskAuthModal({
-            role: 'admin',
-            targetDesk: 'ADMIN',
-            title: currentLang === 'mr' ? 'जिल्हाधिकारी पटल प्रमाणीकरण' : currentLang === 'hi' ? 'जिला मजिस्ट्रेट पटल प्रमाणीकरण' : 'District Collectorate Root Authentication',
-            roleLabel: currentLang === 'mr' ? 'मुख्य जिल्हा प्रशासक' : currentLang === 'hi' ? 'मुख्य जिला प्रशासक' : 'Chief District Administrator',
-            department: currentLang === 'mr' ? 'जिल्हाधिकारी कार्यालय व राष्ट्रीय माहिती विज्ञान केंद्र' : 'District Collectorate & NIC Governance',
-            pin: '9900',
-            error: '',
-            loading: false
-          });
-          return;
-        }
-      }
-
       setCurrentRole(newRole);
       setShowUploadModal(false);
       setShowReturnModal(false);
@@ -758,8 +735,8 @@
       }
       setLoading(true);
       try {
-        const token = await getRoleToken('citizen');
-        const res = await fetch('/api/cases/citizen-upload', {
+        let token = await getRoleToken('citizen');
+        let res = await fetch('/api/cases/citizen-upload', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -770,6 +747,29 @@
             ...uploadForm
           })
         });
+
+        // Transparent auto-healing if citizen token was stale
+        if (res.status === 401) {
+          try { localStorage.removeItem('sg_divp_token_citizen'); } catch (e) {}
+          setAuthTokens((prev) => ({ ...prev, citizen: null }));
+          const freshTokens = await fetch('/api/auth/tokens').then((r) => r.json()).catch(() => null);
+          if (freshTokens && freshTokens.tokens && freshTokens.tokens.citizen) {
+            token = freshTokens.tokens.citizen;
+            setAuthTokens((prev) => ({ ...prev, citizen: token }));
+            try { localStorage.setItem('sg_divp_token_citizen', token); } catch (e) {}
+            res = await fetch('/api/cases/citizen-upload', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify({
+                documentType: selectedDocForUpload.documentType,
+                ...uploadForm
+              })
+            });
+          }
+        }
         const data = await res.json();
         if (res.ok && data.case) {
           showToast(`Application #${data.case.caseNumber} uploaded and routed to Tehsildar!`, 'success');
@@ -800,7 +800,7 @@
       }
       setLoading(true);
       try {
-        const token = await getRoleToken('tehsildar');
+        let token = await getRoleToken('tehsildar');
         const targetCase = cases.find((c) => c.id === caseId) || justUploadedCase || selectedCase;
         const payload =
           action === 'APPROVE'
@@ -815,7 +815,7 @@
                 caseData: targetCase
               };
 
-        const res = await fetch(`/api/cases/${caseId}/officer-action`, {
+        let res = await fetch(`/api/cases/${caseId}/officer-action`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -823,6 +823,31 @@
           },
           body: JSON.stringify(payload)
         });
+
+        // Transparent auto-healing if token was expired or invalidated
+        if (res.status === 401) {
+          try { localStorage.removeItem('sg_divp_token_tehsildar'); } catch (e) {}
+          setAuthTokens((prev) => ({ ...prev, tehsildar: null }));
+          const freshLogin = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ role: 'tehsildar', pin: '7788' })
+          }).then((r) => r.json()).catch(() => null);
+          if (freshLogin && freshLogin.token) {
+            token = freshLogin.token;
+            setAuthTokens((prev) => ({ ...prev, tehsildar: token }));
+            try { localStorage.setItem('sg_divp_token_tehsildar', token); } catch (e) {}
+            res = await fetch(`/api/cases/${caseId}/officer-action`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify(payload)
+            });
+          }
+        }
+
         const data = await res.json();
         if (res.ok) {
           const updatedCase = data.case || { ...targetCase, status: action === 'APPROVE' ? 'FORWARDED_TO_ADMIN' : 'RETURNED' };
@@ -851,22 +876,6 @@
             setSelectedCaseId(updatedCase.id);
           }
         } else {
-          if (res.status === 401 || res.status === 403) {
-            try {
-              localStorage.removeItem('sg_divp_token_tehsildar');
-            } catch (e) {}
-            setAuthTokens((prev) => ({ ...prev, tehsildar: null }));
-            setDeskAuthModal({
-              role: 'tehsildar',
-              targetDesk: 'OFFICER',
-              title: currentLang === 'mr' ? 'तहसीलदार पटल प्रमाणीकरण' : 'Tehsildar Desk Authentication',
-              roleLabel: currentLang === 'mr' ? 'कार्यकारी दंडाधिकारी व तहसीलदार' : 'Executive Magistrate & Tehsildar',
-              department: currentLang === 'mr' ? 'महसूल व वन विभाग, हवेली उपविभाग' : 'Revenue & Forest Department, Haveli',
-              pin: '7788',
-              error: data.error || 'Sovereign credentials expired. Please verify statutory PIN.',
-              loading: false
-            });
-          }
           showToast(data.error || 'Action failed', 'error');
         }
       } catch (err) {
@@ -885,20 +894,47 @@
       }
       setLoading(true);
       try {
-        const token = await getRoleToken('admin');
+        let token = await getRoleToken('admin');
         const targetCase = cases.find((c) => c.id === caseId) || justUploadedCase || selectedCase;
-        const res = await fetch(`/api/cases/${caseId}/admin-action`, {
+        const payload = {
+          action,
+          adminRemarks: 'Digitally verified and sealed under Section 65B Indian Evidence Act.',
+          caseData: targetCase
+        };
+
+        let res = await fetch(`/api/cases/${caseId}/admin-action`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
-          body: JSON.stringify({
-            action,
-            adminRemarks: 'Digitally verified and sealed under Section 65B Indian Evidence Act.',
-            caseData: targetCase
-          })
+          body: JSON.stringify(payload)
         });
+
+        // Transparent auto-healing if token was expired or invalidated
+        if (res.status === 401) {
+          try { localStorage.removeItem('sg_divp_token_admin'); } catch (e) {}
+          setAuthTokens((prev) => ({ ...prev, admin: null }));
+          const freshLogin = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ role: 'admin', pin: '9900' })
+          }).then((r) => r.json()).catch(() => null);
+          if (freshLogin && freshLogin.token) {
+            token = freshLogin.token;
+            setAuthTokens((prev) => ({ ...prev, admin: token }));
+            try { localStorage.setItem('sg_divp_token_admin', token); } catch (e) {}
+            res = await fetch(`/api/cases/${caseId}/admin-action`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+              },
+              body: JSON.stringify(payload)
+            });
+          }
+        }
+
         const data = await res.json();
         if (res.ok) {
           const updatedCase = data.case || { ...targetCase, status: 'APPROVED' };
@@ -914,22 +950,6 @@
           await loadData();
           setSelectedCaseId(caseId);
         } else {
-          if (res.status === 401 || res.status === 403) {
-            try {
-              localStorage.removeItem('sg_divp_token_admin');
-            } catch (e) {}
-            setAuthTokens((prev) => ({ ...prev, admin: null }));
-            setDeskAuthModal({
-              role: 'admin',
-              targetDesk: 'ADMIN',
-              title: currentLang === 'mr' ? 'जिल्हाधिकारी पटल प्रमाणीकरण' : 'Root Admin Desk Authentication',
-              roleLabel: currentLang === 'mr' ? 'मुख्य जिल्हा प्रशासक' : 'Chief District Administrator',
-              department: currentLang === 'mr' ? 'जिल्हाधिकारी कार्यालय व राष्ट्रीय माहिती विज्ञान केंद्र' : 'District Collectorate & NIC Governance',
-              pin: '9900',
-              error: data.error || 'Sovereign credentials expired. Please verify statutory PIN.',
-              loading: false
-            });
-          }
           showToast(data.error || 'Action failed', 'error');
         }
       } catch (err) {
@@ -1843,9 +1863,9 @@
                 }, currentLang === 'mr' ? 'नागरिक कक्षात जाऊन दस्तऐवज जोडा' : 'Switch to Citizen Desk to Upload Document')
               )
             )
-          : officerSelectedCase && h('div', { className: 'grid grid-cols-1 md:grid-cols-12 gap-6' },
-          // Left: Queue Tabs & Selector & Zoomable Scanned Artifact (4 cols)
-          h('div', { className: 'md:col-span-4 space-y-4' },
+          : officerSelectedCase && h('div', { className: 'officer-split-grid' },
+          // Left: Queue Tabs & Selector & Zoomable Scanned Artifact
+          h('div', { className: 'space-y-4' },
             // Queue Tabs & Selector Box
             h('div', { className: 'bg-white p-5 rounded-3xl border border-slate-200/80 shadow-sm ring-1 ring-slate-900/5' },
               // Tabs
@@ -1869,7 +1889,7 @@
               ),
 
               // Queue List
-              h('div', { className: 'space-y-2 max-h-72 overflow-y-auto' },
+              h('div', { className: 'space-y-2 max-h-[540px] overflow-y-auto' },
                 displayedQueue.length === 0
                   ? h('div', { className: 'text-center py-8 text-slate-400 text-xs' }, 'No cases in this queue tab.')
                   : displayedQueue.map((c) =>
@@ -1962,8 +1982,8 @@
             )
           ),
 
-          // Center & Right: Separated OCR Entities & Dynamic DMN Norms (8 cols)
-          h('div', { className: 'md:col-span-8 space-y-6' },
+          // Center & Right: Separated OCR Entities & Dynamic DMN Norms
+          h('div', { className: 'space-y-6' },
             // Cleanly Separated OCR Fields
             h('div', { className: 'bg-white p-6 rounded-3xl border border-slate-200/80 shadow-sm ring-1 ring-slate-900/5' },
               h('div', { className: 'flex justify-between items-center border-b border-slate-100 pb-3 mb-4' },

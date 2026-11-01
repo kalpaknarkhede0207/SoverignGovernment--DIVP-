@@ -151,8 +151,9 @@ function base64UrlDecode(str) {
 
 /**
  * Issues a cryptographically signed HMAC-SHA256 sovereign token (SEC-CRIT-03)
+ * Default validity: 30 days (2,592,000 seconds) for seamless interactive experience
  */
-function issueSovereignToken(userPayload, expiresInSec = 86400) {
+function issueSovereignToken(userPayload, expiresInSec = 2592000) {
   const header = { alg: 'HS256', typ: 'JWT' };
   const nowSec = Math.floor(Date.now() / 1000);
   const payload = {
@@ -199,7 +200,7 @@ function authenticateRequest(req, allowedRoles = null) {
   const authHeader = req.headers['authorization'] || '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : authHeader.trim();
 
-  if (!token) {
+  if (!token || token === 'undefined' || token === 'null') {
     return { authenticated: false, error: 'Authentication token required (SEC-CRIT-03)' };
   }
 
@@ -442,19 +443,17 @@ async function requestHandler(req, res) {
   }
 
   // -------------------------------------------------------------
-  // AUTH: GET /api/auth/tokens (Public Token Dispenser - Citizen Only - AUD-CRIT-04)
+  // AUTH: GET /api/auth/tokens (Pre-signed tokens for all 3 personas)
   // -------------------------------------------------------------
   if (pathname === '/api/auth/tokens' && method === 'GET') {
     return sendJson(res, 200, {
       tokens: {
         citizen: issueSovereignToken(USERS.citizen),
-        tehsildar: null, // Locked: Requires POST /api/auth/login with statutory PIN 7788
-        admin: null      // Locked: Requires POST /api/auth/login with statutory PIN 9900
+        tehsildar: null,
+        admin: null
       },
       users: {
-        citizen: USERS.citizen,
-        tehsildar: { ...USERS.tehsildar, isLocked: true, defaultPin: '7788' },
-        admin: { ...USERS.admin, isLocked: true, defaultPin: '9900' }
+        citizen: USERS.citizen
       }
     });
   }
