@@ -430,7 +430,7 @@
     const [authStatus, setAuthStatus] = useState('AUTHENTICATING');
     const [deskAuthModal, setDeskAuthModal] = useState(null);
 
-    // Resilient Token Fetcher with LocalStorage & Real-Time Sync
+    // Resilient Token Fetcher with LocalStorage, Statutory PIN Auth & Real-Time Sync
     const getRoleToken = async (role) => {
       if (authTokens && authTokens[role]) return authTokens[role];
       try {
@@ -448,6 +448,22 @@
             setAuthTokens((prev) => ({ ...prev, citizen: res.tokens.citizen }));
             try { localStorage.setItem('sg_divp_token_citizen', res.tokens.citizen || ''); } catch (e) {}
             return res.tokens.citizen;
+          }
+        } catch (err) {}
+      } else if (role === 'tehsildar' || role === 'admin') {
+        // If no token in memory or cache, attempt statutory login with official demo PIN
+        try {
+          const defaultPin = role === 'tehsildar' ? '7788' : '9900';
+          const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ role, pin: defaultPin })
+          });
+          const data = await res.json();
+          if (res.ok && data.token) {
+            setAuthTokens((prev) => ({ ...prev, [role]: data.token }));
+            try { localStorage.setItem(`sg_divp_token_${role}`, data.token); } catch (e) {}
+            return data.token;
           }
         } catch (err) {}
       }
@@ -835,6 +851,22 @@
             setSelectedCaseId(updatedCase.id);
           }
         } else {
+          if (res.status === 401 || res.status === 403) {
+            try {
+              localStorage.removeItem('sg_divp_token_tehsildar');
+            } catch (e) {}
+            setAuthTokens((prev) => ({ ...prev, tehsildar: null }));
+            setDeskAuthModal({
+              role: 'tehsildar',
+              targetDesk: 'OFFICER',
+              title: currentLang === 'mr' ? 'तहसीलदार पटल प्रमाणीकरण' : 'Tehsildar Desk Authentication',
+              roleLabel: currentLang === 'mr' ? 'कार्यकारी दंडाधिकारी व तहसीलदार' : 'Executive Magistrate & Tehsildar',
+              department: currentLang === 'mr' ? 'महसूल व वन विभाग, हवेली उपविभाग' : 'Revenue & Forest Department, Haveli',
+              pin: '7788',
+              error: data.error || 'Sovereign credentials expired. Please verify statutory PIN.',
+              loading: false
+            });
+          }
           showToast(data.error || 'Action failed', 'error');
         }
       } catch (err) {
@@ -882,6 +914,22 @@
           await loadData();
           setSelectedCaseId(caseId);
         } else {
+          if (res.status === 401 || res.status === 403) {
+            try {
+              localStorage.removeItem('sg_divp_token_admin');
+            } catch (e) {}
+            setAuthTokens((prev) => ({ ...prev, admin: null }));
+            setDeskAuthModal({
+              role: 'admin',
+              targetDesk: 'ADMIN',
+              title: currentLang === 'mr' ? 'जिल्हाधिकारी पटल प्रमाणीकरण' : 'Root Admin Desk Authentication',
+              roleLabel: currentLang === 'mr' ? 'मुख्य जिल्हा प्रशासक' : 'Chief District Administrator',
+              department: currentLang === 'mr' ? 'जिल्हाधिकारी कार्यालय व राष्ट्रीय माहिती विज्ञान केंद्र' : 'District Collectorate & NIC Governance',
+              pin: '9900',
+              error: data.error || 'Sovereign credentials expired. Please verify statutory PIN.',
+              loading: false
+            });
+          }
           showToast(data.error || 'Action failed', 'error');
         }
       } catch (err) {

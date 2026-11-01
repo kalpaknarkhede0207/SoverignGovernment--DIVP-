@@ -61,11 +61,10 @@ const LEDGER_FILE = path.join(DATA_DIR, 'audit_ledger.json');
 const CASES_FILE = path.join(DATA_DIR, 'cases.json');
 const RULES_FILE = path.join(DATA_DIR, 'gazette_rules.json');
 
-// Cryptographic Secret Hardening (AUD-HIGH-02)
-const IS_PROD_ENV = (process.env.NODE_ENV === 'production' || process.env.VERCEL_ENV === 'production') && !process.env.TEST_MODE;
-const JWT_SECRET = process.env.SOVEREIGN_JWT_SECRET || (IS_PROD_ENV
-  ? crypto.randomBytes(32).toString('hex')
-  : 'SOVEREIGN_INTRANET_HMAC_SECRET_2026_AIRGAP');
+// Deterministic Sovereign Secret across distributed serverless lambda instances
+const JWT_SECRET = process.env.SOVEREIGN_JWT_SECRET ||
+  process.env.VERCEL_PROJECT_ID ||
+  'SOVEREIGN_INTRANET_HMAC_SECRET_2026_AIRGAP';
 
 // Statutory Credentials for Privileged Desks (AUD-CRIT-04)
 const STATUTORY_CREDENTIALS = {

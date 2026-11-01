@@ -414,5 +414,50 @@
     },
     "previousHash": "9018e99cf715deaf02d745fbadc2cf4bb5dfc79b03c49d4b906a406b89c8c95d",
     "blockHash": "a7e5d29dd351da63978722e0a9af04b3dfa71d8ef68e2466efd3f0cc8b110dad"
+  },
+  {
+    "index": 27,
+    "timestamp": "2026-11-01T13:18:25.294Z",
+    "action": "ROOT_ADMIN_FINAL_SEAL_ISSUED",
+    "caseId": "CASE-STRESS-CONCURRENCY-001",
+    "officerId": "SYSADMIN_ROOT",
+    "officerRole": "ROOT_ADMIN",
+    "department": "Revenue & Forest Department",
+    "details": {
+      "certificateNumber": "MH-REV-2026-3478-PUN",
+      "status": "APPROVED"
+    },
+    "previousHash": "a7e5d29dd351da63978722e0a9af04b3dfa71d8ef68e2466efd3f0cc8b110dad",
+    "blockHash": "6cb5e9224f8c0eb94dd9648089b4e2a8025848557561c1c874494080c45148d2"
+  },
+  {
+    "index": 28,
+    "timestamp": "2026-11-01T13:18:25.295Z",
+    "action": "SECURITY_AUDIT_TEST_BLOCK",
+    "caseId": "CASE-AUDIT-TEST",
+    "officerId": "AUDITOR_01",
+    "officerRole": "SECURITY_OFFICER",
+    "department": "Audit Department",
+    "details": {
+      "note": "Pre-tampering valid data"
+    },
+    "previousHash": "6cb5e9224f8c0eb94dd9648089b4e2a8025848557561c1c874494080c45148d2",
+    "blockHash": "d5e170f123b245199bfd5342e44e030ed6754b4b41ff4b57af6af19f47704a6f"
+  },
+  {
+    "index": 29,
+    "timestamp": "2026-11-01T13:18:25.305Z",
+    "action": "CITIZEN_DOCUMENT_UPLOAD",
+    "caseId": "CASE-2026-NON-512",
+    "officerId": "CITIZEN_USER_01",
+    "officerRole": "USER",
+    "department": "Revenue and Forest Department",
+    "details": {
+      "documentType": "NON_CREAMY_LAYER_CERTIFICATE",
+      "applicant": "Kalpak Kishor Narkhede",
+      "aiSummary": "CLEAN"
+    },
+    "previousHash": "d5e170f123b245199bfd5342e44e030ed6754b4b41ff4b57af6af19f47704a6f",
+    "blockHash": "5be063343ad453e88146d63ac802e623fda83fb43e968b42cc39f9e62c1a7b0a"
   }
 ]
